@@ -1,0 +1,50 @@
+spring:
+  mail:
+    host: smtp.gmail.com
+    port: ${spring.mail.port}
+    username: ${spring.mail.username}
+    password: ${spring.mail.password}
+    properties:
+      mail:
+        smtp:
+          starttls:
+            enable: true
+          auth: true
+  datasource:
+    url: ${DB_JDBC_URL}
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: false
+        use_sql_comments: true
+  session:
+    jdbc:
+      initialize-schema: always
+  cloud:
+    gcp:
+      storage:
+        credentials:
+          location:
+            classpath: ${bucket-path}
+        project-id: ${project-id}
+        bucket: ${bucket-name}
+
+logging.level:
+  org.hibernate.SQL: debug
+  org.hibernate.type: trace
+
+server:
+  port: 8080
+  servlet:
+    session:
+      cookie:
+        same-site: None
+        secure: true
