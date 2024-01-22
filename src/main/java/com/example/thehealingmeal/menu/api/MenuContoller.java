@@ -66,6 +66,7 @@ public class MenuContoller {
         return new ResponseEntity<>(snackOrTeaResponseDto, HttpStatus.OK);
     }
 
+    //00시 식단 초기화
     @DeleteMapping("/{userId}/delete")
     public ResponseEntity<String> deleteMenu(@PathVariable Long userId) {
         try {
