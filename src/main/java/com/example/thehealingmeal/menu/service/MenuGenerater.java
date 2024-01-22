@@ -272,7 +272,7 @@ public class MenuGenerater {
 
         Optional<SnackOrTeaCategory> optional = snackOrTeaCategoryRepository.findById(secureRandom.nextLong(recordCountForSnackOrTea+1));
         SnackOrTeaCategory snackOrTeaCategory;
-        while (filterList.contains(optional.get().getRepresentativeFoodName()) || optional.isEmpty()) {
+        while (filterList.contains(optional.get().getRepresentativeFoodName()) || !optional.isPresent()) {
             optional = snackOrTeaCategoryRepository.findById(secureRandom.nextLong(recordCountForSnackOrTea + 1));
         }
         snackOrTeaCategory = optional.get();

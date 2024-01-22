@@ -9,4 +9,6 @@ import java.util.List;
 public interface SideDishForUserMenuRepository extends JpaRepository<SideDishForUserMenu, Long> {
     int countByMenuForUser_Id(long menu_id);
     List<SideDishForUserMenu> findAllByMenuForUser_Id(long menu_id);
+
+    List<SideDishForUserMenu> deleteAllByMenuForUser_Id(long menu_id);
 }

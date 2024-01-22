@@ -1,23 +1,28 @@
 package com.example.thehealingmeal.menu.api;
 
 
+import com.example.thehealingmeal.data.repository.SideDishCategoryRepository;
 import com.example.thehealingmeal.menu.api.dto.MenuResponseDto;
 import com.example.thehealingmeal.menu.api.dto.SnackOrTeaResponseDto;
 import com.example.thehealingmeal.menu.domain.Meals;
+import com.example.thehealingmeal.menu.domain.SideDishForUserMenu;
+import com.example.thehealingmeal.menu.domain.repository.SideDishForUserMenuRepository;
 import com.example.thehealingmeal.menu.service.MenuProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.NoSuchElementException;
+
 
 @RestController
 @RequiredArgsConstructor
 public class MenuContoller {
     private final MenuProvider menuProvider;
-    
+    private final SideDishForUserMenuRepository sideDishForUserMenuRepository;
 
     //유저의 맞춤식단 생성
     @PostMapping("/{userId}/generate")
@@ -59,6 +64,16 @@ public class MenuContoller {
     public ResponseEntity<SnackOrTeaResponseDto> lunchSnackOrTea(@PathVariable Long userId) {
         SnackOrTeaResponseDto snackOrTeaResponseDto = menuProvider.provideSnackOrTea(userId, Meals.LUNCH_SNACKORTEA);
         return new ResponseEntity<>(snackOrTeaResponseDto, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{userId}/delete")
+    public ResponseEntity<String> deleteMenu(@PathVariable Long userId) {
+        try {
+            menuProvider.resetMenu(userId);
+        } catch (NoSuchElementException e) {
+            return new ResponseEntity<>("Incorrect User ID", HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>("Success to Reset Menu For User", HttpStatus.OK);
     }
 }
 
