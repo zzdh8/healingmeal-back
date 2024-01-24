@@ -9,6 +9,7 @@ import com.example.thehealingmeal.survey.doamin.SurveyResult;
 import com.example.thehealingmeal.survey.dto.FilterFoodRequestDto;
 import com.example.thehealingmeal.survey.dto.SurveyRequestDto;
 import com.example.thehealingmeal.survey.dto.SurveyResultDto;
+import com.example.thehealingmeal.survey.execption.InvalidSurveyException;
 import com.example.thehealingmeal.survey.repository.FilterFoodRepository;
 import com.example.thehealingmeal.survey.repository.SurveyRepository;
 import com.example.thehealingmeal.survey.repository.SurveyResultRepository;
@@ -40,7 +41,7 @@ public class SurveyService {
     public Survey submitSurvey(SurveyRequestDto surveyRequestDto, Long userId) {
         User user = userRepository.findById(userId).orElseThrow();
         Survey survey = createSurvey(surveyRequestDto, user);
-
+        validateSurvey(surveyRequestDto);
         surveyRepository.save(survey);
 
         int kcal = Integer.parseInt(survey.getCaloriesNeededPerDay().toString());
@@ -56,6 +57,7 @@ public class SurveyService {
 
         return survey;
     }
+
     private Double proteinCalculation(int Kcal) {
         double result = Double.parseDouble(String.valueOf(Kcal)) * 13.5 / 400;
         return Math.round(result * 10) / 10.0;
@@ -71,6 +73,12 @@ public class SurveyService {
         return Math.round(result * 10) / 10.0;
     }
 
+    private void validateSurvey(SurveyRequestDto surveyRequestDto) {
+        if (InvalidSurveyException.isInvalid(surveyRequestDto)) {
+            throw new InvalidSurveyException();
+        }
+    }
+
     @Transactional
     public FilterFood submitFilterFood(FilterFoodRequestDto filterFoodRequestDto, Long surveyId) {
         Survey survey = surveyRepository.findById(surveyId).orElseThrow();
@@ -79,13 +87,14 @@ public class SurveyService {
         filterFoodRepository.save(filterFood);
         return filterFood;
     }
+
     // 설문 조사 결과
     public SurveyResultDto surveyResult(Long userId) {
         User user = userRepository.findById(userId).orElseThrow();
         SurveyResult surveyResult = surveyResultRepository.findSurveyResultByUser(user);
 
         return new SurveyResultDto(
-                surveyResult.getKcal(),surveyResult.getProtein(),surveyResult.getCarbohydrate(), surveyResult.getFat());
+                surveyResult.getKcal(), surveyResult.getProtein(), surveyResult.getCarbohydrate(), surveyResult.getFat());
     }
 
     public boolean checkingSurvey(Long userId) {
@@ -115,8 +124,9 @@ public class SurveyService {
         existingSurveyResult.update(surveyResult);
         surveyResultRepository.save(existingSurveyResult);
     }
+
     @Transactional
-    public void filterFoodUpdateBySurveyId(Long surveyId, FilterFoodRequestDto filterFoodRequestDto){
+    public void filterFoodUpdateBySurveyId(Long surveyId, FilterFoodRequestDto filterFoodRequestDto) {
         FilterFood filterFood = filterFoodRepository.findFilterFoodBySurveyId(surveyId);
         filterFood.update(filterFoodRequestDto);
         filterFoodRepository.save(filterFood);
