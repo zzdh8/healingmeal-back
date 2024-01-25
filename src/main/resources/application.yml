@@ -42,9 +42,10 @@ logging.level:
   org.hibernate.type: trace
 
 server:
-  port: 8080
-  servlet:
-    session:
-      cookie:
-        same-site: None
-        secure: true
+  port: 8443
+  ssl:
+    key-store: /etc/letsencrypt/live/healingmeal1.duckdns.org/keystore.p12
+    key-store-password: 0314
+    key-store-type: pkcs12
+    key-alias: tomcat
+    enabled: true
