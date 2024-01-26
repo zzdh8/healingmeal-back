@@ -69,8 +69,12 @@ public class MenuGenerater {
     //간식 url
     private final SnackUrlRepository snackUrlRepository;
 
+    //Google Cloud Storage Bucket Name
     @Value("${bucket-name}")
     private String bucket_name;
+
+    //랜덤값 생성을 위한 객체
+    SecureRandom secureRandom = new SecureRandom();
 
 
     //설문조사 결과(칼탄단지, 필터링 키워드)를 가지고 아침 간식 점심 간식 저녁
@@ -78,7 +82,6 @@ public class MenuGenerater {
     public MenuResponseDto generateMenu(Meals meals, Long user_id){
         //식품 테이블에서 대표메뉴, 반찬, 밥을 랜덤하게 각각 가져옴. 단, 필터링을 적용함.
         //아래 코드는 난수를 생성하여 랜덤하게 식단을 가져오게 할 class
-        SecureRandom secureRandom = new SecureRandom();
 
         /*
             대표메뉴
@@ -97,7 +100,7 @@ public class MenuGenerater {
         for (String food : mainDishFilterKeywords) {
             filterList.addAll(Arrays.asList(food.split(",")));
         }
-        
+
         //랜덤하게 대표메뉴 가져오고, null이 아닌지 재차 확인함.
         Optional<MainDishCategory> optionalMainDish = mainDishCategoryRepository.findById(secureRandom.nextLong(recordCountForMain+1));
         while (optionalMainDish.isEmpty()){
@@ -255,7 +258,6 @@ public class MenuGenerater {
 
     //간식 생성 아점-점저 사이만 허용 가능
     public SnackOrTeaResponseDto generateSnackOrTea(Meals meals,long user_id){
-        SecureRandom secureRandom = new SecureRandom();
         long recordCountForSnackOrTea = snackOrTeaCategoryRepository.count(); //row 수만큼의 랜덤값을 위한 long 변수.
 
         Survey survey = surveyRepository.findByUserId(user_id); //유저의 설문조사 번호를 찾기 위한 변수
@@ -272,7 +274,7 @@ public class MenuGenerater {
 
         Optional<SnackOrTeaCategory> optional = snackOrTeaCategoryRepository.findById(secureRandom.nextLong(recordCountForSnackOrTea+1));
         SnackOrTeaCategory snackOrTeaCategory;
-        while (filterList.contains(optional.get().getRepresentativeFoodName()) || !optional.isPresent()) {
+        while (filterList.contains(optional.get().getRepresentativeFoodName()) || optional.isEmpty()) {
             optional = snackOrTeaCategoryRepository.findById(secureRandom.nextLong(recordCountForSnackOrTea + 1));
         }
         snackOrTeaCategory = optional.get();

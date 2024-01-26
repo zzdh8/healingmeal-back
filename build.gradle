@@ -40,8 +40,10 @@ dependencies {
 	//gcp storage'
 	implementation group: 'org.springframework.cloud', name: 'spring-cloud-gcp-starter', version: '1.2.8.RELEASE'
 	implementation group: 'org.springframework.cloud', name: 'spring-cloud-gcp-storage', version: '1.2.8.RELEASE'
-
+	//chatgpt
+	implementation 'io.github.flashvayne:chatgpt-spring-boot-starter:1.0.4'
 }
+
 
 tasks.named('test') {
 	useJUnitPlatform()
