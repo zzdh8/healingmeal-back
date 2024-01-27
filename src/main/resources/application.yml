@@ -50,4 +50,4 @@ server:
         same-site: None
         secure: true
 chatgpt:
-  api-key: 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
+  api-key: ${api-key}
