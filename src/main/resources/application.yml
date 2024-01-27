@@ -50,8 +50,8 @@ server:
     key-store-type: pkcs12
     key-alias: tomcat
     enabled: true
-  servlet:
-    session:
-      cookie:
-        same-site: None
-        secure: true
+#  servlet:
+#    session:
+#      cookie:
+#        same-site: None
+#        secure: true
