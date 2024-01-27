@@ -40,9 +40,5 @@ public class MenuForUser {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
-    /*public static MenuForUser create(MenuForUser menuForUser){
-        return MenuForUser.builder()
-                .build();
-    }*/
 }
 
