@@ -9,7 +9,6 @@ public class InvalidSurveyException extends RuntimeException {
 
     public static boolean isInvalid(SurveyRequestDto surveyRequestDto) {
         return surveyRequestDto.getAge() == null
-                || surveyRequestDto.getDestination() == null
                 || surveyRequestDto.getDiabetesType() == null
                 || surveyRequestDto.getNumberOfExercises() == null
                 || surveyRequestDto.getHeight() == null

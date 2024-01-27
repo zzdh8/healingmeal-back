@@ -17,8 +17,6 @@ public class SurveyRequestDto {
 
     private Long age;
 
-    private String destination; // 목표
-
     private Long diabetesType; // 당뇨유형
 
     private Long numberOfExercises; // 육체 활동 빈도
