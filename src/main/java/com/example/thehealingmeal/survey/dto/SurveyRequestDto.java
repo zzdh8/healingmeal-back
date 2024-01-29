@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class SurveyRequestDto {
 
-    private Long age;
+    private String age;
 
     private Long diabetesType; // 당뇨유형
 
