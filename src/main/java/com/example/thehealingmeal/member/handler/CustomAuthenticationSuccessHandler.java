@@ -20,13 +20,11 @@ public class CustomAuthenticationSuccessHandler  implements AuthenticationSucces
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         HttpSession session = request.getSession();
         PrincipalDetail authUser = (PrincipalDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        session.setAttribute("username", authUser.getUsername());
-        session.setAttribute("authorities", authentication.getAuthorities());
+        session.setAttribute("LOGIN_USER", authUser);
 
         // set our response to OK status
         response.setStatus(HttpServletResponse.SC_OK);
 
-        // since we have created our custom success handler, it's up to us to where
         // we will redirect the user after successfully login
         response.sendRedirect("/");
     }
