@@ -16,7 +16,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
@@ -58,6 +57,7 @@ public class MenuProvider {
                 menuGenerater.saveSnackOrTea(dto);
             }
         } catch (NoSuchElementException e) {
+            e.getLocalizedMessage();
             generateForUser(user_id);
         }
     }
@@ -105,12 +105,11 @@ public class MenuProvider {
     public void resetMenu(long user_id) throws NoSuchElementException, NotFoundException {
         try {
             List<MenuForUser> menu = menuRepository.findAllByUserId(user_id);
-            List<SideDishForUserMenu> sideList = new ArrayList<>();
             for (MenuForUser m : menu) {
-                sideList = sideDishForUserMenuRepository.deleteAllByMenuForUser_Id(m.getId());
+                sideDishForUserMenuRepository.deleteAllByMenuForUser_Id(m.getId());
             }
-            List<SnackOrTea> snackOrTeaList = snackOrTeaMenuRepository.deleteAllByUserId(user_id);
-            List<MenuForUser> menuList = menuRepository.deleteAllByUserId(user_id);
+            snackOrTeaMenuRepository.deleteAllByUserId(user_id);
+            menuRepository.deleteAllByUserId(user_id);
         } catch (Exception e) {
             throw new RuntimeException("No Such Element OR Not Found Error : please check user_id");
         }

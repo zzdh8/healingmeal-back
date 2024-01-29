@@ -37,6 +37,7 @@ spring:
         project-id: ${project-id}
         bucket: ${bucket-name}
 
+
 logging.level:
   org.hibernate.SQL: debug
   org.hibernate.type: trace
@@ -49,3 +50,5 @@ server:
       cookie:
         same-site: None
         secure: true
+chatgpt:
+  api-key: ${api-key}
