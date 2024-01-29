@@ -23,8 +23,6 @@ public class Survey {
 
     private Long age;
 
-    private String destination; // 목표
-
     private Long diabetesType; // 당뇨유형
 
     private Long numberOfExercises; // 육체 활동 빈도
@@ -55,7 +53,6 @@ public class Survey {
     public static Survey createSurvey(SurveyRequestDto surveyRequestDto, User user) {
         return Survey.builder()
                 .age(surveyRequestDto.getAge())
-                .destination(surveyRequestDto.getDestination())
                 .diabetesType(surveyRequestDto.getDiabetesType())
                 .numberOfExercises(surveyRequestDto.getNumberOfExercises())
                 .height(surveyRequestDto.getHeight())
@@ -71,7 +68,6 @@ public class Survey {
 
     public void update(SurveyRequestDto surveyRequestDto) {
         this.age = surveyRequestDto.getAge();
-        this.destination = surveyRequestDto.getDestination();
         this.diabetesType = surveyRequestDto.getDiabetesType();
         this.numberOfExercises = surveyRequestDto.getNumberOfExercises();
         this.height = surveyRequestDto.getHeight();
