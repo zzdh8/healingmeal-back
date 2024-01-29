@@ -21,7 +21,7 @@ public class Survey {
     @Column(name = "survey_id")
     private Long id;
 
-    private Long age;
+    private String age;
 
     private Long diabetesType; // 당뇨유형
 
