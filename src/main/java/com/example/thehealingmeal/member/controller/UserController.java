@@ -27,15 +27,15 @@ public class  UserController {
     }
     //로그아웃 성공 시
     @GetMapping("/successlogout")
-    public ResponseEntity logoutSesstion(HttpSession session) {
+    public ResponseEntity<String> logoutSesstion(HttpSession session) {
         session.invalidate();
-        return new ResponseEntity(session.toString(), HttpStatus.OK);
+        return new ResponseEntity("logout success", HttpStatus.OK);
     }
 
     @GetMapping("/")
     public ResponseEntity<String> success (HttpServletRequest request, Authentication authentication){
-        HttpSession session = request.getSession();
-        session.setMaxInactiveInterval(1800);
+        HttpSession session = request.getSession(false);
+        session.setMaxInactiveInterval(1000);
         String user_id = userService.userID(authentication.getName()).toString();
         return new ResponseEntity<>(user_id, HttpStatus.OK);
     }
