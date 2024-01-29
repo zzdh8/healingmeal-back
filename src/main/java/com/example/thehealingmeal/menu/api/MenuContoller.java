@@ -28,7 +28,7 @@ public class MenuContoller {
     @PostMapping("/{userId}/generate")
     public ResponseEntity<String> generateMenu(@PathVariable Long userId) {
         menuProvider.generateForUser(userId);
-        return new ResponseEntity<>("성공", HttpStatus.OK);
+        return new ResponseEntity<>("user menu are generated.", HttpStatus.OK);
     }
 
     //아침 식단 제공
