@@ -1,16 +1,21 @@
 package com.example.thehealingmeal.menu.api;
 
 
+import com.example.thehealingmeal.data.repository.SideDishCategoryRepository;
 import com.example.thehealingmeal.menu.api.dto.MenuResponseDto;
 import com.example.thehealingmeal.menu.api.dto.SnackOrTeaResponseDto;
 import com.example.thehealingmeal.menu.domain.Meals;
+import com.example.thehealingmeal.menu.domain.SideDishForUserMenu;
 import com.example.thehealingmeal.menu.domain.repository.SideDishForUserMenuRepository;
+import com.example.thehealingmeal.menu.service.BookmarkService;
 import com.example.thehealingmeal.menu.service.MenuProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 
 
@@ -19,12 +24,13 @@ import java.util.NoSuchElementException;
 public class MenuContoller {
     private final MenuProvider menuProvider;
     private final SideDishForUserMenuRepository sideDishForUserMenuRepository;
+    private final BookmarkService bookmarkService;
 
     //유저의 맞춤식단 생성
     @PostMapping("/{userId}/generate")
     public ResponseEntity<String> generateMenu(@PathVariable Long userId) {
         menuProvider.generateForUser(userId);
-        return new ResponseEntity<>("user menu are generated.", HttpStatus.OK);
+        return new ResponseEntity<>("성공", HttpStatus.OK);
     }
 
     //아침 식단 제공
@@ -72,5 +78,28 @@ public class MenuContoller {
         }
         return new ResponseEntity<>("Success to Reset Menu For User", HttpStatus.OK);
     }
+
+    // 아점저 즐겨찾기 추가
+    @PostMapping("/{userId}/bookmark")
+    public ResponseEntity<String> bookmark(@PathVariable Long userId, @RequestBody Meals meals){
+        bookmarkService.createMenuBookmark(userId, meals);
+        return new ResponseEntity<>("성공",HttpStatus.OK);
+    }
+    // 아점저 즐겨찾기 확인
+    @GetMapping("/{userId}/bookmark")
+    public ResponseEntity<List<MenuResponseDto>> bookmarkList(@PathVariable Long userId){
+     return new ResponseEntity<>(bookmarkService.menuBookmarkList(userId),HttpStatus.OK);
+    }
+    // 간식 즐겨찾기 추가
+//    @PostMapping("/{userId}/snack/bookmark")
+//    public ResponseEntity<String> snackBookmark(@PathVariable Long userId, @RequestBody Meals meals){
+//        bookmarkService.createSnackBookmark(userId,meals);
+//        return new ResponseEntity<>("성공",HttpStatus.OK);
+//    }
+//    // 간식 즐겨찾기 확인
+//    @GetMapping("/{userId}/snack/bookmark")
+//    public ResponseEntity<List<SnackOrTeaResponseDto>> snackBookmarkList(@PathVariable Long userId){
+//        return new ResponseEntity<>(bookmarkService.snackBookmarkList(userId),HttpStatus.OK);
+//    }
 }
 

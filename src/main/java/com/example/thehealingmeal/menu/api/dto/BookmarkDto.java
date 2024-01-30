@@ -1,17 +1,20 @@
 package com.example.thehealingmeal.menu.api.dto;
 
 import com.example.thehealingmeal.member.domain.User;
+import com.example.thehealingmeal.menu.domain.Bookmark;
 import com.example.thehealingmeal.menu.domain.MenuForUser;
 import lombok.*;
-
-import java.util.List;
 
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class BookmarkRequestDto {
-    private MenuForUser menuForUsers;
-
+public class BookmarkDto {
+    private MenuForUser menuForUser;
     private User user;
+
+    public BookmarkDto(Bookmark bookmark) {
+        this.menuForUser = bookmark.getMenuForUser();
+        this.user = bookmark.getUser();
+    }
 }
