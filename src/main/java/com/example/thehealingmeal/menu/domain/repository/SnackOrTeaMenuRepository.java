@@ -1,5 +1,6 @@
 package com.example.thehealingmeal.menu.domain.repository;
 
+import com.example.thehealingmeal.member.domain.User;
 import com.example.thehealingmeal.menu.domain.Meals;
 import com.example.thehealingmeal.menu.domain.SnackOrTea;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -10,4 +11,6 @@ public interface SnackOrTeaMenuRepository extends JpaRepository<SnackOrTea, Long
     SnackOrTea findByUserIdAndMeals(long userId, Meals meals);
 
     List<SnackOrTea> deleteAllByUserId(long userId);
+
+    SnackOrTea findByUserAndMeals(User user, Meals meals);
 }
