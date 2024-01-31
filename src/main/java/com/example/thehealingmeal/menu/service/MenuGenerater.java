@@ -33,6 +33,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -89,17 +90,16 @@ public class MenuGenerater {
         long recordCountForMain = mainDishCategoryRepository.count(); //row 수만큼의 랜덤값을 위한 long 변수.
 
         Survey survey = surveyRepository.findByUserId(user_id); //유저의 설문조사 번호를 찾기 위한 변수
-        FilterFood filterFoodResponseDto = filterFoodRepository.findFilterFoodBySurveyId(survey.getId()); //유저의 필터링 내용 가져오기
+        FilterFood userFilter = filterFoodRepository.findFilterFoodBySurveyId(survey.getId()); //유저의 필터링 내용 가져오기
 
         //유저필터링 내용 저장
         //dto로 가져온 필터 키워드는 접미사로 -Keyword인 리스트에만 저장하고, ','를 제외한 List로 옮길 땐 접미사가 -List임.
-        String[] mainDishFilterKeywords = {filterFoodResponseDto.getStewsAndHotpots(),filterFoodResponseDto.getGrilledFood(),filterFoodResponseDto.getGrilledFood(),filterFoodResponseDto.getPancakeFood()};
+        String[] userKeywords = {userFilter.getStewsAndHotpots(),userFilter.getGrilledFood(),userFilter.getGrilledFood(),userFilter.getPancakeFood()};
 
         //필터링 리스트를 하나로 배열.
-        List<String> filterList = new ArrayList<>();
-        for (String food : mainDishFilterKeywords) {
-            filterList.addAll(Arrays.asList(food.split(",")));
-        }
+        List<String> filterList = Arrays.stream(userKeywords)
+                .flatMap(food -> Arrays.stream(food.split(",")))
+                .toList();
 
         //랜덤하게 대표메뉴 가져오고, null이 아닌지 재차 확인함.
         Optional<MainDishCategory> optionalMainDish = mainDishCategoryRepository.findById(secureRandom.nextLong(recordCountForMain+1));
@@ -159,7 +159,7 @@ public class MenuGenerater {
         }
 
         //필터링 : 김치류, 볶음류, 나물 숙채류, 생채 무침류, 수조어육류, 장아찌 절임류, 젓갈류, 조림류
-        String[] sideDishFilterKeywords = {filterFoodResponseDto.getVegetableFood(),filterFoodResponseDto.getStirFriedFood(),filterFoodResponseDto.getStewedFood()};
+        String[] sideDishFilterKeywords = {userFilter.getVegetableFood(),userFilter.getStirFriedFood(),userFilter.getStewedFood()};
         List<String> sideDishFilterList = new ArrayList<>();
         for (String food : sideDishFilterKeywords) {
             sideDishFilterList.addAll(Arrays.asList(food.split(",")));
@@ -261,10 +261,10 @@ public class MenuGenerater {
         long recordCountForSnackOrTea = snackOrTeaCategoryRepository.count(); //row 수만큼의 랜덤값을 위한 long 변수.
 
         Survey survey = surveyRepository.findByUserId(user_id); //유저의 설문조사 번호를 찾기 위한 변수
-        FilterFood filterFoodResponseDto = filterFoodRepository.findFilterFoodBySurveyId(survey.getId()); //유저의 필터링 내용 가져오기
+        FilterFood userFilter = filterFoodRepository.findFilterFoodBySurveyId(survey.getId()); //유저의 필터링 내용 가져오기
 
         //filterFood에서 가져온 필터링 키워드
-        String[] snackOrTeaFilterKeywords = {filterFoodResponseDto.getBreadAndConfectionery(), filterFoodResponseDto.getDairyProducts(), filterFoodResponseDto.getBeveragesAndTeas()};
+        String[] snackOrTeaFilterKeywords = {userFilter.getBreadAndConfectionery(), userFilter.getDairyProducts(), userFilter.getBeveragesAndTeas()};
 
         //콤마를 기준으로 필터링 키워드 리스트 작성
         List<String> filterList = new ArrayList<>();
