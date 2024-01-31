@@ -90,16 +90,16 @@ public class MenuContoller {
     public ResponseEntity<List<MenuResponseDto>> bookmarkList(@PathVariable Long userId){
      return new ResponseEntity<>(bookmarkService.menuBookmarkList(userId),HttpStatus.OK);
     }
-    // 간식 즐겨찾기 추가
-//    @PostMapping("/{userId}/snack/bookmark")
-//    public ResponseEntity<String> snackBookmark(@PathVariable Long userId, @RequestBody Meals meals){
-//        bookmarkService.createSnackBookmark(userId,meals);
-//        return new ResponseEntity<>("성공",HttpStatus.OK);
-//    }
+     //간식 즐겨찾기 추가
+    @PostMapping("/{userId}/snack/bookmark")
+    public ResponseEntity<String> snackBookmark(@PathVariable Long userId, @RequestBody Meals meals){
+        bookmarkService.createSnackBookmark(userId,meals);
+        return new ResponseEntity<>("성공",HttpStatus.OK);
+    }
 //    // 간식 즐겨찾기 확인
-//    @GetMapping("/{userId}/snack/bookmark")
-//    public ResponseEntity<List<SnackOrTeaResponseDto>> snackBookmarkList(@PathVariable Long userId){
-//        return new ResponseEntity<>(bookmarkService.snackBookmarkList(userId),HttpStatus.OK);
-//    }
+    @GetMapping("/{userId}/snack/bookmark")
+    public ResponseEntity<List<SnackOrTeaResponseDto>> snackBookmarkList(@PathVariable Long userId){
+        return new ResponseEntity<>(bookmarkService.snackBookmarkList(userId),HttpStatus.OK);
+    }
 }
 
