@@ -9,6 +9,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
@@ -32,4 +34,19 @@ public class SnackOrTeaResponseDto {
     @JsonIgnore
     //유저 구분
     private User user;
+
+    @Builder
+    public static SnackOrTeaResponseDto createMenu(String snack_or_tea, String imageURL,
+                                             Meals meals,
+                                             int kcal, float protein, float carbohydrate, float fat) {
+        SnackOrTeaResponseDto snackOrTeaResponseDto = new SnackOrTeaResponseDto();
+        snackOrTeaResponseDto.snack_or_tea = snack_or_tea;
+        snackOrTeaResponseDto.imageURL = imageURL;
+        snackOrTeaResponseDto.meals = meals;
+        snackOrTeaResponseDto.kcal = kcal;
+        snackOrTeaResponseDto.protein = protein;
+        snackOrTeaResponseDto.carbohydrate = carbohydrate;
+        snackOrTeaResponseDto.fat = fat;
+        return snackOrTeaResponseDto;
+    }
 }

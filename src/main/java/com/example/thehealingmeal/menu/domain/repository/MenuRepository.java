@@ -1,5 +1,6 @@
 package com.example.thehealingmeal.menu.domain.repository;
 
+import com.example.thehealingmeal.member.domain.User;
 import com.example.thehealingmeal.menu.domain.Meals;
 import com.example.thehealingmeal.menu.domain.MenuForUser;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -14,4 +15,6 @@ public interface MenuRepository extends JpaRepository<MenuForUser, Long> {
     List<MenuForUser> deleteAllByUserId(long userId);
 
     List<MenuForUser> findAllByUserId(long userId);
+
+    MenuForUser findByUserAndMeals(User user, Meals meals);
 }

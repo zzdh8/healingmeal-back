@@ -3,6 +3,8 @@ package com.example.thehealingmeal.member.domain;
 import com.example.thehealingmeal.member.dto.JoinChangeDto;
 import com.example.thehealingmeal.member.execption.InvalidEmailAddressException;
 import com.example.thehealingmeal.member.execption.InvalidUserException;
+import com.example.thehealingmeal.menu.domain.Bookmark;
+import com.example.thehealingmeal.menu.domain.SnackBookmark;
 import com.example.thehealingmeal.survey.doamin.Survey;
 import com.example.thehealingmeal.survey.doamin.SurveyResult;
 import jakarta.persistence.*;
@@ -12,6 +14,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -52,6 +56,11 @@ public class User implements Serializable {
     @OneToOne(mappedBy = "user",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private SurveyResult surveyResult;
 
+    @OneToMany(mappedBy = "user" , cascade = CascadeType.ALL)
+    private List<Bookmark> Bookmarks = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user" , cascade = CascadeType.ALL)
+    private List<SnackBookmark> snackBookmarks = new ArrayList<>();
     @Builder
     private User(String loginId, String password, String name, String email, String birthDate, Gender gender, String phoneNumber, Role role) {
 

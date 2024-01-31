@@ -40,4 +40,21 @@ public class MenuResponseDto {
     @JsonIgnore
     //유저 구분
     private User user;
+
+    @Builder
+    public static MenuResponseDto createMenu(String main_dish, String imageURL, String rice,
+                                             Meals meals, List<String> sideDishForUserMenu,
+                                             int kcal, float protein, float carbohydrate, float fat) {
+        MenuResponseDto menuResponseDto = new MenuResponseDto();
+        menuResponseDto.main_dish = main_dish;
+        menuResponseDto.imageURL = imageURL;
+        menuResponseDto.rice = rice;
+        menuResponseDto.meals = meals;
+        menuResponseDto.sideDishForUserMenu = sideDishForUserMenu;
+        menuResponseDto.kcal = kcal;
+        menuResponseDto.protein = protein;
+        menuResponseDto.carbohydrate = carbohydrate;
+        menuResponseDto.fat = fat;
+        return menuResponseDto;
+    }
 }
