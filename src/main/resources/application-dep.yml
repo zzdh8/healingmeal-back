@@ -1,0 +1,9 @@
+spring:
+  config:
+    activate:
+      on-profile: dep
+  datasource:
+    url: ${DB_JDBC_URL}
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
