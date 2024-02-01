@@ -14,6 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 public class MenuResponseDto {
+    private Long bookmarkId;
     //대표메뉴 = 구이류, 찌개 및 전골류, 전적 및 부침류, 찜류
     private String main_dish;
 
@@ -42,10 +43,11 @@ public class MenuResponseDto {
     private User user;
 
     @Builder
-    public static MenuResponseDto createMenu(String main_dish, String imageURL, String rice,
+    public static MenuResponseDto createMenu(Long bookmarkId, String main_dish, String imageURL, String rice,
                                              Meals meals, List<String> sideDishForUserMenu,
                                              int kcal, float protein, float carbohydrate, float fat) {
         MenuResponseDto menuResponseDto = new MenuResponseDto();
+        menuResponseDto.bookmarkId = bookmarkId;
         menuResponseDto.main_dish = main_dish;
         menuResponseDto.imageURL = imageURL;
         menuResponseDto.rice = rice;

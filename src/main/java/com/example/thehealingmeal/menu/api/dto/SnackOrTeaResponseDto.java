@@ -16,6 +16,7 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 public class SnackOrTeaResponseDto {
+    private Long bookmarkId;
     //간식 이름
     private String snack_or_tea;
 
@@ -36,10 +37,11 @@ public class SnackOrTeaResponseDto {
     private User user;
 
     @Builder
-    public static SnackOrTeaResponseDto createMenu(String snack_or_tea, String imageURL,
+    public static SnackOrTeaResponseDto createMenu(Long bookmarkId,String snack_or_tea, String imageURL,
                                              Meals meals,
                                              int kcal, float protein, float carbohydrate, float fat) {
         SnackOrTeaResponseDto snackOrTeaResponseDto = new SnackOrTeaResponseDto();
+        snackOrTeaResponseDto.bookmarkId = bookmarkId;
         snackOrTeaResponseDto.snack_or_tea = snack_or_tea;
         snackOrTeaResponseDto.imageURL = imageURL;
         snackOrTeaResponseDto.meals = meals;

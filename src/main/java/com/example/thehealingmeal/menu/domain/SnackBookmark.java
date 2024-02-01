@@ -17,7 +17,7 @@ public class SnackBookmark {
     @Column(name = "snack_bookmark_id")
     private Long id;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     @JoinColumn(name = "snack_or_tea_id")
     private SnackOrTea snackOrTea;
 
