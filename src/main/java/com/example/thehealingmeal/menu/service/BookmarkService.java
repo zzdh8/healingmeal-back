@@ -45,13 +45,13 @@ public class BookmarkService {
 
         List<MenuResponseDto> menuResponseDtos = new ArrayList<>(); // 반환할 값
 
-
         for (Bookmark bookmark : bookmarkList) {
             List<SideDishForUserMenu> sideMenus = sideDishForUserMenuRepository.findAllByMenuForUser_Id(bookmark.getMenuForUser().getId());
             List<String> sideDishNames = sideMenus.stream()
                     .map(SideDishForUserMenu::getSide_dish)
                     .toList();
             MenuResponseDto menuResponseDto = MenuResponseDto.createMenu(
+                    bookmark.getId(),
                     bookmark.getMenuForUser().getMain_dish(),
                     "https://storage.googleapis.com/" + bucket_name + "/" + bookmark.getMenuForUser().getMain_dish() + ".jpg",
                     bookmark.getMenuForUser().getRice(),
@@ -66,6 +66,13 @@ public class BookmarkService {
         }
 
         return menuResponseDtos;
+    }
+
+    // 아점저 메뉴 즐겨찾기 삭제.
+    @Transactional
+    public void deleteMenuBookmark(Long bookmarkId) {
+        Bookmark bookmark = bookmarkRepository.findById(bookmarkId).orElseThrow();
+        bookmarkRepository.delete(bookmark);
     }
 
      //간식 메뉴 즐겨찾기 저장.
@@ -89,6 +96,7 @@ public class BookmarkService {
 
         for (SnackBookmark snackBookmark : snackBookmarkList) {
             SnackOrTeaResponseDto snackOrTeaResponseDto = SnackOrTeaResponseDto.createMenu(
+                    snackBookmark.getId(),
                     snackBookmark.getSnackOrTea().getSnack_or_tea(),
                     "https://storage.googleapis.com/" + bucket_name + "/" + snackBookmark.getSnackOrTea().getImageUrl(),
                     snackBookmark.getSnackOrTea().getMeals(),
@@ -100,5 +108,11 @@ public class BookmarkService {
             snackOrTeaResponseDtos.add(snackOrTeaResponseDto);
         }
         return snackOrTeaResponseDtos;
+    }
+    // 간식 메뉴 즐겨찾기 삭제.
+    @Transactional
+    public void deleteSnackBookmark(Long snackBookmarkId) {
+        SnackBookmark snackBookmark = snackBookmarkRepository.findById(snackBookmarkId).orElseThrow();
+        snackBookmarkRepository.delete(snackBookmark);
     }
 }

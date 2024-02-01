@@ -17,7 +17,7 @@ public class Bookmark {
     @Column(name = "bookmark_id")
     private Long id;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     @JoinColumn(name = "menu_id")
     private MenuForUser menuForUser;
 

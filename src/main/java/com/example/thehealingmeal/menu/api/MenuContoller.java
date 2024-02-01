@@ -90,6 +90,12 @@ public class MenuContoller {
     public ResponseEntity<List<MenuResponseDto>> bookmarkList(@PathVariable Long userId){
      return new ResponseEntity<>(bookmarkService.menuBookmarkList(userId),HttpStatus.OK);
     }
+    // 아점저 즐겨찾기 삭제
+    @DeleteMapping("/{bookmarkId}/bookmark")
+    public ResponseEntity<String> deleteBookmark(@PathVariable Long bookmarkId){
+        bookmarkService.deleteMenuBookmark(bookmarkId);
+        return new ResponseEntity<>("삭제 성공",HttpStatus.OK);
+    }
      //간식 즐겨찾기 추가
     @PostMapping("/{userId}/snack/bookmark")
     public ResponseEntity<String> snackBookmark(@PathVariable Long userId, @RequestBody Meals meals){
@@ -100,6 +106,12 @@ public class MenuContoller {
     @GetMapping("/{userId}/snack/bookmark")
     public ResponseEntity<List<SnackOrTeaResponseDto>> snackBookmarkList(@PathVariable Long userId){
         return new ResponseEntity<>(bookmarkService.snackBookmarkList(userId),HttpStatus.OK);
+    }
+    // 간식 즐겨찾기 삭제
+    @DeleteMapping("/{snackBookmarkId}/snack/bookmark")
+    public ResponseEntity<String> deleteSnackBookmark(@PathVariable Long snackBookmarkId){
+        bookmarkService.deleteSnackBookmark(snackBookmarkId);
+        return new ResponseEntity<>("삭제 성공",HttpStatus.OK);
     }
 }
 
