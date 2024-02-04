@@ -66,7 +66,6 @@ public class UserJoinService {
 
         User user = userRepository.findById(userId).orElseThrow();
         user.update(joinChangeDto);
-        userRepository.save(user);
     }
 
     public boolean checkingPassword(Long userId, CheckingPasswordDto checkingPasswordDto) {
