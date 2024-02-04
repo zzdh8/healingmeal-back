@@ -28,7 +28,8 @@ public class UserJoinService {
     public void join(JoinRequestDto joinRequestDto) {
         // 비밀번호를 암호화
         String encodedPassword = passwordEncoder.encode(joinRequestDto.getPassword());
-
+        validateDuplicateLoginId(joinRequestDto.getLoginId());
+        validateDuplicatePhoneNumber(joinRequestDto.getPhoneNumber());
         User user = User.builder()
                 .loginId(joinRequestDto.getLoginId())
                 .password(encodedPassword)
@@ -39,20 +40,18 @@ public class UserJoinService {
                 .phoneNumber(joinRequestDto.getPhoneNumber())
                 .role(Role.ROLE_USER)
                 .build();
-        validateDuplicateLoginId(user);
-        validateDuplicatePhoneNumber(user);
         // 회원 정보 저장
         userRepository.save(user);
     }
 
-    private void validateDuplicateLoginId(User user) {
-        if (userRepository.existsByLoginId(user.getLoginId())) {
+    private void validateDuplicateLoginId(String loginId) {
+        if (userRepository.existsByLoginId(loginId)) {
             throw new InvalidUserException("This ID is already taken.");
         }
     }
 
-    private void validateDuplicatePhoneNumber(User user) {
-        if (userRepository.existsByPhoneNumber(user.getPhoneNumber())) {
+    private void validateDuplicatePhoneNumber(String phoneNumber) {
+        if (userRepository.existsByPhoneNumber(phoneNumber)) {
             throw new InvalidUserException("This phone number is already in use.");
         }
     }
