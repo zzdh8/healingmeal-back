@@ -1,14 +1,14 @@
 steps:
-  - name: docker/compose:2.23.3
+  - name: docker/compose:1.29.0
     args:
       - -f
-      - docker-compose.prod.yaml
+      - docker-compose.yaml
       - build
 
-  - name: docker/compose:2.23.3
+  - name: docker/compose:1.29.0
     args:
       - -f
-      - docker-compose.prod.yaml
+      - docker-compose.yaml
       - push
 
   - name: gcr.io/cloud-builders/kubectl
