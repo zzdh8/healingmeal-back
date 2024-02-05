@@ -94,11 +94,10 @@ jobs:
     - name: Deploy
       uses: appleboy/ssh-action@v1.0.3
       with:
-        host: '35.212.246.194'
+        host: ekwls20@35.212.246.194
         username: ${{ secrets.SSH_USERNAME }}
         passphrase: ${{ secrets.SSH_PASSPHRASE }}
         key: ${{ secrets.SSH_PRIVATE_KEY }}
-        port: '22'
         envs: GITHUB_SHA
         script: |
          sudo docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
