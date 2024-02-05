@@ -94,7 +94,7 @@ jobs:
     - name: Deploy
       uses: appleboy/ssh-action@master
       with:
-        host: 'ekwls20@gmail.com@35.212.246.194'
+        host: 35.212.246.194
         username: ${{ secrets.SSH_USERNAME }}
         passphrase: ${{ secrets.SSH_PASSPHRASE }}
         key: ${{ secrets.SSH_PRIVATE_KEY }}
