@@ -88,7 +88,6 @@ jobs:
         docker build -t ekwls20/hm-prac .
         docker tag ekwls20/hm-prac ekwls20/hm-prac:${GITHUB_SHA::7}
         docker push ekwls20/hm-prac:${GITHUB_SHA::7}
-        
 
       # Deploy
     - name: Deploy
