@@ -100,10 +100,7 @@ jobs:
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         envs: GITHUB_SHA
         script: |
-         sudo docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-         sudo docker pull ${{ secrets.DOCKER_USERNAME }}/hm-prac:${GITHUB_SHA::7}
-         sudo docker tag ${{ secrets.DOCKER_USERNAME }}/hm-prac:${GITHUB_SHA::7} spring-prac
-         sudo docker-compose up -d
+         whoami
 
   dependency-submission:
 
