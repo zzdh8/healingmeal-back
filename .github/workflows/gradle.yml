@@ -91,7 +91,7 @@ jobs:
 
       # Deploy
     - name: Deploy
-      uses: appleboy/ssh-action@master
+      uses: appleboy/ssh-action@v1.0.3
       with:
         host: 35.212.246.194
         username: ${{ secrets.SSH_USERNAME }}
