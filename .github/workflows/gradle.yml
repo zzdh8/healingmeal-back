@@ -88,6 +88,22 @@ jobs:
         docker build -t ekwls20/hm-prac .
         docker tag ekwls20/hm-prac ekwls20/hm-prac:${GITHUB_SHA::7}
         docker push ekwls20/hm-prac:${GITHUB_SHA::7}
+        
+
+      # Deploy
+    - name: Deploy
+      uses: appleboy/ssh-action@master
+      with:
+        host: 35.212.246.194
+        username: ${{ secrets.SSH_USERNAME }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        passphrase: ${{ secrets.SSH_PASSPHRASE }}
+        envs: GITHUB_SHA
+        script: |
+         sudo docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+         sudo docker pull ${{ secrets.DOCKER_USERNAME }}/ekwls20/hm-prac:${GITHUB_SHA::7}
+         sudo docker tag ${{ secrets.DOCKER_USERNAME }}/ekwls20/hm-prac:${GITHUB_SHA::7} spring-prac
+         sudo docker-compose up -d
 
   dependency-submission:
 
