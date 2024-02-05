@@ -1,5 +1,6 @@
 package com.example.thehealingmeal.member.controller;
 
+import com.example.thehealingmeal.member.dto.TotalDto;
 import com.example.thehealingmeal.member.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -8,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -45,4 +47,8 @@ public class  UserController {
         return new ResponseEntity<>(userService.loginConfirm(request), HttpStatus.OK);
     }
 
+    @GetMapping("/{userId}/totalData")
+    public ResponseEntity<TotalDto> totalDto (@PathVariable Long userId){
+        return new ResponseEntity<>(userService.totalData(userId),HttpStatus.OK);
+    }
 }
