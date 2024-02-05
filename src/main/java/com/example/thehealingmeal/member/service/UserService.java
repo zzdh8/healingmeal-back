@@ -3,6 +3,7 @@ package com.example.thehealingmeal.member.service;
 
 import com.example.thehealingmeal.member.domain.PrincipalDetail;
 import com.example.thehealingmeal.member.domain.User;
+import com.example.thehealingmeal.member.dto.TotalDto;
 import com.example.thehealingmeal.member.execption.InvalidUserException;
 import com.example.thehealingmeal.member.repository.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
@@ -42,5 +43,38 @@ public class UserService implements UserDetailsService {
             return loginUser.getName();
         }
         throw new InvalidUserException("not login");
+    }
+
+    public TotalDto totalData(Long userId){
+        User user = userRepository.findById(userId).orElseThrow();
+        return TotalDto.builder()
+                .loginId(user.getLoginId())
+                .password(user.getPassword())
+                .name(user.getName())
+                .email(user.getEmail())
+                .birthDate(user.getBirthDate())
+                .phoneNumber(user.getPhoneNumber())
+                .role(user.getRole())
+                .age(user.getSurvey().getAge())
+                .diabetesType(user.getSurvey().getDiabetesType())
+                .numberOfExercises(user.getSurvey().getNumberOfExercises())
+                .height(user.getSurvey().getHeight())
+                .weight(user.getSurvey().getWeight())
+                .gender(user.getSurvey().getGender())
+                .standardWeight(user.getSurvey().getStandardWeight())
+                .bodyMassIndex(user.getSurvey().getBodyMassIndex())
+                .caloriesNeededPerDay(user.getSurvey().getCaloriesNeededPerDay())
+                .weightLevel(user.getSurvey().getWeightLevel())
+                .stewsAndHotpots(user.getSurvey().getFilterFood().getStewsAndHotpots())
+                .stewedFood(user.getSurvey().getFilterFood().getStewedFood())
+                .stirFriedFood(user.getSurvey().getFilterFood().getStirFriedFood())
+                .grilledFood(user.getSurvey().getFilterFood().getGrilledFood())
+                .vegetableFood(user.getSurvey().getFilterFood().getVegetableFood())
+                .steamedFood(user.getSurvey().getFilterFood().getSteamedFood())
+                .pancakeFood(user.getSurvey().getFilterFood().getPancakeFood())
+                .breadAndConfectionery(user.getSurvey().getFilterFood().getBreadAndConfectionery())
+                .beveragesAndTeas(user.getSurvey().getFilterFood().getBeveragesAndTeas())
+                .dairyProducts(user.getSurvey().getFilterFood().getDairyProducts())
+                .build();
     }
 }
