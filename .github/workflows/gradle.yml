@@ -38,29 +38,29 @@ jobs:
 
     - name: .env setting
       env:
-          DB_JDBC_URL: ${{ secrets.JDBCURL }}
-          DB_USER: ${{ secrets.USER }}
-          DB_PASSWORD: ${{ secrets.PASSWORD }}
-          api-key: ${{ secrets.APIKEY }}
-          bucket-name: ${{ secrets.BUCKETNAME }}
-          bucket-path: ${{ secrets.BUCKETPATH }}
-          DATABASE_URL: ${{ secrets.DATABASEURL }}
-          spring.mail.password: ${{ secrets.MAILPASSWORD }}
-          spring.mail.port: ${{ secrets.MAILPORT }}
-          spring.mail.username: ${{ secrets.MAILUSERNAME }}
-          project-id: ${{ secrets.PROJECTID }}
+        DB_JDBC_URL: ${{ secrets.JDBCURL }}
+        DB_USER: ${{ secrets.USER }}
+        DB_PASSWORD: ${{ secrets.PASSWORD }}
+        api-key: ${{ secrets.APIKEY }}
+        bucket-name: ${{ secrets.BUCKETNAME }}
+        bucket-path: ${{ secrets.BUCKETPATH }}
+        DATABASE_URL: ${{ secrets.DATABASEURL }}
+        spring.mail.password: ${{ secrets.MAILPASSWORD }}
+        spring.mail.port: ${{ secrets.MAILPORT }}
+        spring.mail.username: ${{ secrets.MAILUSERNAME }}
+        project-id: ${{ secrets.PROJECTID }}
       run: |
-          echo $DB_JDBC_URL
-          echo $DB_USER
-          echo $DB_PASSWORD
-          echo $api-key
-          echo $bucket-name
-          echo $bucket-path
-          echo $DATABASE_URL
-          echo $spring.mail.password
-          echo $spring.mail.port
-          echo $spring.mail.username
-          echo $project-id
+        echo $DB_JDBC_URL
+        echo $DB_USER
+        echo $DB_PASSWORD
+        echo $api-key
+        echo $bucket-name
+        echo $bucket-path
+        echo $DATABASE_URL
+        echo $spring.mail.password
+        echo $spring.mail.port
+        echo $spring.mail.username
+        echo $project-id
 
     # NOTE: The Gradle Wrapper is the default and recommended way to run Gradle (https://docs.gradle.org/current/userguide/gradle_wrapper.html).
     # If your project does not have the Gradle Wrapper configured, you can use the following configuration to run Gradle with a specified version.
