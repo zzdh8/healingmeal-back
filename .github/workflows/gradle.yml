@@ -98,7 +98,6 @@ jobs:
         username: ${{ secrets.SSH_USERNAME }}
         passphrase: ${{ secrets.SSH_PASSPHRASE }}
         key: ${{ secrets.SSH_PRIVATE_KEY }}
-        port: 22
 
         envs: GITHUB_SHA
         script: |
