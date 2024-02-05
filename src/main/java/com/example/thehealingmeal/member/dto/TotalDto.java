@@ -2,6 +2,7 @@ package com.example.thehealingmeal.member.dto;
 
 import com.example.thehealingmeal.member.domain.Gender;
 import com.example.thehealingmeal.member.domain.Role;
+import com.example.thehealingmeal.member.domain.User;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import lombok.AllArgsConstructor;
@@ -72,4 +73,36 @@ public class TotalDto {
     private String beveragesAndTeas; // 음료 및 차류
 
     private String dairyProducts; // 유제품류
+
+    public static TotalDto fromUser(User user) {
+        return TotalDto.builder()
+                .loginId(user.getLoginId())
+                .password(user.getPassword())
+                .name(user.getName())
+                .email(user.getEmail())
+                .birthDate(user.getBirthDate())
+                .phoneNumber(user.getPhoneNumber())
+                .role(user.getRole())
+                .age(user.getSurvey().getAge())
+                .diabetesType(user.getSurvey().getDiabetesType())
+                .numberOfExercises(user.getSurvey().getNumberOfExercises())
+                .height(user.getSurvey().getHeight())
+                .weight(user.getSurvey().getWeight())
+                .gender(user.getSurvey().getGender())
+                .standardWeight(user.getSurvey().getStandardWeight())
+                .bodyMassIndex(user.getSurvey().getBodyMassIndex())
+                .caloriesNeededPerDay(user.getSurvey().getCaloriesNeededPerDay())
+                .weightLevel(user.getSurvey().getWeightLevel())
+                .stewsAndHotpots(user.getSurvey().getFilterFood().getStewsAndHotpots())
+                .stewedFood(user.getSurvey().getFilterFood().getStewedFood())
+                .stirFriedFood(user.getSurvey().getFilterFood().getStirFriedFood())
+                .grilledFood(user.getSurvey().getFilterFood().getGrilledFood())
+                .vegetableFood(user.getSurvey().getFilterFood().getVegetableFood())
+                .steamedFood(user.getSurvey().getFilterFood().getSteamedFood())
+                .pancakeFood(user.getSurvey().getFilterFood().getPancakeFood())
+                .breadAndConfectionery(user.getSurvey().getFilterFood().getBreadAndConfectionery())
+                .beveragesAndTeas(user.getSurvey().getFilterFood().getBeveragesAndTeas())
+                .dairyProducts(user.getSurvey().getFilterFood().getDairyProducts())
+                .build();
+    }
 }
