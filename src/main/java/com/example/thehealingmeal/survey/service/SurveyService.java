@@ -106,7 +106,6 @@ public class SurveyService {
         User user = userRepository.findById(userId).orElseThrow();
         Survey survey = surveyRepository.findSurveyByUserId(userId);
         survey.update(surveyRequestDto);
-        surveyRepository.save(survey);
 
         int kcal = Integer.parseInt(survey.getCaloriesNeededPerDay().toString());
         SurveyResult surveyResult = createSurveyResult(
@@ -122,13 +121,11 @@ public class SurveyService {
 
         // 기존의 surveyResult를 새로운 값으로 업데이트
         existingSurveyResult.update(surveyResult);
-        surveyResultRepository.save(existingSurveyResult);
     }
 
     @Transactional
     public void filterFoodUpdateBySurveyId(Long surveyId, FilterFoodRequestDto filterFoodRequestDto) {
         FilterFood filterFood = filterFoodRepository.findFilterFoodBySurveyId(surveyId);
         filterFood.update(filterFoodRequestDto);
-        filterFoodRepository.save(filterFood);
     }
 }
