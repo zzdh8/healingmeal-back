@@ -28,10 +28,7 @@ public class FoodService {
     private final SideDishCategoryRepository sideDishCategoryRepository;
     private final SnackOrTeaCategoryRepository snackCategoryRepository;
     private final MainDishCategoryRepository mainDishCategoryRepository;
-
-    @Value("${DATABASE_URL}")
-    String databaseUrl;
-
+    
     ClassPathResource cpr = new ClassPathResource("food-data.json");
 
     @Transactional
