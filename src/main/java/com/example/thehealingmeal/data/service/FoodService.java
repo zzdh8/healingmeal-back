@@ -11,11 +11,8 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.FileCopyUtils;
 
-import java.io.FileReader;
-import java.io.Reader;
-import java.nio.charset.StandardCharsets;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,14 +30,9 @@ public class FoodService {
 
     @Transactional
     public void loadSave() throws Exception {
-
-        ClassPathResource cpr = new ClassPathResource("food-data.json");
-        byte[] bdata = FileCopyUtils.copyToByteArray(cpr.getInputStream());
-        String jsonTxt = new String(bdata, StandardCharsets.UTF_8);
-
         JSONParser parser = new JSONParser();
-        Reader reader = new FileReader(jsonTxt);
-        JSONArray records = (JSONArray) parser.parse(reader);
+        ClassPathResource resource = new ClassPathResource("food-data.json");
+        JSONArray records = (JSONArray) parser.parse(new InputStreamReader(resource.getInputStream(), "UTF-8"));
 
         for (Object record : records) {
             try {
