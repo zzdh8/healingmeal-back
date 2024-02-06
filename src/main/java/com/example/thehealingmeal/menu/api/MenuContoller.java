@@ -1,18 +1,14 @@
 package com.example.thehealingmeal.menu.api;
 
 
-import com.example.thehealingmeal.data.repository.SideDishCategoryRepository;
 import com.example.thehealingmeal.menu.api.dto.MenuResponseDto;
 import com.example.thehealingmeal.menu.api.dto.SnackOrTeaResponseDto;
 import com.example.thehealingmeal.menu.domain.Meals;
-import com.example.thehealingmeal.menu.domain.SideDishForUserMenu;
-import com.example.thehealingmeal.menu.domain.repository.SideDishForUserMenuRepository;
 import com.example.thehealingmeal.menu.service.BookmarkService;
 import com.example.thehealingmeal.menu.service.MenuProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,7 +19,6 @@ import java.util.NoSuchElementException;
 @RequiredArgsConstructor
 public class MenuContoller {
     private final MenuProvider menuProvider;
-    private final SideDishForUserMenuRepository sideDishForUserMenuRepository;
     private final BookmarkService bookmarkService;
 
     //유저의 맞춤식단 생성
@@ -102,7 +97,7 @@ public class MenuContoller {
         bookmarkService.createSnackBookmark(userId,meals);
         return new ResponseEntity<>("성공",HttpStatus.OK);
     }
-//    // 간식 즐겨찾기 확인
+    // 간식 즐겨찾기 확인
     @GetMapping("/{userId}/snack/bookmark")
     public ResponseEntity<List<SnackOrTeaResponseDto>> snackBookmarkList(@PathVariable Long userId){
         return new ResponseEntity<>(bookmarkService.snackBookmarkList(userId),HttpStatus.OK);

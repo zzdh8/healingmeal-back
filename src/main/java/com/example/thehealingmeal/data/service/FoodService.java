@@ -8,6 +8,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,10 +32,12 @@ public class FoodService {
     @Value("${DATABASE_URL}")
     String databaseUrl;
 
+    ClassPathResource cpr = new ClassPathResource("food-data.json");
+
     @Transactional
     public void loadSave() throws Exception {
         JSONParser parser = new JSONParser();
-        Reader reader = new FileReader(databaseUrl);
+        Reader reader = new FileReader(cpr.getFile());
         JSONArray records = (JSONArray) parser.parse(reader);
 
         for (Object record : records) {
