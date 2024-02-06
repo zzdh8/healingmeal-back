@@ -7,14 +7,15 @@ import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.FileCopyUtils;
 
 import java.io.FileReader;
 import java.io.Reader;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,13 +29,17 @@ public class FoodService {
     private final SideDishCategoryRepository sideDishCategoryRepository;
     private final SnackOrTeaCategoryRepository snackCategoryRepository;
     private final MainDishCategoryRepository mainDishCategoryRepository;
-    
-    ClassPathResource cpr = new ClassPathResource("food-data.json");
+
 
     @Transactional
     public void loadSave() throws Exception {
+
+        ClassPathResource cpr = new ClassPathResource("food-data.json");
+        byte[] bdata = FileCopyUtils.copyToByteArray(cpr.getInputStream());
+        String jsonTxt = new String(bdata, StandardCharsets.UTF_8);
+
         JSONParser parser = new JSONParser();
-        Reader reader = new FileReader(cpr.getFile());
+        Reader reader = new FileReader(jsonTxt);
         JSONArray records = (JSONArray) parser.parse(reader);
 
         for (Object record : records) {
