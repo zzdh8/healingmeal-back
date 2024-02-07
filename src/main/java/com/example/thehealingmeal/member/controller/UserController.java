@@ -46,9 +46,4 @@ public class  UserController {
     public ResponseEntity<String> confirm (HttpServletRequest request){
         return new ResponseEntity<>(userService.loginConfirm(request), HttpStatus.OK);
     }
-
-    @GetMapping("/{userId}/totalData")
-    public ResponseEntity<TotalDto> totalDto (@PathVariable Long userId){
-        return new ResponseEntity<>(userService.totalData(userId),HttpStatus.OK);
-    }
 }
