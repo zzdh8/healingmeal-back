@@ -5,6 +5,7 @@ import com.example.thehealingmeal.menu.api.dto.MenuResponseDto;
 import com.example.thehealingmeal.menu.api.dto.SnackOrTeaResponseDto;
 import com.example.thehealingmeal.menu.domain.Meals;
 import com.example.thehealingmeal.menu.service.BookmarkService;
+import com.example.thehealingmeal.menu.service.MenuManager;
 import com.example.thehealingmeal.menu.service.MenuProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -20,12 +21,13 @@ import java.util.NoSuchElementException;
 public class MenuContoller {
     private final MenuProvider menuProvider;
     private final BookmarkService bookmarkService;
+    private final MenuManager menuManager;
 
     //유저의 맞춤식단 생성
     @PostMapping("/{userId}/generate")
     public ResponseEntity<String> generateMenu(@PathVariable Long userId) {
         menuProvider.generateForUser(userId);
-        return new ResponseEntity<>("성공", HttpStatus.OK);
+        return new ResponseEntity<>("Menu Generated For User Successfully", HttpStatus.OK);
     }
 
     //아침 식단 제공
@@ -66,47 +68,61 @@ public class MenuContoller {
     //00시 식단 초기화
     @DeleteMapping("/{userId}/delete")
     public ResponseEntity<String> deleteMenu(@PathVariable Long userId) {
+        if (menuManager.checkMenu(userId)) {
+            return new ResponseEntity<>("The User Menu already Exists", HttpStatus.NOT_FOUND);
+        }
         try {
-            menuProvider.resetMenu(userId);
-        } catch (NoSuchElementException e) {
-            return new ResponseEntity<>("Incorrect User ID", HttpStatus.NOT_FOUND);
+            menuManager.resetMenu(userId);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Fail to Reset Menu For User", HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return new ResponseEntity<>("Success to Reset Menu For User", HttpStatus.OK);
     }
 
+    //유저별 식단 생성 확인
+    @GetMapping("/{userId}/check")
+    public ResponseEntity<Boolean> checkMenu(@PathVariable Long userId) {
+        return new ResponseEntity<>(menuManager.checkMenu(userId), HttpStatus.OK);
+    }
+
     // 아점저 즐겨찾기 추가
     @PostMapping("/{userId}/bookmark")
-    public ResponseEntity<String> bookmark(@PathVariable Long userId, @RequestBody Meals meals){
+    public ResponseEntity<String> bookmark(@PathVariable Long userId, @RequestBody Meals meals) {
         bookmarkService.createMenuBookmark(userId, meals);
-        return new ResponseEntity<>("성공",HttpStatus.OK);
+        return new ResponseEntity<>("성공", HttpStatus.OK);
     }
+
     // 아점저 즐겨찾기 확인
     @GetMapping("/{userId}/bookmark")
-    public ResponseEntity<List<MenuResponseDto>> bookmarkList(@PathVariable Long userId){
-     return new ResponseEntity<>(bookmarkService.menuBookmarkList(userId),HttpStatus.OK);
+    public ResponseEntity<List<MenuResponseDto>> bookmarkList(@PathVariable Long userId) {
+        return new ResponseEntity<>(bookmarkService.menuBookmarkList(userId), HttpStatus.OK);
     }
+
     // 아점저 즐겨찾기 삭제
     @DeleteMapping("/{bookmarkId}/bookmark")
-    public ResponseEntity<String> deleteBookmark(@PathVariable Long bookmarkId){
+    public ResponseEntity<String> deleteBookmark(@PathVariable Long bookmarkId) {
         bookmarkService.deleteMenuBookmark(bookmarkId);
-        return new ResponseEntity<>("삭제 성공",HttpStatus.OK);
+        return new ResponseEntity<>("삭제 성공", HttpStatus.OK);
     }
-     //간식 즐겨찾기 추가
+
+    //간식 즐겨찾기 추가
     @PostMapping("/{userId}/snack/bookmark")
-    public ResponseEntity<String> snackBookmark(@PathVariable Long userId, @RequestBody Meals meals){
-        bookmarkService.createSnackBookmark(userId,meals);
-        return new ResponseEntity<>("성공",HttpStatus.OK);
+    public ResponseEntity<String> snackBookmark(@PathVariable Long userId, @RequestBody Meals meals) {
+        bookmarkService.createSnackBookmark(userId, meals);
+        return new ResponseEntity<>("성공", HttpStatus.OK);
     }
+
     // 간식 즐겨찾기 확인
     @GetMapping("/{userId}/snack/bookmark")
-    public ResponseEntity<List<SnackOrTeaResponseDto>> snackBookmarkList(@PathVariable Long userId){
-        return new ResponseEntity<>(bookmarkService.snackBookmarkList(userId),HttpStatus.OK);
+    public ResponseEntity<List<SnackOrTeaResponseDto>> snackBookmarkList(@PathVariable Long userId) {
+        return new ResponseEntity<>(bookmarkService.snackBookmarkList(userId), HttpStatus.OK);
     }
+
     // 간식 즐겨찾기 삭제
     @DeleteMapping("/{snackBookmarkId}/snack/bookmark")
-    public ResponseEntity<String> deleteSnackBookmark(@PathVariable Long snackBookmarkId){
+    public ResponseEntity<String> deleteSnackBookmark(@PathVariable Long snackBookmarkId) {
         bookmarkService.deleteSnackBookmark(snackBookmarkId);
-        return new ResponseEntity<>("삭제 성공",HttpStatus.OK);
+        return new ResponseEntity<>("삭제 성공", HttpStatus.OK);
     }
 }
 

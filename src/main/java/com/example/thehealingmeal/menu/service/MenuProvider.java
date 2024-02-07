@@ -10,7 +10,6 @@ import com.example.thehealingmeal.menu.domain.SnackOrTea;
 import com.example.thehealingmeal.menu.domain.repository.MenuRepository;
 import com.example.thehealingmeal.menu.domain.repository.SideDishForUserMenuRepository;
 import com.example.thehealingmeal.menu.domain.repository.SnackOrTeaMenuRepository;
-import com.google.api.gax.rpc.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -27,38 +26,33 @@ public class MenuProvider {
     private final MenuRepository menuRepository;
     private final SideDishForUserMenuRepository sideDishForUserMenuRepository;
     private final SnackOrTeaMenuRepository snackOrTeaMenuRepository;
+    private final MenuManager menuManager;
 
     @Value("${bucket-name}")
     private String bucket_name;
 
     //유저를 위한 전체 식단 생성 및 유효 검사 메소드
     @Transactional
-    public void generateForUser(long user_id) throws NoSuchElementException {
-        try {
-            Meals[] meals = Meals.values();
-            MenuResponseDto[] menus = new MenuResponseDto[meals.length - 2];
-            SnackOrTeaResponseDto[] snackOrTeas = new SnackOrTeaResponseDto[meals.length - 3];
+    public void generateForUser(long user_id) throws RuntimeException {
+        Meals[] meals = Meals.values();
+        MenuResponseDto[] menus = new MenuResponseDto[meals.length - 2];
+        SnackOrTeaResponseDto[] snackOrTeas = new SnackOrTeaResponseDto[meals.length - 3];
 
-            do {
-                for (int i = 0; i < meals.length; i++) {
-                    if (i < 3) {
-                        menus[i] = menuGenerater.generateMenu(meals[i], user_id);
-                    } else {
-                        snackOrTeas[i - 3] = menuGenerater.generateSnackOrTea(meals[i], user_id);
-                    }
+        do {
+            for (int i = 0; i < meals.length; i++) {
+                if (i < 3) {
+                    menus[i] = menuGenerater.generateMenu(meals[i], user_id);
+                } else {
+                    snackOrTeas[i - 3] = menuGenerater.generateSnackOrTea(meals[i], user_id);
                 }
-            } while (menuGenerater.isExceed(user_id, menus[0], snackOrTeas[0], menus[1], snackOrTeas[1], menus[2]));
-
-
-            for (MenuResponseDto dto : menus) {
-                menuGenerater.saveMenu(dto);
             }
-            for (SnackOrTeaResponseDto dto : snackOrTeas) {
-                menuGenerater.saveSnackOrTea(dto);
-            }
-        } catch (NoSuchElementException e) {
-            e.getLocalizedMessage();
-            generateForUser(user_id);
+        } while (menuManager.isExceed(user_id, menus[0], snackOrTeas[0], menus[1], snackOrTeas[1], menus[2]));
+
+        for (MenuResponseDto dto : menus) {
+            menuGenerater.saveMenu(dto);
+        }
+        for (SnackOrTeaResponseDto dto : snackOrTeas) {
+            menuGenerater.saveSnackOrTea(dto);
         }
     }
 
@@ -100,18 +94,4 @@ public class MenuProvider {
     }
 
 
-    //오전 00시 유저 식단 초기화 메소드
-    @Transactional
-    public void resetMenu(long user_id) throws NoSuchElementException, NotFoundException {
-        try {
-            List<MenuForUser> menu = menuRepository.findAllByUserId(user_id);
-            for (MenuForUser m : menu) {
-                sideDishForUserMenuRepository.deleteAllByMenuForUser_Id(m.getId());
-            }
-            snackOrTeaMenuRepository.deleteAllByUserId(user_id);
-            menuRepository.deleteAllByUserId(user_id);
-        } catch (Exception e) {
-            throw new RuntimeException("No Such Element OR Not Found Error : please check user_id");
-        }
-    }
 }
