@@ -8,6 +8,5 @@ import java.util.Optional;
 
 @Repository
 public interface SnackOrTeaCategoryRepository extends JpaRepository<SnackOrTeaCategory, Long> {
-//    SnackOrTeaCategory findById(long id);
     Optional<SnackOrTeaCategory> findById(long id);
 }

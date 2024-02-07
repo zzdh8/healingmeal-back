@@ -2,6 +2,7 @@ package com.example.thehealingmeal.menu.api.dto;
 
 import com.example.thehealingmeal.member.domain.User;
 import com.example.thehealingmeal.menu.domain.Meals;
+import com.example.thehealingmeal.menu.domain.Nutrient;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
@@ -32,10 +33,10 @@ public class SnackOrTeaResponseDto {
     private float fat;
 
     private long userId;
+
     @JsonIgnore
     //유저 구분
     private User user;
-
     @Builder
     public static SnackOrTeaResponseDto createMenu(Long bookmarkId,String snack_or_tea, String imageURL,
                                              Meals meals,
@@ -50,5 +51,11 @@ public class SnackOrTeaResponseDto {
         snackOrTeaResponseDto.carbohydrate = carbohydrate;
         snackOrTeaResponseDto.fat = fat;
         return snackOrTeaResponseDto;
+    }
+
+    //total Nutrients
+    @JsonIgnore
+    public Nutrient getTotalNutrients() {
+        return new Nutrient(this.kcal, this.protein, this.carbohydrate, this.fat);
     }
 }
