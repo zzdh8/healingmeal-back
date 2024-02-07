@@ -20,17 +20,14 @@ import com.example.thehealingmeal.menu.domain.repository.SnackOrTeaMenuRepositor
 import com.example.thehealingmeal.menu.domain.repository.SnackUrlRepository;
 import com.example.thehealingmeal.survey.doamin.FilterFood;
 import com.example.thehealingmeal.survey.doamin.Survey;
-import com.example.thehealingmeal.survey.doamin.SurveyResult;
 import com.example.thehealingmeal.survey.repository.FilterFoodRepository;
 import com.example.thehealingmeal.survey.repository.SurveyRepository;
-import com.example.thehealingmeal.survey.repository.SurveyResultRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.security.SecureRandom;
 import java.util.*;
-import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
 @Service
@@ -44,8 +41,6 @@ public class MenuGenerater {
     private final SideDishForUserMenuRepository sideDishForUserMenuRepository;
     private final SnackOrTeaMenuRepository snackOrTeaMenuRepository;
 
-    //유저의 열탄단지 결과를 가져올 repository
-    private final SurveyResultRepository surveyResultRepository;
 
     //유저의 설문조사 테이블을 경유해서 필터링 키워드를 가져올 repository
     private final SurveyRepository surveyRepository;

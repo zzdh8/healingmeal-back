@@ -12,7 +12,7 @@ import java.util.List;
 public interface MenuRepository extends JpaRepository<MenuForUser, Long> {
     MenuForUser findByUserIdAndMeals(long userId, Meals meals);
 
-    List<MenuForUser> deleteAllByUserId(long userId);
+    void deleteAllByUserId(long userId);
 
     List<MenuForUser> findAllByUserId(long userId);
 
