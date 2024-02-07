@@ -4,7 +4,6 @@ package com.example.thehealingmeal.menu.api;
 import com.example.thehealingmeal.menu.api.dto.MenuResponseDto;
 import com.example.thehealingmeal.menu.api.dto.SnackOrTeaResponseDto;
 import com.example.thehealingmeal.menu.domain.Meals;
-import com.example.thehealingmeal.menu.service.BookmarkService;
 import com.example.thehealingmeal.menu.service.MenuManager;
 import com.example.thehealingmeal.menu.service.MenuProvider;
 import lombok.RequiredArgsConstructor;
@@ -12,12 +11,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 
 @RestController
 @RequiredArgsConstructor
-public class MenuContoller {
+public class MenuController {
     private final MenuProvider menuProvider;
     private final MenuManager menuManager;
 
