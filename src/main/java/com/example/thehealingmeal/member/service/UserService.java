@@ -44,9 +44,4 @@ public class UserService implements UserDetailsService {
         }
         throw new InvalidUserException("not login");
     }
-
-    public TotalDto totalData(Long userId){
-        User user = userRepository.findById(userId).orElseThrow();
-        return TotalDto.fromUser(user);
-    }
 }
