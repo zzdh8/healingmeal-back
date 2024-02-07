@@ -39,7 +39,7 @@ public class UserJoinController {
         return new ResponseEntity<>("성공", HttpStatus.OK);
     }
     // 비밀번호 확인 api
-    @GetMapping("{userId}/check/password")
+    @PostMapping("{userId}/check/password")
     public ResponseEntity<String> checkingPassword(@PathVariable Long userId, @RequestBody CheckingPasswordDto checkingPasswordDto) {
         if (userJoinService.checkingPassword(userId, checkingPasswordDto)) {
             return new ResponseEntity<>("비밀번호 일치", HttpStatus.OK);
