@@ -1,5 +1,6 @@
-package com.example.thehealingmeal.img;
+package com.example.thehealingmeal.img.api;
 
+import com.example.thehealingmeal.img.ImageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,7 +15,7 @@ public class ImageController {
     @GetMapping("/test/image")
     public ResponseEntity<String> getImageInfo(@RequestParam("name") String name) {
         try {
-            return ResponseEntity.ok(imageService.getImageInfo(name));
+            return ResponseEntity.ok(imageService.getMainDishImgInfo(name));
         } catch (IllegalAccessException e) {
             return ResponseEntity.badRequest().body("Image not found");
         }
