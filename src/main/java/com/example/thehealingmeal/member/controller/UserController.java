@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-public class  UserController {
+public class UserController {
     private final UserService userService;
 
     /*
@@ -25,6 +25,7 @@ public class  UserController {
         String message = "Login Or Authorization success";
         return new ResponseEntity<>(message, HttpStatus.OK);
     }
+
     //로그아웃 성공 시
     @GetMapping("/successlogout")
     public ResponseEntity<String> logoutSesstion(HttpSession session) {
@@ -39,7 +40,10 @@ public class  UserController {
     }
 
     @GetMapping("/user/confirm")
-    public ResponseEntity<String> confirm (HttpServletRequest request){
-        return new ResponseEntity<>(userService.loginConfirm(request), HttpStatus.OK);
+    public ResponseEntity<String[]> confirm(HttpServletRequest request) {
+        String[] userInfo = { userService.loginConfirmUserName(request),
+                String.valueOf(userService.loginConfirmUserID(request))
+        };
+        return new ResponseEntity<>(userInfo, HttpStatus.OK);
     }
 }
