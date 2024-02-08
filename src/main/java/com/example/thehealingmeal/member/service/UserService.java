@@ -3,7 +3,6 @@ package com.example.thehealingmeal.member.service;
 
 import com.example.thehealingmeal.member.domain.PrincipalDetail;
 import com.example.thehealingmeal.member.domain.User;
-import com.example.thehealingmeal.member.dto.TotalDto;
 import com.example.thehealingmeal.member.execption.InvalidUserException;
 import com.example.thehealingmeal.member.repository.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
@@ -36,7 +35,7 @@ public class UserService implements UserDetailsService {
 
     //로그인 상태 확인 메서드
     //로그인 상태면 로그인한 유저의 이름을 반환하고, 로그인 상태 확인 결과을 반환.
-    public String loginConfirm(HttpServletRequest request) throws InvalidUserException {
+    public String loginConfirmUserName(HttpServletRequest request) throws InvalidUserException {
         Principal user = request.getUserPrincipal();
         if (user != null) {
             User loginUser = userRepository.findByLoginId(user.getName()).orElseThrow(() -> new InvalidUserException("로그인 상태가 아닙니다."));
@@ -45,7 +44,7 @@ public class UserService implements UserDetailsService {
         throw new InvalidUserException("not login");
     }
 
-    public long loginConfirmLong(HttpServletRequest request) throws InvalidUserException {
+    public long loginConfirmUserID(HttpServletRequest request) throws InvalidUserException {
         Principal user = request.getUserPrincipal();
         if (user != null) {
             User loginUser = userRepository.findByLoginId(user.getName()).orElseThrow(() -> new InvalidUserException("로그인 상태가 아닙니다."));

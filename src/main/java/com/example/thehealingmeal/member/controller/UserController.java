@@ -43,8 +43,9 @@ public class UserController {
 
     @GetMapping("/user/confirm")
     public ResponseEntity<String[]> confirm(HttpServletRequest request) {
-        long userId = userService.loginConfirmLong(request);
-        String[] userInfo = {userService.loginConfirm(request), String.valueOf(userId)};
+        String[] userInfo = { userService.loginConfirmUserName(request),
+                String.valueOf(userService.loginConfirmUserID(request))
+        };
         return new ResponseEntity<>(userInfo, HttpStatus.OK);
     }
 }
