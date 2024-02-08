@@ -1,4 +1,4 @@
-package com.example.thehealingmeal.survey.doamin;
+package com.example.thehealingmeal.survey.domain;
 
 
 import com.example.thehealingmeal.member.domain.User;
@@ -9,12 +9,17 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.io.Serial;
+import java.io.Serializable;
+
 @Entity
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class SurveyResult {
+public class SurveyResult implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
     @Id
     @Column(name = "surveyResult_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)

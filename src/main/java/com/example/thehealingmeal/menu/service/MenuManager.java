@@ -7,7 +7,7 @@ import com.example.thehealingmeal.menu.domain.Nutrient;
 import com.example.thehealingmeal.menu.domain.repository.MenuRepository;
 import com.example.thehealingmeal.menu.domain.repository.SideDishForUserMenuRepository;
 import com.example.thehealingmeal.menu.domain.repository.SnackOrTeaMenuRepository;
-import com.example.thehealingmeal.survey.doamin.SurveyResult;
+import com.example.thehealingmeal.survey.domain.SurveyResult;
 import com.example.thehealingmeal.survey.repository.SurveyResultRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
