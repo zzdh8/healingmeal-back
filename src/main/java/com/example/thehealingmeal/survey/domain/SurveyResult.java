@@ -17,9 +17,9 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class SurveyResult implements Serializable {
-    @Serial
-    private static final long serialVersionUID = 1;
+public class SurveyResult implements Serializable{
+
+    static final long serialVersionUID = 1L;
     @Id
     @Column(name = "surveyResult_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)

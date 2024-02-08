@@ -14,8 +14,8 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Bookmark implements Serializable {
-    @Serial
-    private static final long serialVersionUID = 1;
+
+    static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

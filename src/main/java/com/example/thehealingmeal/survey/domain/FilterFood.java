@@ -16,8 +16,8 @@ import java.io.Serializable;
 @AllArgsConstructor
 @Builder
 public class FilterFood implements Serializable {
-    @Serial
-    private static final long serialVersionUID = 1L;
+
+    static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "filterfood_id")
