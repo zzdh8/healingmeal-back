@@ -19,8 +19,8 @@ import java.io.Serializable;
 @AllArgsConstructor
 @Builder
 public class Survey implements Serializable {
-    @Serial
-    private static final long serialVersionUID = 1;
+
+    static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "survey_id")
