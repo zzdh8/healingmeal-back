@@ -34,9 +34,7 @@ public class UserController {
     }
 
     @GetMapping("/")
-    public ResponseEntity<String> success(HttpServletRequest request, Authentication authentication) {
-        HttpSession session = request.getSession(false);
-        session.setMaxInactiveInterval(1000);
+    public ResponseEntity<String> success (HttpServletRequest request, Authentication authentication){
         String user_id = userService.userID(authentication.getName()).toString();
         return new ResponseEntity<>(user_id, HttpStatus.OK);
     }

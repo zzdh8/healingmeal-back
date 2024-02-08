@@ -45,5 +45,8 @@ server:
       cookie:
         same-site: None
         secure: true
+        name: SESSION
+        path: /
+      timeout: 30m
 chatgpt:
   api-key: ${api-key}
