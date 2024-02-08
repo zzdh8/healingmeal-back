@@ -2,8 +2,8 @@ package com.example.thehealingmeal.survey.contoroller;
 
 
 
-import com.example.thehealingmeal.survey.doamin.FilterFood;
-import com.example.thehealingmeal.survey.doamin.Survey;
+import com.example.thehealingmeal.survey.domain.FilterFood;
+import com.example.thehealingmeal.survey.domain.Survey;
 import com.example.thehealingmeal.survey.dto.FilterFoodRequestDto;
 import com.example.thehealingmeal.survey.dto.SurveyRequestDto;
 import com.example.thehealingmeal.survey.dto.SurveyResultDto;

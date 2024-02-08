@@ -3,9 +3,9 @@ package com.example.thehealingmeal.survey.service;
 
 import com.example.thehealingmeal.member.domain.User;
 import com.example.thehealingmeal.member.repository.UserRepository;
-import com.example.thehealingmeal.survey.doamin.FilterFood;
-import com.example.thehealingmeal.survey.doamin.Survey;
-import com.example.thehealingmeal.survey.doamin.SurveyResult;
+import com.example.thehealingmeal.survey.domain.FilterFood;
+import com.example.thehealingmeal.survey.domain.Survey;
+import com.example.thehealingmeal.survey.domain.SurveyResult;
 import com.example.thehealingmeal.survey.dto.FilterFoodRequestDto;
 import com.example.thehealingmeal.survey.dto.SurveyRequestDto;
 import com.example.thehealingmeal.survey.dto.SurveyResultDto;
@@ -16,9 +16,9 @@ import com.example.thehealingmeal.survey.repository.SurveyResultRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import static com.example.thehealingmeal.survey.doamin.FilterFood.createFilterFood;
-import static com.example.thehealingmeal.survey.doamin.Survey.createSurvey;
-import static com.example.thehealingmeal.survey.doamin.SurveyResult.createSurveyResult;
+import static com.example.thehealingmeal.survey.domain.FilterFood.createFilterFood;
+import static com.example.thehealingmeal.survey.domain.Survey.createSurvey;
+import static com.example.thehealingmeal.survey.domain.SurveyResult.createSurveyResult;
 
 
 @Service

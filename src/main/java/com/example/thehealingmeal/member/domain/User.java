@@ -5,14 +5,15 @@ import com.example.thehealingmeal.member.execption.InvalidEmailAddressException;
 import com.example.thehealingmeal.member.execption.InvalidUserException;
 import com.example.thehealingmeal.menu.domain.Bookmark;
 import com.example.thehealingmeal.menu.domain.SnackBookmark;
-import com.example.thehealingmeal.survey.doamin.Survey;
-import com.example.thehealingmeal.survey.doamin.SurveyResult;
+import com.example.thehealingmeal.survey.domain.Survey;
+import com.example.thehealingmeal.survey.domain.SurveyResult;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +25,8 @@ import java.util.regex.Pattern;
 @Setter
 @NoArgsConstructor
 public class User implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
 
     private static final Pattern EMAIL_PATTERN = Pattern.compile("^[a-zA-Z0-9._%+-]+@gmail\\.com$");
 
@@ -88,13 +91,13 @@ public class User implements Serializable {
 
     private void validateBirthDate(String birthDate) {
         if (birthDate.length() != 6) {
-            throw new InvalidUserException(String.format("Date of birth must be 6 characters"));
+            throw new InvalidUserException("Date of birth must be 6 characters");
         }
     }
 
     private void validatePhoneNumber(String phoneNumber) {
         if (phoneNumber.length() != 11) {
-            throw new InvalidUserException(String.format("Number must be 11 characters"));
+            throw new InvalidUserException("Number must be 11 characters");
         }
     }
 
