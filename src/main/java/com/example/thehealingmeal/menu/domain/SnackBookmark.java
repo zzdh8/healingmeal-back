@@ -15,7 +15,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 public class SnackBookmark implements Serializable {
     @Serial
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

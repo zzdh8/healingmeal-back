@@ -19,7 +19,7 @@ import java.io.Serializable;
 @Builder
 public class SurveyResult implements Serializable {
     @Serial
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1;
     @Id
     @Column(name = "surveyResult_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
