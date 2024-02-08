@@ -1,18 +1,19 @@
 package com.example.thehealingmeal.member.domain;
 
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 
 @Getter
-public class PrincipalDetail implements UserDetails {
-    private User user;
-    public PrincipalDetail(User user) {
-        this.user = user;
-    }
+@RequiredArgsConstructor
+public class PrincipalDetail implements UserDetails, Serializable {
+    private final User user;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
 

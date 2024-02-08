@@ -1,6 +1,5 @@
 package com.example.thehealingmeal.member.controller;
 
-import com.example.thehealingmeal.member.dto.TotalDto;
 import com.example.thehealingmeal.member.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -9,7 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -23,21 +21,19 @@ public class  UserController {
      */
     //login authorization test
     @GetMapping("/success")
-    public ResponseEntity notSesstion() {
+    public ResponseEntity<String> notSesstion() {
         String message = "Login Or Authorization success";
-        return new ResponseEntity(message, HttpStatus.OK);
+        return new ResponseEntity<>(message, HttpStatus.OK);
     }
     //로그아웃 성공 시
     @GetMapping("/successlogout")
     public ResponseEntity<String> logoutSesstion(HttpSession session) {
         session.invalidate();
-        return new ResponseEntity("logout success", HttpStatus.OK);
+        return new ResponseEntity<>("logout success", HttpStatus.OK);
     }
 
     @GetMapping("/")
     public ResponseEntity<String> success (HttpServletRequest request, Authentication authentication){
-        HttpSession session = request.getSession(false);
-        session.setMaxInactiveInterval(1000);
         String user_id = userService.userID(authentication.getName()).toString();
         return new ResponseEntity<>(user_id, HttpStatus.OK);
     }
