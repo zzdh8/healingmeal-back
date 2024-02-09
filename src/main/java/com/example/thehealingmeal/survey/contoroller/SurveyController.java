@@ -50,14 +50,14 @@ public class SurveyController {
     }
 
     // 설문 조사 수정
-    @PatchMapping("/{userId}/change/survey")
+    @PutMapping("/{userId}/change/survey")
     public ResponseEntity<String> changeSurvey(@PathVariable Long userId,@RequestBody SurveyRequestDto surveyRequestDto) {
        surveyService.surveyUpdateByUserId(userId, surveyRequestDto);
         return new ResponseEntity<>("성공", HttpStatus.OK);
     }
 
     // 음식 필터 수정
-    @PatchMapping("/{surveyId}/change/filterFood")
+    @PutMapping("/{surveyId}/change/filterFood")
     public ResponseEntity<String> changeFillterFood(@PathVariable Long surveyId,@RequestBody FilterFoodRequestDto filterFoodRequestDto) {
         surveyService.filterFoodUpdateBySurveyId(surveyId,filterFoodRequestDto);
         return new ResponseEntity<>("성공", HttpStatus.OK);
