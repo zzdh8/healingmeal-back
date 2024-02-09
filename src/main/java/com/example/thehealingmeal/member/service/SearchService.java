@@ -49,19 +49,19 @@ public class SearchService {
     임시 비밀번호를 발급해준 뒤 user의 password를 임시비밀번호로 변경.
     향후 user가 자신의 password를 원하는대로 변경하도록 함.
      */
-    public String searchPassword(String name, String email, String loginId){
-        if (!userRepository.existsByEmail(email)) {
+    public String searchPassword(UserSearchDto userSearchDto){
+        if (!userRepository.existsByEmail(userSearchDto.getEmail())) {
             throw new InvalidEmailAddressException("User email not Found");
         }
-        if (!userRepository.existsByName(name)){
+        if (!userRepository.existsByName(userSearchDto.getName())){
             throw new InvalidUserNameException("User name not Found");
         }
-        if (!userRepository.existsByLoginId(loginId)){
+        if (!userRepository.existsByLoginId(userSearchDto.getLoginId())){
             throw new InvalidUserException("Not Found ID");
         }
         String temPwd = userInfoModify.generateTemPwd(8);
         String encoded = passwordEncoder.encode(temPwd);
-        User user = userRepository.findByEmail(email);
+        User user = userRepository.findByEmail(userSearchDto.getEmail());
         user.setPassword(encoded);
         userRepository.save(user);
         return temPwd;
