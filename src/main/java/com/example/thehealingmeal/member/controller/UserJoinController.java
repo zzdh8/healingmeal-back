@@ -34,7 +34,7 @@ public class UserJoinController {
     }
 
     // 회원 정보 수정 api
-    @PatchMapping("/{userId}/change/join")
+    @PutMapping("/{userId}/change/join")
     public ResponseEntity<String> changeJoin(@PathVariable Long userId, @RequestBody JoinChangeDto joinChangeDto) {
         userJoinService.updateByUserId(userId, joinChangeDto);
         return new ResponseEntity<>("성공", HttpStatus.OK);
