@@ -6,7 +6,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 
-//식품 테이블의 음식들을 조합 및 포함하여 DB에 저장할 domain
+//식품 테이블의 음식들을 조합 및 포함하여 DB에 저장할 responseRepository
 @Getter
 @Setter
 @Entity
@@ -40,9 +40,6 @@ public class MenuForUser {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
-    /*public static MenuForUser create(MenuForUser menuForUser){
-        return MenuForUser.builder()
-                .build();
-    }*/
+
 }
 
