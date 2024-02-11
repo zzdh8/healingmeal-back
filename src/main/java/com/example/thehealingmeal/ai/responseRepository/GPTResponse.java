@@ -25,13 +25,13 @@ public class GPTResponse {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @NotNull
-    @NotEmpty
+
     @Enumerated(EnumType.STRING)
     private Meals meals;
 
     @NotNull
     @NotEmpty
+    @Column(name = "gpt_answer", columnDefinition = "TEXT")
     private String gptAnswer;
 
 }

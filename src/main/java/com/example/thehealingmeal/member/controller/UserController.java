@@ -1,5 +1,7 @@
 package com.example.thehealingmeal.member.controller;
 
+import com.example.thehealingmeal.member.domain.User;
+import com.example.thehealingmeal.member.repository.UserRepository;
 import com.example.thehealingmeal.member.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
+    private final UserRepository userRepository;
 
     /*
     로그인 테스트
@@ -45,5 +48,11 @@ public class UserController {
                 String.valueOf(userService.loginConfirmUserID(request))
         };
         return new ResponseEntity<>(userInfo, HttpStatus.OK);
+    }
+
+    @GetMapping("/user/confirm/pwd")
+    public ResponseEntity<String> confirmPwd(HttpServletRequest request) {
+        User user = userRepository.findByLoginId(request.getUserPrincipal().getName()).orElseThrow(() -> new RuntimeException("Unbelieved error. principal is not found."));
+        return new ResponseEntity<>(user.getEmail(), HttpStatus.OK);
     }
 }
