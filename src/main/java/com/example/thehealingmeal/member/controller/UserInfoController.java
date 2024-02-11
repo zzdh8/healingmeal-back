@@ -37,7 +37,7 @@ public class UserInfoController {
 
     //비밀번호 변경
     //현재 비밀번호와 변경하고자 하는 비밀번호를 파라미터로 받음.
-    @PatchMapping("/change/pwd")
+    @PutMapping("/change/pwd")
     public ResponseEntity<String> changePwd(@RequestBody PwdChangeDto pwdChangeDto, HttpServletRequest request){
         userInfoModify.changePwd(pwdChangeDto, request.getUserPrincipal().getName());
         return new ResponseEntity<>("changing password is success.", HttpStatus.OK);
