@@ -56,11 +56,10 @@ public class CustomChatGPTService {
 
 
     public void saveResponse(String response, long user_id, Meals meals) {
-        Optional<User> id = userRepository.findById(user_id);
-        User user = id.get();
+        User id = userRepository.findById(user_id).orElseThrow(() -> new IllegalArgumentException("Not Found User Data In Database."));
         GPTResponse gptResponse = GPTResponse.builder()
                 .gptAnswer(response)
-                .user(user)
+                .user(id)
                 .meals(meals)
                 .build();
         responseRepository.save(gptResponse);
