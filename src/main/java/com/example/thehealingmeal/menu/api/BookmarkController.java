@@ -1,5 +1,6 @@
 package com.example.thehealingmeal.menu.api;
 
+import com.example.thehealingmeal.menu.api.dto.BookmarkRequestDto;
 import com.example.thehealingmeal.menu.api.dto.MenuResponseDto;
 import com.example.thehealingmeal.menu.api.dto.SnackOrTeaResponseDto;
 import com.example.thehealingmeal.menu.domain.Meals;
@@ -16,8 +17,8 @@ public class BookmarkController {
 
     // 아점저 즐겨찾기 추가
     @PostMapping("/{userId}/bookmark")
-    public ResponseEntity<String> bookmark(@PathVariable Long userId, @RequestBody Meals meals) {
-        bookmarkService.createMenuBookmark(userId, meals);
+    public ResponseEntity<String> bookmark(@PathVariable Long userId, @RequestBody BookmarkRequestDto request) {
+        bookmarkService.createMenuBookmark(userId, request);
         return new ResponseEntity<>("성공", HttpStatus.OK);
     }
 
@@ -36,8 +37,8 @@ public class BookmarkController {
 
     //간식 즐겨찾기 추가
     @PostMapping("/{userId}/snack/bookmark")
-    public ResponseEntity<String> snackBookmark(@PathVariable Long userId, @RequestBody Meals meals) {
-        bookmarkService.createSnackBookmark(userId, meals);
+    public ResponseEntity<String> snackBookmark(@PathVariable Long userId, @RequestBody BookmarkRequestDto request) {
+        bookmarkService.createSnackBookmark(userId, request);
         return new ResponseEntity<>("성공", HttpStatus.OK);
     }
 
