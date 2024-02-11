@@ -2,6 +2,7 @@ package com.example.thehealingmeal.menu.service;
 
 import com.example.thehealingmeal.member.domain.User;
 import com.example.thehealingmeal.member.repository.UserRepository;
+import com.example.thehealingmeal.menu.api.dto.BookmarkRequestDto;
 import com.example.thehealingmeal.menu.api.dto.MenuResponseDto;
 import com.example.thehealingmeal.menu.api.dto.SnackOrTeaResponseDto;
 import com.example.thehealingmeal.menu.domain.*;
@@ -29,9 +30,12 @@ public class BookmarkService {
 
     // 아점저 메뉴 즐겨찾기 저장
     @Transactional
-    public void createMenuBookmark(Long userId, Meals meals) {
+    public void createMenuBookmark(Long userId, BookmarkRequestDto bookmarkRequestDto) {
         User user = userRepository.findById(userId).orElseThrow();
-        MenuForUser menuForUser = menuRepository.findByUserAndMeals(user, meals);
+        MenuForUser menuForUser = menuRepository.findByUserAndMeals(user, bookmarkRequestDto.getMeals());
+        if (menuForUser == null) {
+            throw new IllegalArgumentException("MenuForUser not found for the given user and meals");
+        }
         Bookmark bookmark = Bookmark.builder()
                 .user(user)
                 .menuForUser(menuForUser)
@@ -77,9 +81,12 @@ public class BookmarkService {
 
      //간식 메뉴 즐겨찾기 저장.
     @Transactional
-    public void createSnackBookmark(Long userId, Meals meals) {
+    public void createSnackBookmark(Long userId, BookmarkRequestDto requestDto) {
         User user = userRepository.findById(userId).orElseThrow();
-        SnackOrTea snackOrTea = snackOrTeaMenuRepository.findByUserAndMeals(user, meals);
+        SnackOrTea snackOrTea = snackOrTeaMenuRepository.findByUserAndMeals(user, requestDto.getMeals());
+        if (snackOrTea == null) {
+            throw new IllegalArgumentException("SnackOrTea not found for the given user and meals");
+        }
         SnackBookmark snackBookmark = SnackBookmark.builder()
                 .user(user)
                 .snackOrTea(snackOrTea)
