@@ -13,6 +13,7 @@ import io.github.flashvayne.chatgpt.dto.chat.MultiChatMessage;
 import io.github.flashvayne.chatgpt.service.ChatgptService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -55,6 +56,7 @@ public class CustomChatGPTService {
     }
 
 
+    @Transactional
     public void saveResponse(String response, long user_id, Meals meals) {
         User id = userRepository.findById(user_id).orElseThrow(() -> new IllegalArgumentException("Not Found User Data In Database."));
         GPTResponse gptResponse = GPTResponse.builder()
