@@ -7,4 +7,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ResponseRepository extends JpaRepository<GPTResponse, Long> {
     GPTResponse findByMealsAndUserId(Meals meals, long userId);
+
+    void deleteAllByUserId(long userId);
 }

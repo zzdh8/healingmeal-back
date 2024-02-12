@@ -1,5 +1,6 @@
 package com.example.thehealingmeal.menu.service;
 
+import com.example.thehealingmeal.ai.responseRepository.ResponseRepository;
 import com.example.thehealingmeal.menu.api.dto.MenuResponseDto;
 import com.example.thehealingmeal.menu.api.dto.SnackOrTeaResponseDto;
 import com.example.thehealingmeal.menu.domain.MenuForUser;
@@ -23,6 +24,7 @@ public class MenuManager {
     private final MenuRepository menuRepository;
     private final SideDishForUserMenuRepository sideDishForUserMenuRepository;
     private final SnackOrTeaMenuRepository snackOrTeaMenuRepository;
+    private final ResponseRepository responseRepository;
 
     //생성된 식단의 유효성을 검사하는 메소드
     public boolean isExceed(Long user_id, MenuResponseDto morning,
@@ -52,7 +54,7 @@ public class MenuManager {
         }
         snackOrTeaMenuRepository.deleteAllByUserId(user_id);
         menuRepository.deleteAllByUserId(user_id);
-
+        responseRepository.deleteAllByUserId(user_id);
     }
 
     //식단 확인
