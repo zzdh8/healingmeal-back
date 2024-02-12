@@ -24,11 +24,14 @@ import com.example.thehealingmeal.survey.repository.FilterFoodRepository;
 import com.example.thehealingmeal.survey.repository.SurveyRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
 import java.security.SecureRandom;
 import java.util.*;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import java.util.stream.LongStream;
 
 @Service
 @RequiredArgsConstructor
@@ -68,73 +71,57 @@ public class MenuGenerater {
     private String bucket_name;
 
     //랜덤값 생성을 위한 객체
-    SecureRandom secureRandom = new SecureRandom();
+    private final SecureRandom secureRandom = new SecureRandom();
 
-
-    //설문조사 결과(칼탄단지, 필터링 키워드)를 가지고 아침 간식 점심 간식 저녁
-    //식단 생성(아침, 점심, 저녁만)
-    public MenuResponseDto generateMenu(Meals meals, Long user_id) throws NoSuchElementException, IllegalArgumentException, NullPointerException{
-        //식품 테이블에서 대표메뉴, 반찬, 밥을 랜덤하게 각각 가져옴. 단, 필터링을 적용함.
-        //아래 코드는 난수를 생성하여 랜덤하게 식단을 가져오게 할 class
+    //랜덤값 생성 메소드
+    private List<Long> generateRandomNumbers(long max, int num) {
+        List<Long> numbers = LongStream.rangeClosed(1, max).boxed().collect(Collectors.toList());
+        Collections.shuffle(numbers);
+        return numbers.subList(0, num);
+    }
+    //랜덤값을 활용한 메뉴 추출 메소드
+    private <T> T getRandomMenu(JpaRepository<T, Long> repository, List<Long> randomIds, Predicate<T> filter) {
+        Optional<T> optionalItem;
+        int count = 0;
+        do {
+            optionalItem = repository.findById(randomIds.get(count++));
+        } while (optionalItem.isEmpty() || filter.test(optionalItem.get()));
+        return optionalItem.get();
+    }
+    //식단 생성 메소드
+    public MenuResponseDto generateMenu(Meals meals, Long user_id) throws NoSuchElementException, IllegalArgumentException, NullPointerException {
 
         /*
             대표메뉴 Main Dish
         */
-        long recordCountForMain = mainDishCategoryRepository.count(); //row 수만큼의 랜덤값을 위한 long 변수.
-
         Survey survey = surveyRepository.findByUserId(user_id); //유저의 설문조사 번호를 찾기 위한 변수
         FilterFood userFilter = filterFoodRepository.findFilterFoodBySurveyId(survey.getId()); //유저의 필터링 내용 가져오기
 
         //유저필터링 키워드를 콤마를 기준으로 리스트로 만들어줌.
         List<String> filterList = Arrays.asList((userFilter.getStewsAndHotpots() + "," + userFilter.getGrilledFood() + "," + userFilter.getPancakeFood()).split(","));
-
-        //랜덤하게 대표메뉴 가져오고, null인지 필터링 키워드에 포함되는지 재차 확인함.
-        Optional<MainDishCategory> optionalMainDish;
-        do {
-            optionalMainDish = mainDishCategoryRepository.findById(secureRandom.nextLong(recordCountForMain+1));
-        } while (optionalMainDish.isEmpty() || filterList.contains(optionalMainDish.get().getRepresentativeFoodName()));
-        MainDishCategory mainDishCategory = optionalMainDish.get();
+        MainDishCategory mainDishCategory = getRandomMenu(mainDishCategoryRepository,
+                generateRandomNumbers(mainDishCategoryRepository.count(), 20),
+                item -> filterList.contains(item.getRepresentativeFoodName()));
 
 
         /*
             밥 Rice
          */
-        long recordCountForRice = riceCategoryRepository.count(); //row 수만큼의 랜덤값을 위한 long 변수
+        RiceCategory riceCategory = getRandomMenu(riceCategoryRepository, generateRandomNumbers(riceCategoryRepository.count(),5), item -> false);
 
-
-        Optional<RiceCategory> riceCategoryOptional = riceCategoryRepository.findById(secureRandom.nextLong(recordCountForRice + 1));
-        while(riceCategoryOptional.isEmpty()) {
-            riceCategoryOptional = riceCategoryRepository.findById(secureRandom.nextLong(recordCountForRice + 1));
-        }
-        RiceCategory riceCategory = riceCategoryOptional.get();
         /*
             반찬 2~3개 SideDishes random 2~3
          */
-        long recordCountForSide = sideDishCategoryRepository.count(); //row 수만큼의 랜덤값을 위한 long 변수
-        int randomSideNumber = secureRandom.nextInt(2,4); //2~3개 중 몇 개의 반찬을 뽑을 것인지 정하는 변수
-        //
-        List<String> sideDishFilterList = Arrays.asList((userFilter.getVegetableFood() + "," + userFilter.getStirFriedFood() + "," + userFilter.getStewedFood()).split(","));
-
-        //향후 결과값으로 반환할 땐 SideDishesDto 클래스로 할 것.
-        //랜덤으로 정해진 반찬의 갯수만큼 반복
-        List<SideDishCategory> sideDishCategories = new ArrayList<>();
-        for (int start = 0; start < randomSideNumber; start++){
-            Optional<SideDishCategory> optionalSideDish;
-            SideDishCategory sideDishCategory;
-
-            do {
-                Long randomId = secureRandom.nextLong(recordCountForSide + 1);
-                optionalSideDish = sideDishCategoryRepository.findById(randomId);
-            } while (optionalSideDish.isEmpty() || sideDishFilterList.contains(optionalSideDish.get().getRepresentativeFoodName()) || sideDishCategories.contains(optionalSideDish.get()));
-
-            sideDishCategory = optionalSideDish.get();
-            sideDishCategories.add(sideDishCategory);
+        List<String> sideDishFilterList = Arrays.asList((userFilter.getVegetableFood() + "," + userFilter.getStirFriedFood() + "," + userFilter.getStewedFood()).split(",")); //필터링 키워드
+        List<SideDishCategory> sideDishCategories = new ArrayList<>(); //반찬 리스트
+        List<Long> randomSideDishIds = generateRandomNumbers(sideDishCategoryRepository.count(), 20); //랜덤값 생성
+        for (int start = 0; start < secureRandom.nextInt(2,4); start++) {
+            sideDishCategories.add(getRandomMenu(sideDishCategoryRepository, randomSideDishIds, item -> sideDishFilterList.contains(item.getRepresentativeFoodName())));
         }
 
         /*
-            열탄단지 합산 Kcal, Protein, Carbohydrate, Fat Sum and User Info import
+            열탄단지 합산 Kcal, Protein, Carbohydrate, Fat adding
          */
-
         int kcal = mainDishCategory.getKcal() + riceCategory.getKcal() + sideDishCategories.stream().mapToInt(SideDishCategory::getKcal).sum();
         float protein = (float) (mainDishCategory.getProtein() + riceCategory.getProtein() + sideDishCategories.stream().mapToDouble(SideDishCategory::getProtein).sum());
         float carbohydrate = (float) (mainDishCategory.getCarbohydrate() + riceCategory.getCarbohydrate() + sideDishCategories.stream().mapToDouble(SideDishCategory::getCarbohydrate).sum());
@@ -145,7 +132,7 @@ public class MenuGenerater {
         //식단 반환 menu return
         return MenuResponseDto.builder()
                 .main_dish(mainDishCategory.getRepresentativeFoodName())
-                .imageURL("https://storage.googleapis.com/"+bucket_name+"/"+mainDishCategory.getRepresentativeFoodName()+".jpg")
+                .imageURL("https://storage.googleapis.com/" + bucket_name + "/" + mainDishCategory.getRepresentativeFoodName() + ".jpg")
                 .sideDishForUserMenu(sideDishCategories.stream().map(SideDishCategory::getRepresentativeFoodName).collect(Collectors.toList()))
                 .rice(riceCategory.getRepresentativeFoodName())
                 .kcal(kcal)
@@ -159,7 +146,7 @@ public class MenuGenerater {
     }
 
     //아점저 식단 저장
-    public void saveMenu(MenuResponseDto menu){
+    public void saveMenu(MenuResponseDto menu) {
         MenuForUser menuForUser = MenuForUser.builder()
                 .main_dish(menu.getMain_dish())
                 .rice(menu.getRice())
@@ -171,7 +158,7 @@ public class MenuGenerater {
                 .user(menu.getUser())
                 .build();
         menuRepository.save(menuForUser);
-        for (int i = 0; i<menu.getSideDishForUserMenu().size(); i++) {
+        for (int i = 0; i < menu.getSideDishForUserMenu().size(); i++) {
             SideDishForUserMenu sideDishForUserMenu = SideDishForUserMenu.builder()
                     .side_dish(menu.getSideDishForUserMenu().get(i))
                     .menuForUser(menuForUser).build();
@@ -179,30 +166,15 @@ public class MenuGenerater {
         }
     }
 
-    //간식 저장
-    public void saveSnackOrTea(SnackOrTeaResponseDto snackOrTeaResponseDto){
-        SnackOrTea snackOrTea = SnackOrTea.builder()
-                .snack_or_tea(snackOrTeaResponseDto.getSnack_or_tea())
-                .user(snackOrTeaResponseDto.getUser())
-                .carbohydrate(snackOrTeaResponseDto.getCarbohydrate())
-                .fat(snackOrTeaResponseDto.getFat())
-                .protein(snackOrTeaResponseDto.getProtein())
-                .kcal(snackOrTeaResponseDto.getKcal())
-                .meals(snackOrTeaResponseDto.getMeals())
-                .imageUrl(snackOrTeaResponseDto.getImageURL())
-                .build();
-        snackOrTeaMenuRepository.save(snackOrTea);
-    }
-
     //간식 생성 아점-점저 사이만 허용 가능
-    public SnackOrTeaResponseDto generateSnackOrTea(Meals meals,long user_id){
+    public SnackOrTeaResponseDto generateSnackOrTea(Meals meals, long user_id) {
         long recordCountForSnackOrTea = snackOrTeaCategoryRepository.count(); //row 수만큼의 랜덤값을 위한 long 변수.
 
         Survey survey = surveyRepository.findByUserId(user_id); //유저의 설문조사 번호를 찾기 위한 변수
         FilterFood userFilter = filterFoodRepository.findFilterFoodBySurveyId(survey.getId()); //유저의 필터링 내용 가져오기
 
         //콤마를 기준으로 필터링 키워드 리스트 작성
-        List<String> filterList = Arrays.asList((userFilter.getBreadAndConfectionery()+","+userFilter.getDairyProducts()+","+userFilter.getBeveragesAndTeas()).split(","));
+        List<String> filterList = Arrays.asList((userFilter.getBreadAndConfectionery() + "," + userFilter.getDairyProducts() + "," + userFilter.getBeveragesAndTeas()).split(","));
 
         Optional<SnackOrTeaCategory> optional;
         do {
@@ -229,4 +201,18 @@ public class MenuGenerater {
                 .build();
     }
 
+    //간식 저장
+    public void saveSnackOrTea(SnackOrTeaResponseDto snackOrTeaResponseDto) {
+        SnackOrTea snackOrTea = SnackOrTea.builder()
+                .snack_or_tea(snackOrTeaResponseDto.getSnack_or_tea())
+                .user(snackOrTeaResponseDto.getUser())
+                .carbohydrate(snackOrTeaResponseDto.getCarbohydrate())
+                .fat(snackOrTeaResponseDto.getFat())
+                .protein(snackOrTeaResponseDto.getProtein())
+                .kcal(snackOrTeaResponseDto.getKcal())
+                .meals(snackOrTeaResponseDto.getMeals())
+                .imageUrl(snackOrTeaResponseDto.getImageURL())
+                .build();
+        snackOrTeaMenuRepository.save(snackOrTea);
+    }
 }
