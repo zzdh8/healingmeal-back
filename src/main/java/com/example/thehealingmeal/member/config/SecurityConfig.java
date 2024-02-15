@@ -36,7 +36,7 @@ public class SecurityConfig extends Exception {
                                 var cors = new CorsConfiguration();
                                 //배포 시 손봐야 함.
                                 //허용할 origin
-                                cors.setAllowedOrigins(List.of("https://healing-meal-front-end.vercel.app/"));
+                                cors.setAllowedOrigins(List.of("https://healingmeal.vercel.app/"));
                                 //허용할 method(CRUD)
                                 cors.setAllowedMethods(List.of("*"));
                                 //허용할 헤더
