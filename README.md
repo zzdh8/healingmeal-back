@@ -43,6 +43,10 @@ healing Meal은 단순히 식단 추천을 할 뿐만 아니라, 설문조사를
 ## ERD
 <img width="729" alt="스크린샷 2024-02-15 오후 5 50 39" src="https://github.com/inhooo00/healingmeal-back/assets/129029251/8ab7a46e-dfdb-4af4-ba57-5943a2821f71">
 
-# YOUTUBE LINK (영상 링크 넣기)
+# Youtube Link (영상 링크 넣기)
 
-
+# AI Guideline
+- 식단을 생성하면 사용자 맞춤형으로 아침, 점심, 저녁, 간식 2개가 생성됩니다.
+- 사용자가 효능을 알고 싶어서 효능 보기를 실행하면 AI가 해당 음식의 효능을 보여줍니다.
+- Chatgpt Spring Boot Starter를 사용하여 구현했습니다.
+- 사용자들은 식단의 효능을 따로 검색할 필요 없으므로, 더욱 만족할 것입니다.
