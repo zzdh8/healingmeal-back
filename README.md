@@ -1,5 +1,6 @@
 
 # Healing Meal 프로젝트
+GDSC Solution Challenge 2024
 
 ## 프로젝트 개요
 - Healing Meal은 제2 당뇨병 환자에게 맞춤식단 제공 및 개인 식단 관리를 제공하는 서비스입니다.
