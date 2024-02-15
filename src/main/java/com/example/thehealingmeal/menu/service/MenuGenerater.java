@@ -88,6 +88,15 @@ public class MenuGenerater {
         } while (optionalItem.isEmpty() || filter.test(optionalItem.get()));
         return optionalItem.get();
     }
+
+    private <T> T getRandomSide(JpaRepository<T, Long> repository, List<Long> randomIds, Predicate<T> filter, List<T> sideDishCategories) {
+        Optional<T> optionalItem;
+        int count = 0;
+        do {
+            optionalItem = repository.findById(randomIds.get(count++));
+        } while (optionalItem.isEmpty() || filter.test(optionalItem.get()) || sideDishCategories.contains(optionalItem.get()));
+        return optionalItem.get();
+    }
     //식단 생성 메소드
     public MenuResponseDto generateMenu(Meals meals, Long user_id) throws NoSuchElementException, IllegalArgumentException, NullPointerException {
 
@@ -116,7 +125,7 @@ public class MenuGenerater {
         List<SideDishCategory> sideDishCategories = new ArrayList<>(); //반찬 리스트
         List<Long> randomSideDishIds = generateRandomNumbers(sideDishCategoryRepository.count(), 20); //랜덤값 생성
         for (int start = 0; start < secureRandom.nextInt(2,4); start++) {
-            sideDishCategories.add(getRandomMenu(sideDishCategoryRepository, randomSideDishIds, item -> sideDishFilterList.contains(item.getRepresentativeFoodName())));
+            sideDishCategories.add(getRandomSide(sideDishCategoryRepository, randomSideDishIds, item -> sideDishFilterList.contains(item.getRepresentativeFoodName()), sideDishCategories));
         }
 
         /*
