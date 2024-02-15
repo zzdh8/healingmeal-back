@@ -15,4 +15,5 @@ GDSC Solution Challenge 2024
 
 # Target UN-SDGs
 ## Goal 3. Good Health and Well-Being
-<img width="121" alt="스크린샷 2024-02-15 오후 5 16 46" src="https://github.com/inhooo00/healingmeal-back/assets/129029251/314ebf58-6fbf-483d-9bc0-b8cd180589e1">
+<img width="351" alt="스크린샷 2024-02-15 오후 5 17 47" src="https://github.com/inhooo00/healingmeal-back/assets/129029251/c7af8650-49f7-4219-a119-04e8fd5355c0">
+
