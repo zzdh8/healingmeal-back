@@ -46,3 +46,7 @@ healingmeal은 단순히 식단 추천을 할 뿐만 아니라, 설문조사를 
 
 ## ERD
 <img width="729" alt="스크린샷 2024-02-15 오후 5 50 39" src="https://github.com/inhooo00/healingmeal-back/assets/129029251/8ab7a46e-dfdb-4af4-ba57-5943a2821f71">
+
+# YOUTUBE LINK (영상 링크 넣기)
+
+
