@@ -10,5 +10,5 @@ GDSC Solution Challenge 2024
 # Member
 | Backend | Frontend | PM |
 | --------------- | --------------- | --------------- |
-| Jinyong Hyun 
-Inho Choi | Manjae Lee  | bojung Kim  |
+| Jinyong Hyun | Manjae Lee  | bojung Kim  |
+| Inho Choi |
