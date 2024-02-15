@@ -26,6 +26,23 @@ healingmeal은 단순히 식단 추천을 할 뿐만 아니라, 설문조사를 
 
 # About Implementation
 ## Backend
-### 1. Tech Stack
-- JDK - 17
-- 
+### Tech Stack
+- JDK-17
+- Spring, Spring Boot
+- Spring Data JDBC & JPA
+- Spring Security, Spring Session JDBC
+- MySQL Connector/J
+- Spring Boot Starter Mail
+- JSON Simple, JSON DATA PARSING
+- Google Cloud Platform
+- Chatgpt Spring Boot Starter
+
+## Frontend
+### Tech Stack
+-
+-
+
+## Architecture (전체적인 아키텍쳐 그림 넣기)
+
+## ERD
+<img width="729" alt="스크린샷 2024-02-15 오후 5 50 39" src="https://github.com/inhooo00/healingmeal-back/assets/129029251/8ab7a46e-dfdb-4af4-ba57-5943a2821f71">
