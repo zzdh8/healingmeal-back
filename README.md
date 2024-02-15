@@ -12,3 +12,7 @@ GDSC Solution Challenge 2024
 | --------------- | --------------- | --------------- |
 | Jinyong Hyun | Manjae Lee  | bojung Kim  |
 | Inho Choi |
+
+# Target UN-SDGs
+## Goal 3. Good Health and Well-Being
+<img width="121" alt="스크린샷 2024-02-15 오후 5 16 46" src="https://github.com/inhooo00/healingmeal-back/assets/129029251/314ebf58-6fbf-483d-9bc0-b8cd180589e1">
