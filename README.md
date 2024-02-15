@@ -1,5 +1,5 @@
 
-# Healing Meal 프로젝트
+# Healing Meal Project
 GDSC Solution Challenge 2024
 
 # Member
