@@ -17,3 +17,7 @@ GDSC Solution Challenge 2024
 ## Goal 3. Good Health and Well-Being
 <img width="351" alt="스크린샷 2024-02-15 오후 5 17 47" src="https://github.com/inhooo00/healingmeal-back/assets/129029251/c7af8650-49f7-4219-a119-04e8fd5355c0">
 
+# About our solution
+현대인들의 당뇨는 새계적으로 가장 큰 질병 중 하나로 자리잡고 있습니다. healignmeal은 이러한 당뇨 환자들을 위해서 식단을 제공하고 있습니다.
+healingmeal은 단순히 식단 추천을 할 뿐만 아니라, 설문조사를 통해 환자의 선호에 따라 식단을 생성할 수 있습니다.
+환자의 다양한 취향과 현재 신체정보를 바탕으로 합리적인 식단을 생성합니다. 나아가 식단의 효능 또한 제공합니다.
