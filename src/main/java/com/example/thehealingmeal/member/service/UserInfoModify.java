@@ -24,9 +24,9 @@ public class UserInfoModify {
     private final PasswordEncoder passwordEncoder;
 
     //비밀번호 변경
-    public void changePwd(PwdChangeDto pwdChangeDto, String loginId){
+    public void changePwd(PwdChangeDto pwdChangeDto, String user_id){
         if (validatePwd(pwdChangeDto.getChangePwd())){
-            User user = userRepository.findByLoginId(loginId).orElseThrow(()-> new InvalidUserException("user not found in the user list table."));
+            User user = userRepository.findById(Long.valueOf(user_id)).orElseThrow(()-> new InvalidUserException("user not found in the user list table."));
             if(passwordEncoder.matches(pwdChangeDto.getNowPwd(),user.getPassword())){
                 user.setPassword(passwordEncoder.encode(pwdChangeDto.getChangePwd()));
                 userRepository.save(user);

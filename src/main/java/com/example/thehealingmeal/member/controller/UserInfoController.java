@@ -4,14 +4,10 @@ import com.example.thehealingmeal.member.dto.PwdChangeDto;
 import com.example.thehealingmeal.member.dto.UserSearchDto;
 import com.example.thehealingmeal.member.service.SearchService;
 import com.example.thehealingmeal.member.service.UserInfoModify;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -36,10 +32,16 @@ public class UserInfoController {
 
     //비밀번호 변경
     //현재 비밀번호와 변경하고자 하는 비밀번호를 파라미터로 받음.
-    @PutMapping("/change/pwd")
-    public ResponseEntity<String> changePwd(@RequestBody PwdChangeDto pwdChangeDto, HttpServletRequest request){
-        userInfoModify.changePwd(pwdChangeDto, request.getUserPrincipal().getName());
+//    @PutMapping("/change/pwd")
+//    public ResponseEntity<String> changePwd(@RequestBody PwdChangeDto pwdChangeDto, HttpServletRequest request){
+//        userInfoModify.changePwd(pwdChangeDto, request.getUserPrincipal().getName());
+//        request.authenticate(response -> {})
+//        return new ResponseEntity<>("changing password is success.", HttpStatus.OK);
+//    }
+
+    @PutMapping("/{user_id}/change/pwd")
+    public ResponseEntity<String> changePwd(@RequestBody PwdChangeDto pwdChangeDto, @PathVariable String user_id){
+        userInfoModify.changePwd(pwdChangeDto, user_id);
         return new ResponseEntity<>("changing password is success.", HttpStatus.OK);
     }
-
 }

@@ -42,6 +42,7 @@ public class UserController {
             return new ResponseEntity<>(user_id, HttpStatus.OK);
     }
 
+    //login confirm
     @GetMapping("/{user_id}/user/confirm")
     public ResponseEntity<String[]> confirm(@PathVariable String user_id) {
         String[] userInfo = { userService.loginConfirmUserName(user_id),
@@ -50,6 +51,7 @@ public class UserController {
         return new ResponseEntity<>(userInfo, HttpStatus.OK);
     }
 
+    //pwd confirm
     @GetMapping("/user/confirm/pwd")
     public ResponseEntity<String> confirmPwd(HttpServletRequest request) {
         User user = userRepository.findByLoginId(request.getUserPrincipal().getName()).orElseThrow(() -> new RuntimeException("Unbelieved error. principal is not found."));
