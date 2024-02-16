@@ -9,6 +9,7 @@ import com.example.thehealingmeal.member.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -29,11 +30,7 @@ public class SearchService {
                 String temId = userSearchDto.getLoginId();
                 int length = temId.length();
                 int middle = length / 2;
-                StringBuilder maskedStr = new StringBuilder(temId.substring(0, middle));
-                for (int i = middle; i < length; i++) {
-                    maskedStr.append('*');
-                }
-                userSearchDto.setLoginId(maskedStr.toString());
+                userSearchDto.setLoginId(temId.substring(0, middle) + "*".repeat(Math.max(0, length - middle)));
                 return userSearchDto;
             } else{
                 throw new InvalidEmailAddressException("email not found");
@@ -49,6 +46,7 @@ public class SearchService {
     임시 비밀번호를 발급해준 뒤 user의 password를 임시비밀번호로 변경.
     향후 user가 자신의 password를 원하는대로 변경하도록 함.
      */
+    @Transactional
     public String searchPassword(UserSearchDto userSearchDto){
         if (!userRepository.existsByEmail(userSearchDto.getEmail())) {
             throw new InvalidEmailAddressException("User email not Found");
