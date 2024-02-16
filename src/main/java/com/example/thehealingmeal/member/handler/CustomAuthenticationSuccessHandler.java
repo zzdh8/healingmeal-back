@@ -3,7 +3,6 @@ package com.example.thehealingmeal.member.handler;
 import com.example.thehealingmeal.member.domain.PrincipalDetail;
 import com.example.thehealingmeal.member.service.UserService;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -31,10 +30,11 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
         // set our response to OK status
         response.setStatus(HttpServletResponse.SC_OK);
         String user_id = userService.userID(authentication.getName()).toString();
-        Cookie cookie = new Cookie("user_id", user_id);
-        response.addCookie(cookie);
+//        Cookie cookie = new Cookie("user_id", user_id);
+//        response.addCookie(cookie);
+
 
         // we will redirect the user after successfully login
-//        response.sendRedirect("/");
+        response.sendRedirect("/success?user_id=" + user_id);
     }
 }

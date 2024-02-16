@@ -3,14 +3,13 @@ package com.example.thehealingmeal.member.controller;
 import com.example.thehealingmeal.member.domain.User;
 import com.example.thehealingmeal.member.repository.UserRepository;
 import com.example.thehealingmeal.member.service.UserService;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -24,7 +23,7 @@ public class UserController {
     Postman으로 테스트 시 raw가 아닌 form-data로 해야 한다.
      */
     //login authorization test
-    @GetMapping("/success")
+    @GetMapping("/successtest")
     public ResponseEntity<String> notSesstion() {
         String message = "Login Or Authorization success";
         return new ResponseEntity<>(message, HttpStatus.OK);
@@ -37,12 +36,11 @@ public class UserController {
         return new ResponseEntity<>("logout success", HttpStatus.OK);
     }
 
-//    @GetMapping("/")
-//    public ResponseEntity<String> success (Cookie cookie) {
-//           // String user_id = userService.userID(authentication.getName()).toString();
-//        String s = cookie.getAttribute("user_id");
-//            return new ResponseEntity<>(s, HttpStatus.OK);
-//    }
+    @GetMapping("/success")
+    public ResponseEntity<String> success (@RequestParam String user_id) {
+
+            return new ResponseEntity<>(user_id, HttpStatus.OK);
+    }
 
     @GetMapping("/user/confirm")
     public ResponseEntity<String[]> confirm(HttpServletRequest request) {
