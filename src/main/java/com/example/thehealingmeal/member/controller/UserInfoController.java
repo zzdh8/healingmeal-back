@@ -1,24 +1,23 @@
 package com.example.thehealingmeal.member.controller;
 
-import com.example.thehealingmeal.member.domain.User;
 import com.example.thehealingmeal.member.dto.PwdChangeDto;
 import com.example.thehealingmeal.member.dto.UserSearchDto;
-import com.example.thehealingmeal.member.repository.UserRepository;
 import com.example.thehealingmeal.member.service.SearchService;
 import com.example.thehealingmeal.member.service.UserInfoModify;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
 public class UserInfoController {
     private final SearchService searchService;
     private final UserInfoModify userInfoModify;
-
-    private final UserRepository userRepository;
 
     //아이디 찾기
     //이름과 이메일을 파라미터로 받음.
@@ -30,7 +29,7 @@ public class UserInfoController {
 
     //비밀번호 찾기
     //이름과 이메일, 아이디를 파라미터로 받음.
-    @PostMapping("/user/search/pwd")
+    @GetMapping("/user/search/pwd")
     public ResponseEntity<String> searchPwd(@RequestBody UserSearchDto userSearchDto){
         return new ResponseEntity<>(searchService.searchPassword(userSearchDto),HttpStatus.OK);
     }

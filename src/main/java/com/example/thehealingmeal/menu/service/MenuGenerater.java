@@ -105,6 +105,19 @@ public class MenuGenerater {
         */
         Survey survey = surveyRepository.findByUserId(user_id); //유저의 설문조사 번호를 찾기 위한 변수
         FilterFood userFilter = filterFoodRepository.findFilterFoodBySurveyId(survey.getId()); //유저의 필터링 내용 가져오기
+        if (userFilter == null){
+            userFilter = FilterFood.builder()
+                    .stewsAndHotpots("")
+                    .grilledFood("")
+                    .pancakeFood("")
+                    .vegetableFood("")
+                    .stirFriedFood("")
+                    .stewedFood("")
+                    .beveragesAndTeas("")
+                    .breadAndConfectionery("")
+                    .dairyProducts("")
+                    .build();
+        }
 
         //유저필터링 키워드를 콤마를 기준으로 리스트로 만들어줌.
         List<String> filterList = Arrays.asList((userFilter.getStewsAndHotpots() + "," + userFilter.getGrilledFood() + "," + userFilter.getPancakeFood()).split(","));
