@@ -35,20 +35,18 @@ public class UserService implements UserDetailsService {
 
     //로그인 상태 확인 메서드
     //로그인 상태면 로그인한 유저의 이름을 반환하고, 로그인 상태 확인 결과을 반환.
-    public String loginConfirmUserName(HttpServletRequest request) throws InvalidUserException {
-        Principal user = request.getUserPrincipal();
+    public String loginConfirmUserName(String id) throws InvalidUserException {
+        User user = userRepository.findById(Long.valueOf(id)).orElseThrow(() -> new InvalidUserException("로그인 상태가 아닙니다."));
         if (user != null) {
-            User loginUser = userRepository.findByLoginId(user.getName()).orElseThrow(() -> new InvalidUserException("로그인 상태가 아닙니다."));
-            return loginUser.getName();
+            return user.getName();
         }
         throw new InvalidUserException("not login");
     }
 
-    public long loginConfirmUserID(HttpServletRequest request) throws InvalidUserException {
-        Principal user = request.getUserPrincipal();
+    public long loginConfirmUserID(String id) throws InvalidUserException {
+        User user = userRepository.findById(Long.valueOf(id)).orElseThrow(() -> new InvalidUserException("로그인 상태가 아닙니다."));
         if (user != null) {
-            User loginUser = userRepository.findByLoginId(user.getName()).orElseThrow(() -> new InvalidUserException("로그인 상태가 아닙니다."));
-            return loginUser.getId();
+            return user.getId();
         }
         throw new InvalidUserException("not login");
     }
