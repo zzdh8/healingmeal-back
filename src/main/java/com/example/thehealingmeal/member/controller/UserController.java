@@ -3,6 +3,7 @@ package com.example.thehealingmeal.member.controller;
 import com.example.thehealingmeal.member.domain.User;
 import com.example.thehealingmeal.member.repository.UserRepository;
 import com.example.thehealingmeal.member.service.UserService;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -36,11 +37,12 @@ public class UserController {
         return new ResponseEntity<>("logout success", HttpStatus.OK);
     }
 
-    @GetMapping("/")
-    public ResponseEntity<String> success (HttpServletRequest request, Authentication authentication){
-        String user_id = userService.userID(authentication.getName()).toString();
-        return new ResponseEntity<>(user_id, HttpStatus.OK);
-    }
+//    @GetMapping("/")
+//    public ResponseEntity<String> success (Cookie cookie) {
+//           // String user_id = userService.userID(authentication.getName()).toString();
+//        String s = cookie.getAttribute("user_id");
+//            return new ResponseEntity<>(s, HttpStatus.OK);
+//    }
 
     @GetMapping("/user/confirm")
     public ResponseEntity<String[]> confirm(HttpServletRequest request) {
