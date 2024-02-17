@@ -31,6 +31,6 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 
 
         // we will redirect the user after successfully login
-        response.sendRedirect("/success?user_id=" + user_id);
+
     }
 }

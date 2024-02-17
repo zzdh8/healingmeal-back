@@ -43,10 +43,10 @@ public class UserController {
         return new ResponseEntity<>("logout success", HttpStatus.OK);
     }
 
-    @GetMapping("/success")
-    public ResponseEntity<String> success (@RequestParam String user_id) {
-            return new ResponseEntity<>(user_id, HttpStatus.OK);
-    }
+//    @GetMapping("/success")
+//    public ResponseEntity<String> success (@RequestParam String user_id) {
+//            return new ResponseEntity<>(user_id, HttpStatus.OK);
+//    }
 
     //login confirm
     @GetMapping("/{user_id}/user/confirm")
