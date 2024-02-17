@@ -5,6 +5,7 @@ import com.example.thehealingmeal.member.handler.CustomAuthenticationSuccessHand
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -14,6 +15,9 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.logout.HeaderWriterLogoutHandler;
+import org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler;
+import org.springframework.security.web.header.writers.ClearSiteDataHeaderWriter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -30,6 +34,7 @@ public class SecurityConfig extends Exception {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        HeaderWriterLogoutHandler clearSiteData = new HeaderWriterLogoutHandler(new ClearSiteDataHeaderWriter(ClearSiteDataHeaderWriter.Directive.COOKIES));
         http
                 .cors(c -> {
                             CorsConfigurationSource source = request -> {
@@ -66,8 +71,10 @@ public class SecurityConfig extends Exception {
                                 .loginProcessingUrl("/user/login") //로그인 경로
                                 .successHandler(customAuthenticationSuccessHandler) //로그인 성공 시 핸들러
                                 .failureHandler(customAuthenticationFailureHandler)) //로그인 실패 시 핸들러
-                .logout((logout) -> logout.logoutUrl("/user/logout")
-                        //.logoutSuccessUrl("/successlogout") //로그아웃 성공 시 리턴되는 위치
+                .logout((logout) -> logout
+                        .logoutRequestMatcher(new AntPathRequestMatcher("/user/logout"))
+                        .logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler(HttpStatus.OK)) //로그아웃 성공 시 핸들러
+                        .addLogoutHandler(clearSiteData) //로그아웃 시 캐시 삭제
                         .invalidateHttpSession(true)); // 로그아웃 시 인증정보 삭제 및 세션 무효화
 
         return http.build();
