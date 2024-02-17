@@ -27,26 +27,22 @@ public class UserService implements UserDetailsService {
         return new PrincipalDetail(user);
     }
 
-    //유저 번호 반환
-    public Long userID(String authenticatedPrincipal) {
-        User user = userRepository.findByLoginId(authenticatedPrincipal).orElseThrow(() -> new RuntimeException("Unbelieved error. principal is not found."));
-        return user.getId();
-    }
-
     //로그인 상태 확인 메서드
     //로그인 상태면 로그인한 유저의 이름을 반환하고, 로그인 상태 확인 결과을 반환.
-    public String loginConfirmUserName(String id) throws InvalidUserException {
-        User user = userRepository.findById(Long.valueOf(id)).orElseThrow(() -> new InvalidUserException("로그인 상태가 아닙니다."));
+    public String loginConfirmUserName(HttpServletRequest request) throws InvalidUserException {
+        Principal user = request.getUserPrincipal();
         if (user != null) {
-            return user.getName();
+            User loginUser = userRepository.findByLoginId(user.getName()).orElseThrow(() -> new InvalidUserException("로그인 상태가 아닙니다."));
+            return loginUser.getName();
         }
         throw new InvalidUserException("not login");
     }
 
-    public long loginConfirmUserID(String id) throws InvalidUserException {
-        User user = userRepository.findById(Long.valueOf(id)).orElseThrow(() -> new InvalidUserException("로그인 상태가 아닙니다."));
+    public long loginConfirmUserID(HttpServletRequest request) throws InvalidUserException {
+        Principal user = request.getUserPrincipal();
         if (user != null) {
-            return user.getId();
+            User loginUser = userRepository.findByLoginId(user.getName()).orElseThrow(() -> new InvalidUserException("로그인 상태가 아닙니다."));
+            return loginUser.getId();
         }
         throw new InvalidUserException("not login");
     }

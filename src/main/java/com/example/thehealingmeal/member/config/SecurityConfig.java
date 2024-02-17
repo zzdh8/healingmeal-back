@@ -34,10 +34,7 @@ public class SecurityConfig extends Exception {
                 .cors(c -> {
                             CorsConfigurationSource source = request -> {
                                 var cors = new CorsConfiguration();
-                                //배포 시 손봐야 함.
                                 //허용할 origin
-                               // cors.setAllowedOrigins(List.of("https://healingmeal.vercel.app/", "http://localhost:5173/"));
-                               // cors.addAllowedOriginPattern("*");
                                 cors.setAllowedOriginPatterns(List.of("*"));
                                 //허용할 method(CRUD)
                                 cors.setAllowedMethods(List.of("*"));

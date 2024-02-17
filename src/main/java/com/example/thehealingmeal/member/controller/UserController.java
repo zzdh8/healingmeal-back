@@ -9,10 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -31,6 +28,7 @@ public class UserController {
         String message = "Login Or Authorization success";
         return new ResponseEntity<>(message, HttpStatus.OK);
     }
+
     @GetMapping("/test")
     public ResponseEntity<String> test(Authentication authentication) {
         return new ResponseEntity<>(authentication.getName(), HttpStatus.OK);
@@ -43,16 +41,11 @@ public class UserController {
         return new ResponseEntity<>("logout success", HttpStatus.OK);
     }
 
-//    @GetMapping("/success")
-//    public ResponseEntity<String> success (@RequestParam String user_id) {
-//            return new ResponseEntity<>(user_id, HttpStatus.OK);
-//    }
-
     //login confirm
-    @GetMapping("/{user_id}/user/confirm")
-    public ResponseEntity<String[]> confirm(@PathVariable String user_id) {
-        String[] userInfo = { userService.loginConfirmUserName(user_id),
-                String.valueOf(userService.loginConfirmUserID(user_id))
+    @GetMapping("/user/confirm")
+    public ResponseEntity<String[]> confirm(HttpServletRequest request){
+        String[] userInfo = { userService.loginConfirmUserName(request),
+                String.valueOf(userService.loginConfirmUserID(request))
         };
         return new ResponseEntity<>(userInfo, HttpStatus.OK);
     }
