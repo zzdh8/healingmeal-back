@@ -4,7 +4,6 @@ import com.example.thehealingmeal.member.domain.User;
 import com.example.thehealingmeal.member.repository.UserRepository;
 import com.example.thehealingmeal.member.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,26 +18,11 @@ public class UserController {
     private final UserRepository userRepository;
 
     /*
-    로그인 테스트
-    Postman으로 테스트 시 raw가 아닌 form-data로 해야 한다.
+    인증 테스트 authentication test
      */
-    //login authorization test
-    @GetMapping("/successtest")
-    public ResponseEntity<String> notSesstion() {
-        String message = "Login Or Authorization success";
-        return new ResponseEntity<>(message, HttpStatus.OK);
-    }
-
     @GetMapping("/test")
     public ResponseEntity<String> test(Authentication authentication) {
         return new ResponseEntity<>(authentication.getName(), HttpStatus.OK);
-    }
-
-    //로그아웃 성공 시
-    @GetMapping("/successlogout")
-    public ResponseEntity<String> logoutSesstion(HttpSession session) {
-        session.invalidate();
-        return new ResponseEntity<>("logout success", HttpStatus.OK);
     }
 
     //login confirm

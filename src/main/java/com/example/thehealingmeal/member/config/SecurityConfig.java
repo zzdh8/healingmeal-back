@@ -65,7 +65,7 @@ public class SecurityConfig extends Exception {
                 )
                 //form login 설정
                 .formLogin((formLogin) ->
-                        formLogin
+                        formLogin //Postman으로 테스트 시 raw가 아닌 form-data로 해야 한다.
                                 .usernameParameter("loginId")
                                 .passwordParameter("password")
                                 .loginProcessingUrl("/user/login") //로그인 경로
