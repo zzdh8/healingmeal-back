@@ -67,7 +67,7 @@ public class SecurityConfig extends Exception {
                                 .successHandler(customAuthenticationSuccessHandler) //로그인 성공 시 핸들러
                                 .failureHandler(customAuthenticationFailureHandler)) //로그인 실패 시 핸들러
                 .logout((logout) -> logout.logoutRequestMatcher(new AntPathRequestMatcher("/user/logout"))
-                        .logoutSuccessUrl("/successlogout") //로그아웃 성공 시 리턴되는 위치
+                        //.logoutSuccessUrl("/successlogout") //로그아웃 성공 시 리턴되는 위치
                         .invalidateHttpSession(true)); // 로그아웃 시 인증정보 삭제 및 세션 무효화
 
         return http.build();
