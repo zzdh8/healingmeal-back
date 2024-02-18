@@ -14,7 +14,7 @@ spring:
     database: mysql
     database-platform: org.hibernate.dialect.MySQL8Dialect
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     show-sql: true
     properties:
       hibernate:
@@ -26,12 +26,10 @@ spring:
   cloud:
     gcp:
       storage:
-        credentials:
-          location:
-            classpath: ${bucket-path}
         project-id: ${project-id}
-        bucket: ${bucket-name}
-
+  ai:
+    openai:
+      api-key: ${api-key}
 
 logging.level:
   org.hibernate.SQL: debug

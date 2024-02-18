@@ -1,4 +1,4 @@
-package com.example.thehealingmeal.ai.dto;
+package com.example.thehealingmeal.gpt.dto;
 
 import lombok.*;
 

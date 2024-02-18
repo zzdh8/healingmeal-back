@@ -1,4 +1,4 @@
-package com.example.thehealingmeal.ai.responseRepository;
+package com.example.thehealingmeal.gpt.responseRepository;
 
 import com.example.thehealingmeal.menu.domain.Meals;
 import org.springframework.data.jpa.repository.JpaRepository;

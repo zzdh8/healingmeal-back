@@ -1,6 +1,6 @@
 package com.example.thehealingmeal.menu.service;
 
-import com.example.thehealingmeal.ai.responseRepository.ResponseRepository;
+import com.example.thehealingmeal.gpt.responseRepository.ResponseRepository;
 import com.example.thehealingmeal.menu.api.dto.MenuResponseDto;
 import com.example.thehealingmeal.menu.api.dto.SnackOrTeaResponseDto;
 import com.example.thehealingmeal.menu.domain.MenuForUser;

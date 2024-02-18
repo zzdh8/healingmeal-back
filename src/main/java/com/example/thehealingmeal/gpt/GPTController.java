@@ -1,6 +1,6 @@
-package com.example.thehealingmeal.ai;
+package com.example.thehealingmeal.gpt;
 
-import com.example.thehealingmeal.ai.dto.AiResDto;
+import com.example.thehealingmeal.gpt.dto.AiResDto;
 import com.example.thehealingmeal.menu.domain.Meals;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

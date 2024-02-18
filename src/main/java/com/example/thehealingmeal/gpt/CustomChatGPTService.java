@@ -1,8 +1,8 @@
-package com.example.thehealingmeal.ai;
+package com.example.thehealingmeal.gpt;
 
-import com.example.thehealingmeal.ai.dto.AiResDto;
-import com.example.thehealingmeal.ai.responseRepository.GPTResponse;
-import com.example.thehealingmeal.ai.responseRepository.ResponseRepository;
+import com.example.thehealingmeal.gpt.dto.AiResDto;
+import com.example.thehealingmeal.gpt.responseRepository.GPTResponse;
+import com.example.thehealingmeal.gpt.responseRepository.ResponseRepository;
 import com.example.thehealingmeal.member.domain.User;
 import com.example.thehealingmeal.member.repository.UserRepository;
 import com.example.thehealingmeal.menu.api.dto.MenuResponseDto;
