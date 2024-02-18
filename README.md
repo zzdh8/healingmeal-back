@@ -37,8 +37,12 @@ healing Meal은 단순히 식단 추천을 할 뿐만 아니라, 설문조사를
 
 ## Frontend
 ### Tech Stack
--
--
+- React 
+- React Router
+- mobX
+- vite
+- css module, less
+- Axios
 
 ## Architecture 
 ![image](https://github.com/inhooo00/healingmeal-back/assets/129029251/4171d97e-3776-4c5d-bd5a-0b68a0b5ffe0)
