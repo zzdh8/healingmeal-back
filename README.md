@@ -18,7 +18,9 @@ Healing Meal은 제2 당뇨병 환자에게 맞춤식단 제공 및 개인 식�
 healing Meal은 단순히 식단 추천을 할 뿐만 아니라, 설문조사를 통해 환자의 선호에 따라 식단을 생성할 수 있습니다.
 환자의 다양한 취향과 현재 신체정보를 바탕으로 합리적인 식단을 생성합니다. 나아가 식단의 효능 또한 제공합니다.
 
-# App Demo (앱 실행 예시나 모델 사진 넣기)
+# App Demo
+<img width="1470" alt="스크린샷 2024-02-19 오전 12 06 38" src="https://github.com/inhooo00/healingmeal-back/assets/129029251/22d34cfc-9b04-41a0-afba-98bbb8662333">
+
 
 # About Implementation
 ## Backend
@@ -38,9 +40,9 @@ healing Meal은 단순히 식단 추천을 할 뿐만 아니라, 설문조사를
 -
 -
 
-## Architecture (전체적인 아키텍쳐 그림 넣기)
+## Architecture 
 ![image](https://github.com/inhooo00/healingmeal-back/assets/129029251/4171d97e-3776-4c5d-bd5a-0b68a0b5ffe0)
-
+- 
 ## ERD
 <img width="729" alt="스크린샷 2024-02-15 오후 5 50 39" src="https://github.com/inhooo00/healingmeal-back/assets/129029251/8ab7a46e-dfdb-4af4-ba57-5943a2821f71">
 
