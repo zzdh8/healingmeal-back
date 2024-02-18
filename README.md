@@ -42,7 +42,7 @@ healing Meal은 단순히 식단 추천을 할 뿐만 아니라, 설문조사를
 
 ## Architecture 
 ![image](https://github.com/inhooo00/healingmeal-back/assets/129029251/4171d97e-3776-4c5d-bd5a-0b68a0b5ffe0)
-1. vercel이라는 클라우드 플랫폼을 통해 배포를 하였습니다.
+1. vercel 클라우드 플랫폼을 통해 배포를 하였습니다.
 2. Google Cloud Platform의 Infrastructure as a Service(IaaS) 제품으로, 가상 머신 인스턴스를 생성하고 관리하는 데 사용됩니다. 이를 통해 애플리케이션의 서버를 실행하고 관리하는 데 필요한 컴퓨팅 리소스를 제공받았습니다.
 3. Google Cloud의 완전 관리형 SQL 데이터베이스 서비스입니다. 이를 이용하여 애플리케이션의 데이터를 저장하고 관리하였습니다.
 4. Google Cloud의 로드 밸런서는 들어오는 트래픽을 여러 서버(Compute Engine 인스턴스)에 자동으로 분산시킵니다. 이를 통해 애플리케이션의 트래픽 부하를 관리하였습니다.
