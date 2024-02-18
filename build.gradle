@@ -19,6 +19,8 @@ configurations {
 
 repositories {
 	mavenCentral()
+	maven { url 'https://repo.spring.io/milestone' }
+	maven { url 'https://repo.spring.io/snapshot' }
 }
 
 dependencies {
@@ -38,11 +40,11 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-mail'
 	// json 파싱
 	implementation'com.googlecode.json-simple:json-simple:1.1.1'
-	//gcp storage'
+	//gcp storage
 	implementation group: 'org.springframework.cloud', name: 'spring-cloud-gcp-starter', version: '1.2.8.RELEASE'
 	implementation group: 'org.springframework.cloud', name: 'spring-cloud-gcp-storage', version: '1.2.8.RELEASE'
-	//chatgpt
-	implementation 'io.github.flashvayne:chatgpt-spring-boot-starter:1.0.4'
+	//spring-ai
+	implementation 'org.springframework.ai:spring-ai-openai-spring-boot-starter:0.8.0-SNAPSHOT'
 }
 
 

@@ -14,7 +14,7 @@ spring:
     database: mysql
     database-platform: org.hibernate.dialect.MySQL8Dialect
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
     show-sql: true
     properties:
       hibernate:
@@ -30,6 +30,9 @@ spring:
   ai:
     openai:
       api-key: ${api-key}
+      chat:
+        options:
+          model: gpt-3.5-turbo
 
 logging.level:
   org.hibernate.SQL: debug
@@ -46,5 +49,3 @@ server:
         name: SESSION
         path: /
       timeout: 30m
-chatgpt:
-  api-key: ${api-key}
