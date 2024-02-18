@@ -42,11 +42,18 @@ healing Meal은 단순히 식단 추천을 할 뿐만 아니라, 설문조사를
 
 ## Architecture 
 ![image](https://github.com/inhooo00/healingmeal-back/assets/129029251/4171d97e-3776-4c5d-bd5a-0b68a0b5ffe0)
-- 
+1. vercel이라는 클라우드 플랫폼을 통해 배포를 하였습니다.
+2. Google Cloud Platform의 Infrastructure as a Service(IaaS) 제품으로, 가상 머신 인스턴스를 생성하고 관리하는 데 사용됩니다. 이를 통해 애플리케이션의 서버를 실행하고 관리하는 데 필요한 컴퓨팅 리소스를 제공받았습니다.
+3. Google Cloud의 완전 관리형 SQL 데이터베이스 서비스입니다. 이를 이용하여 애플리케이션의 데이터를 저장하고 관리하였습니다.
+4. Google Cloud의 로드 밸런서는 들어오는 트래픽을 여러 서버(Compute Engine 인스턴스)에 자동으로 분산시킵니다. 이를 통해 애플리케이션의 트래픽 부하를 관리하였습니다.
+5. Google Cloud의 객체 스토리지 서비스로, 애플리케이션의 파일을 저장하는 데 사용되었습니다.
+6. 외부 API로, 인공 지능 기술을 제공하는 API입니다. 이를 활용하여 식단의 효능에 대한 정보를 가져왔습니다 
+
 ## ERD
 <img width="729" alt="스크린샷 2024-02-15 오후 5 50 39" src="https://github.com/inhooo00/healingmeal-back/assets/129029251/8ab7a46e-dfdb-4af4-ba57-5943a2821f71">
 
-# Youtube Link (영상 링크 넣기)
+# Youtube Link
+- 
 
 # AI Guideline
 - 식단을 생성하면 사용자 맞춤형으로 아침, 점심, 저녁, 간식 2개가 생성됩니다.
