@@ -13,12 +13,17 @@ GDSC Solution Challenge 2024
 <img width="351" alt="스크린샷 2024-02-15 오후 5 17 47" src="https://github.com/inhooo00/healingmeal-back/assets/129029251/c7af8650-49f7-4219-a119-04e8fd5355c0">
 
 # About our solution
-현대인들의 당뇨는 새계적으로 가장 큰 질병 중 하나로 자리잡고 있습니다. 이러한 당뇨 환자들을 위해서 식단을 제공하는 Healing Meal을 기획하였습니다.
-Healing Meal은 제2 당뇨병 환자에게 맞춤식단 제공 및 개인 식단 관리를 제공하는 서비스입니다.
-healing Meal은 단순히 식단 추천을 할 뿐만 아니라, 설문조사를 통해 환자의 선호에 따라 식단을 생성할 수 있습니다.
-환자의 다양한 취향과 현재 신체정보를 바탕으로 합리적인 식단을 생성합니다. 나아가 식단의 효능 또한 제공합니다.
+- Diabetes has established itself as one of the most significant diseases globally among modern people. 
+- For these diabetic patients, we have planned Healing Meal. Healing Meal is a service that provides customized diets and personal diet management for type 2 diabetes patients. 
+- Healing Meal does not merely recommend diets; it can create a diet based on the patient's preferences through surveys. 
+- It generates a reasonable diet based on the patient's various tastes and current physical information. 
+- Furthermore, it also provides the efficacy of the diet.
 
-# App Demo (앱 실행 예시나 모델 사진 넣기)
+# App Demo
+<img width="1470" alt="스크린샷 2024-02-19 오전 12 06 38" src="https://github.com/inhooo00/healingmeal-back/assets/129029251/22d34cfc-9b04-41a0-afba-98bbb8662333">
+<img width="1045" alt="스크린샷 2024-02-19 오후 2 03 24" src="https://github.com/inhooo00/healingmeal-back/assets/129029251/d7c848dc-99a1-4699-b10e-7e0683294898">
+<img width="1068" alt="스크린샷 2024-02-19 오후 2 05 15" src="https://github.com/inhooo00/healingmeal-back/assets/129029251/c4b7edca-a423-4e89-ae67-da2badfdcbb5">
+
 
 # About Implementation
 ## Backend
@@ -35,18 +40,30 @@ healing Meal은 단순히 식단 추천을 할 뿐만 아니라, 설문조사를
 
 ## Frontend
 ### Tech Stack
--
--
+- React 
+- React Router
+- mobX
+- vite
+- css module, less
+- Axios
 
-## Architecture (전체적인 아키텍쳐 그림 넣기)
+## Architecture 
+![image](https://github.com/inhooo00/healingmeal-back/assets/129029251/4171d97e-3776-4c5d-bd5a-0b68a0b5ffe0)
+- The deployment was done through the Vercel cloud platform.
+- The Compute Engine API, a product of Google Cloud Platform's Infrastructure as a Service (IaaS), was used to create and manage virtual machine instances. This provided the necessary computing resources to run and manage the server of the application.
+- Cloud SQL, a fully managed SQL database service from Google Cloud, was used to store and manage the data of the application.
+- Google Cloud's load balancer, which automatically distributes incoming traffic across multiple servers (Compute Engine instances), was used to manage the application's traffic load.
+- Cloud Storage, an object storage service from Google Cloud, was used to store the application's files.
+- An external API, which provides artificial intelligence technology, was used to retrieve information about the efficacy of diets.
 
 ## ERD
 <img width="729" alt="스크린샷 2024-02-15 오후 5 50 39" src="https://github.com/inhooo00/healingmeal-back/assets/129029251/8ab7a46e-dfdb-4af4-ba57-5943a2821f71">
 
-# Youtube Link (영상 링크 넣기)
+# Youtube Link
+- 
 
 # AI Guideline
-- 식단을 생성하면 사용자 맞춤형으로 아침, 점심, 저녁, 간식 2개가 생성됩니다.
-- 사용자가 효능을 알고 싶어서 효능 보기를 실행하면 AI가 해당 음식의 효능을 보여줍니다.
-- Chatgpt Spring Boot Starter를 사용하여 구현했습니다.
-- 사용자들은 식단의 효능을 따로 검색할 필요 없으므로, 더욱 만족할 것입니다.
+- When a diet is generated, it is customized for the user with breakfast, lunch, dinner, and two snacks.
+- When a user wants to know the efficacy and runs the efficacy view, the AI shows the efficacy of the food.
+- It was implemented using the Chatgpt Spring Boot Starter.
+- Users will be more satisfied as they don't need to search separately for the efficacy of the diet.
