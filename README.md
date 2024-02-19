@@ -16,8 +16,8 @@ GDSC Solution Challenge 2024
 - Diabetes has established itself as one of the most significant diseases globally among modern people. 
 - For these diabetic patients, we have planned Healing Meal. Healing Meal is a service that provides customized diets and personal diet management for type 2 diabetes patients. 
 - Healing Meal does not merely recommend diets; it can create a diet based on the patient's preferences through surveys. 
-- It generates a reasonable diet based on the patient's various tastes and current physical information. 
-- Furthermore, it also provides the efficacy of the diet.
+- It generates a reasonable diet based on the patient's various tastes and current physical information. Furthermore, it also provides the efficacy of the diet.
+- You can save and manage your preferred diet using the favorite feature.
 
 # App Demo
 <img width="1470" alt="스크린샷 2024-02-19 오전 12 06 38" src="https://github.com/inhooo00/healingmeal-back/assets/129029251/22d34cfc-9b04-41a0-afba-98bbb8662333">
