@@ -18,27 +18,19 @@ public class UserInfoController {
     //아이디 찾기
     //이름과 이메일을 파라미터로 받음.
     @GetMapping("/user/search/id")
-    public ResponseEntity<String> searchId(String name, String email){
+    public ResponseEntity<String> searchId(@RequestParam String name, @RequestParam String email){
         UserSearchDto loginId = searchService.searchId(name, email);
         return new ResponseEntity<>(loginId.getLoginId(), HttpStatus.OK);
     }
 
     //비밀번호 찾기
     //이름과 이메일, 아이디를 파라미터로 받음.
-    @GetMapping("/user/search/pwd")
+    @PostMapping("/user/search/pwd")
     public ResponseEntity<String> searchPwd(@RequestBody UserSearchDto userSearchDto){
         return new ResponseEntity<>(searchService.searchPassword(userSearchDto),HttpStatus.OK);
     }
 
-    //비밀번호 변경
-    //현재 비밀번호와 변경하고자 하는 비밀번호를 파라미터로 받음.
-//    @PutMapping("/change/pwd")
-//    public ResponseEntity<String> changePwd(@RequestBody PwdChangeDto pwdChangeDto, HttpServletRequest request){
-//        userInfoModify.changePwd(pwdChangeDto, request.getUserPrincipal().getName());
-//        request.authenticate(response -> {})
-//        return new ResponseEntity<>("changing password is success.", HttpStatus.OK);
-//    }
-
+    //비밀번호 변경 password modified
     @PutMapping("/{user_id}/change/pwd")
     public ResponseEntity<String> changePwd(@RequestBody PwdChangeDto pwdChangeDto, @PathVariable String user_id){
         userInfoModify.changePwd(pwdChangeDto, user_id);
