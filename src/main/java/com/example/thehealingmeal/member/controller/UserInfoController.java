@@ -18,7 +18,7 @@ public class UserInfoController {
     //아이디 찾기
     //이름과 이메일을 파라미터로 받음.
     @GetMapping("/user/search/id")
-    public ResponseEntity<String> searchId(String name, String email){
+    public ResponseEntity<String> searchId(@RequestParam String name, @RequestParam String email){
         UserSearchDto loginId = searchService.searchId(name, email);
         return new ResponseEntity<>(loginId.getLoginId(), HttpStatus.OK);
     }
