@@ -24,9 +24,14 @@ GDSC Solution Challenge 2024
 - You can save and manage your preferred diet using the favorite feature.
 
 # App Demo
-<img width="1470" alt="스크린샷 2024-02-19 오전 12 06 38" src="https://github.com/inhooo00/healingmeal-back/assets/129029251/22d34cfc-9b04-41a0-afba-98bbb8662333">
-<img width="1045" alt="스크린샷 2024-02-19 오후 2 03 24" src="https://github.com/inhooo00/healingmeal-back/assets/129029251/d7c848dc-99a1-4699-b10e-7e0683294898">
-<img width="1068" alt="스크린샷 2024-02-19 오후 2 05 15" src="https://github.com/inhooo00/healingmeal-back/assets/129029251/c4b7edca-a423-4e89-ae67-da2badfdcbb5">
+![image](https://github.com/zzdh8/healingmeal-back/assets/59731570/6343855f-017c-4215-b7dd-7e83dbc2caeb)
+![image](https://github.com/zzdh8/healingmeal-back/assets/59731570/fb2614ee-41d1-483e-9a80-e58af0995658)
+![image](https://github.com/zzdh8/healingmeal-back/assets/59731570/6ff7b9ae-4f81-47b9-9ffe-f5a69b47f716)
+![image](https://github.com/zzdh8/healingmeal-back/assets/59731570/0b2a70a6-7410-43d8-ae18-7ce9ee98368c)
+![image](https://github.com/zzdh8/healingmeal-back/assets/59731570/51c66475-e3c7-40df-b7c3-f80358e15779)
+![image](https://github.com/zzdh8/healingmeal-back/assets/59731570/9754d482-68e9-4489-968e-764a097f4bac)
+
+
 
 
 # About Implementation
