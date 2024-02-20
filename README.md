@@ -2,6 +2,8 @@
 # Healing Meal Project
 GDSC Solution Challenge 2024
 <br>
+- FrontEnd Repo : https://github.com/leemanjae02/HealingMeal-FrontEnd
+- BackEnd Repo : https://github.com/zzdh8/healingmeal-back
 
 # Member
 | Backend | Frontend | PM |
