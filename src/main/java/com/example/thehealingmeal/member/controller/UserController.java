@@ -18,7 +18,7 @@ public class UserController {
     private final UserRepository userRepository;
 
     /*
-    apt test "/test" and "/"
+    apt test "/test" and "/".
      */
     @GetMapping("/test")
     public ResponseEntity<String> test(Authentication authentication) {
