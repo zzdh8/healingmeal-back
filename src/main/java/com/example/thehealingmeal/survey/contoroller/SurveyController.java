@@ -28,9 +28,9 @@ public class SurveyController {
     }
 
     // 음식 필터 설문 저장.
-    @PostMapping("/{surveyId}/filterFood")
-    public ResponseEntity<Long> saveFilter(@RequestBody FilterFoodRequestDto filterFoodRequestDto, @PathVariable Long surveyId) {
-       FilterFood filterFood = surveyService.submitFilterFood(filterFoodRequestDto, surveyId);
+    @PostMapping("/{userId}/filterFood")
+    public ResponseEntity<Long> saveFilter(@RequestBody FilterFoodRequestDto filterFoodRequestDto, @PathVariable Long userId) {
+       FilterFood filterFood = surveyService.submitFilterFood(filterFoodRequestDto, userId);
         return new ResponseEntity<>(filterFood.getId(), HttpStatus.OK);
     }
     // 설문 결과 조회
