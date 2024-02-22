@@ -198,12 +198,9 @@ public class MenuGenerater {
         //콤마를 기준으로 필터링 키워드 리스트 작성
         List<String> filterList = Arrays.asList((userFilter.getBreadAndConfectionery() + "," + userFilter.getDairyProducts() + "," + userFilter.getBeveragesAndTeas()).split(","));
 
-        Optional<SnackOrTeaCategory> optional;
-        do {
-            long randomId = secureRandom.nextLong(recordCountForSnackOrTea + 1);
-            optional = snackOrTeaCategoryRepository.findById(randomId);
-        } while (optional.isEmpty() || filterList.contains(optional.get().getRepresentativeFoodName()));
-        SnackOrTeaCategory snackOrTeaCategory = optional.get();
+        SnackOrTeaCategory snackOrTeaCategory = getRandomMenu(snackOrTeaCategoryRepository,
+                generateRandomNumbers(recordCountForSnackOrTea, 25),
+                item -> filterList.contains(item.getRepresentativeFoodName()));
 
         SnackURL snackURL = snackUrlRepository.findBySnackUrlNameStartingWith(snackOrTeaCategory.getRepresentativeFoodName());
 
