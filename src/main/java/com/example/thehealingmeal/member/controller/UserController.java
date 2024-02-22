@@ -29,7 +29,6 @@ public class UserController {
         return new ResponseEntity<>("index", HttpStatus.OK);
     }
 
-
     //login confirm
     @GetMapping("/user/confirm")
     public ResponseEntity<String[]> confirm(HttpServletRequest request){
