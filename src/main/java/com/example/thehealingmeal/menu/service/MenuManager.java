@@ -3,7 +3,6 @@ package com.example.thehealingmeal.menu.service;
 import com.example.thehealingmeal.gpt.responseRepository.ResponseRepository;
 import com.example.thehealingmeal.menu.api.dto.MenuResponseDto;
 import com.example.thehealingmeal.menu.api.dto.SnackOrTeaResponseDto;
-import com.example.thehealingmeal.menu.domain.MenuForUser;
 import com.example.thehealingmeal.menu.domain.Nutrient;
 import com.example.thehealingmeal.menu.domain.repository.MenuRepository;
 import com.example.thehealingmeal.menu.domain.repository.SideDishForUserMenuRepository;
@@ -14,7 +13,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.NoSuchElementException;
 
 @Service
@@ -46,15 +44,11 @@ public class MenuManager {
 
     //오전 00시 유저 식단 초기화 메소드
     @Transactional
-    public void resetMenu(long user_id) throws RuntimeException{
-        List<MenuForUser> menu = menuRepository.findAllByUserId(user_id);
-        for (MenuForUser m : menu) {
-            sideDishForUserMenuRepository.deleteAllByMenuForUser_Id(m.getId());
-
-        }
-        snackOrTeaMenuRepository.deleteAllByUserId(user_id);
-        menuRepository.deleteAllByUserId(user_id);
-        responseRepository.deleteAllByUserId(user_id);
+    public void resetMenu() throws RuntimeException{
+        menuRepository.deleteAll();
+        sideDishForUserMenuRepository.deleteAll();
+        snackOrTeaMenuRepository.deleteAll();
+        responseRepository.deleteAll();
     }
 
     //식단 확인
