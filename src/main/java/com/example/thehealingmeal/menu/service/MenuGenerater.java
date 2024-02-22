@@ -122,7 +122,7 @@ public class MenuGenerater {
         //유저필터링 키워드를 콤마를 기준으로 리스트로 만들어줌.
         List<String> filterList = Arrays.asList((userFilter.getStewsAndHotpots() + "," + userFilter.getGrilledFood() + "," + userFilter.getPancakeFood()).split(","));
         MainDishCategory mainDishCategory = getRandomMenu(mainDishCategoryRepository,
-                generateRandomNumbers(mainDishCategoryRepository.count(), 20),
+                generateRandomNumbers(mainDishCategoryRepository.count(), 25),
                 item -> filterList.contains(item.getRepresentativeFoodName()));
 
 
@@ -136,7 +136,7 @@ public class MenuGenerater {
          */
         List<String> sideDishFilterList = Arrays.asList((userFilter.getVegetableFood() + "," + userFilter.getStirFriedFood() + "," + userFilter.getStewedFood()).split(",")); //필터링 키워드
         List<SideDishCategory> sideDishCategories = new ArrayList<>(); //반찬 리스트
-        List<Long> randomSideDishIds = generateRandomNumbers(sideDishCategoryRepository.count(), 20); //랜덤값 생성
+        List<Long> randomSideDishIds = generateRandomNumbers(sideDishCategoryRepository.count(), 30); //랜덤값 생성
         for (int start = 0; start < secureRandom.nextInt(2,4); start++) {
             sideDishCategories.add(getRandomSide(sideDishCategoryRepository, randomSideDishIds, item -> sideDishFilterList.contains(item.getRepresentativeFoodName()), sideDishCategories));
         }
