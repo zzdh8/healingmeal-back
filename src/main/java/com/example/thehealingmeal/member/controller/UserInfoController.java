@@ -31,9 +31,9 @@ public class UserInfoController {
     }
 
     //비밀번호 변경 password modified
-    @PutMapping("/{user_id}/change/pwd")
-    public ResponseEntity<String> changePwd(@RequestBody PwdChangeDto pwdChangeDto, @PathVariable String user_id){
-        userInfoModify.changePwd(pwdChangeDto, user_id);
+    @PutMapping("/{userID}/change/pwd")
+    public ResponseEntity<String> changePwd(@RequestBody PwdChangeDto pwdChangeDto, @PathVariable String userID){
+        userInfoModify.changePwd(pwdChangeDto, userID);
         return new ResponseEntity<>("changing password is success.", HttpStatus.OK);
     }
 }
