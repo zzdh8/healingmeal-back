@@ -16,6 +16,8 @@ import com.example.thehealingmeal.survey.repository.SurveyResultRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.logging.Filter;
+
 import static com.example.thehealingmeal.survey.domain.FilterFood.createFilterFood;
 import static com.example.thehealingmeal.survey.domain.Survey.createSurvey;
 import static com.example.thehealingmeal.survey.domain.SurveyResult.createSurveyResult;
@@ -80,9 +82,9 @@ public class SurveyService {
     }
 
     @Transactional
-    public FilterFood submitFilterFood(FilterFoodRequestDto filterFoodRequestDto, Long surveyId) {
-        Survey survey = surveyRepository.findById(surveyId).orElseThrow();
-        FilterFood filterFood = createFilterFood(filterFoodRequestDto, survey);
+    public FilterFood submitFilterFood(FilterFoodRequestDto filterFoodRequestDto, Long userId) {
+        User user = userRepository.findById(userId).orElseThrow();
+        FilterFood filterFood = createFilterFood(filterFoodRequestDto, user);
 
         filterFoodRepository.save(filterFood);
         return filterFood;
@@ -124,8 +126,8 @@ public class SurveyService {
     }
 
     @Transactional
-    public void filterFoodUpdateBySurveyId(Long surveyId, FilterFoodRequestDto filterFoodRequestDto) {
-        FilterFood filterFood = filterFoodRepository.findFilterFoodBySurveyId(surveyId);
+    public void filterFoodUpdateBySurveyId(Long userId, FilterFoodRequestDto filterFoodRequestDto) {
+        FilterFood filterFood = filterFoodRepository.findFilterFoodByUserId(userId);
         filterFood.update(filterFoodRequestDto);
     }
 }

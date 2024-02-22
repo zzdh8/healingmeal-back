@@ -5,6 +5,7 @@ import com.example.thehealingmeal.member.execption.InvalidEmailAddressException;
 import com.example.thehealingmeal.member.execption.InvalidUserException;
 import com.example.thehealingmeal.menu.domain.Bookmark;
 import com.example.thehealingmeal.menu.domain.SnackBookmark;
+import com.example.thehealingmeal.survey.domain.FilterFood;
 import com.example.thehealingmeal.survey.domain.Survey;
 import com.example.thehealingmeal.survey.domain.SurveyResult;
 import jakarta.persistence.*;
@@ -53,17 +54,21 @@ public class User implements Serializable {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @OneToOne(mappedBy = "user",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Survey survey;
 
-    @OneToOne(mappedBy = "user",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private SurveyResult surveyResult;
 
-    @OneToMany(mappedBy = "user" , cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private FilterFood filterFood;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Bookmark> Bookmarks = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user" , cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<SnackBookmark> snackBookmarks = new ArrayList<>();
+
     @Builder
     private User(String loginId, String password, String name, String email, String birthDate, Gender gender, String phoneNumber, Role role) {
 

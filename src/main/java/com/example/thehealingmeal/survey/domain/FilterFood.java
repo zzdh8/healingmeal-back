@@ -1,5 +1,6 @@
 package com.example.thehealingmeal.survey.domain;
 
+import com.example.thehealingmeal.member.domain.User;
 import com.example.thehealingmeal.survey.dto.FilterFoodRequestDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -44,11 +45,11 @@ public class FilterFood implements Serializable {
     private String dairyProducts; // 유제품류
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "survey_id")
-    private Survey survey;
+    @JoinColumn(name = "user_id")
+    private User user;
 
     // 정적 팩토리 메서드
-    public static FilterFood createFilterFood(FilterFoodRequestDto filterFoodRequestDto, Survey survey) {
+    public static FilterFood createFilterFood(FilterFoodRequestDto filterFoodRequestDto, User user) {
         return FilterFood.builder()
                 .stewsAndHotpots(filterFoodRequestDto.getStewsAndHotpots())
                 .steamedFood(filterFoodRequestDto.getSteamedFood())
@@ -60,7 +61,7 @@ public class FilterFood implements Serializable {
                 .breadAndConfectionery(filterFoodRequestDto.getBreadAndConfectionery())
                 .beveragesAndTeas(filterFoodRequestDto.getBeveragesAndTeas())
                 .dairyProducts(filterFoodRequestDto.getDairyProducts())
-                .survey(survey)
+                .user(user)
                 .build();
     }
     public void update(FilterFoodRequestDto filterFoodRequestDto){

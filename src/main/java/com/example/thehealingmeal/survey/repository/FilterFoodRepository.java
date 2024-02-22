@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface FilterFoodRepository extends JpaRepository<FilterFood, Long> {
-    FilterFood findFilterFoodBySurveyId(Long surveyId);
+    FilterFood findFilterFoodByUserId(Long userId);
 }

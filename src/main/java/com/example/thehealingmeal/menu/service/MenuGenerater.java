@@ -103,8 +103,7 @@ public class MenuGenerater {
         /*
             대표메뉴 Main Dish
         */
-        Survey survey = surveyRepository.findByUserId(user_id); //유저의 설문조사 번호를 찾기 위한 변수
-        FilterFood userFilter = filterFoodRepository.findFilterFoodBySurveyId(survey.getId()); //유저의 필터링 내용 가져오기
+        FilterFood userFilter = filterFoodRepository.findFilterFoodByUserId(user_id); //유저의 필터링 내용 가져오기
         if (userFilter == null){
             userFilter = FilterFood.builder()
                     .stewsAndHotpots("")
@@ -192,8 +191,7 @@ public class MenuGenerater {
     public SnackOrTeaResponseDto generateSnackOrTea(Meals meals, long user_id) {
         long recordCountForSnackOrTea = snackOrTeaCategoryRepository.count(); //row 수만큼의 랜덤값을 위한 long 변수.
 
-        Survey survey = surveyRepository.findByUserId(user_id); //유저의 설문조사 번호를 찾기 위한 변수
-        FilterFood userFilter = filterFoodRepository.findFilterFoodBySurveyId(survey.getId()); //유저의 필터링 내용 가져오기
+        FilterFood userFilter = filterFoodRepository.findFilterFoodByUserId(user_id); //유저의 필터링 내용 가져오기
 
         //콤마를 기준으로 필터링 키워드 리스트 작성
         List<String> filterList = Arrays.asList((userFilter.getBreadAndConfectionery() + "," + userFilter.getDairyProducts() + "," + userFilter.getBeveragesAndTeas()).split(","));

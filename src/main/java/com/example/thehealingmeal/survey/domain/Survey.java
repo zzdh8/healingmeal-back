@@ -47,9 +47,6 @@ public class Survey implements Serializable {
 
     private String weightLevel; // 현재 체중 단계
 
-    @OneToOne(mappedBy = "survey", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private FilterFood filterFood;
-
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
