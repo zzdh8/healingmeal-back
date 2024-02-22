@@ -36,6 +36,13 @@ public class BookmarkService {
         if (menuForUser == null) {
             throw new IllegalArgumentException("MenuForUser not found for the given user and meals");
         }
+
+        // 이미 존재하는 menuForUserId인지 확인
+        Bookmark existingBookmark = bookmarkRepository.findByUserAndMenuForUserId(user, menuForUser.getId());
+        if (existingBookmark != null) {
+            throw new IllegalArgumentException("Bookmark already exists for the given user and menuForUserId");
+        }
+
         Bookmark bookmark = Bookmark.builder()
                 .user(user)
                 .menuForUserId(menuForUser.getId())
@@ -54,7 +61,7 @@ public class BookmarkService {
             List<String> sideDishNames = sideMenus.stream()
                     .map(SideDishForUserMenu::getSide_dish)
                     .toList();
-            MenuForUser menuForUser = menuRepository.findById(userId).orElseThrow();
+            MenuForUser menuForUser = menuRepository.findById(bookmark.getMenuForUserId()).orElseThrow();
             MenuResponseDto menuResponseDto = MenuResponseDto.createMenu(
                     bookmark.getId(),
                     menuForUser.getMain_dish(),
@@ -88,6 +95,13 @@ public class BookmarkService {
         if (snackOrTea == null) {
             throw new IllegalArgumentException("SnackOrTea not found for the given user and meals");
         }
+
+        // 이미 존재하는 snackOrTeaId인지 확인
+        SnackBookmark existingSnackBookmark = snackBookmarkRepository.findByUserAndSnackOrTeaId(user, snackOrTea.getId());
+        if (existingSnackBookmark != null) {
+            throw new IllegalArgumentException("SnackBookmark already exists for the given user and snackOrTeaId");
+        }
+
         SnackBookmark snackBookmark = SnackBookmark.builder()
                 .user(user)
                 .snackOrTeaId(snackOrTea.getId())
@@ -103,7 +117,7 @@ public class BookmarkService {
 
 
         for (SnackBookmark snackBookmark : snackBookmarkList) {
-            SnackOrTea snackOrTea = snackOrTeaMenuRepository.findById(userId).orElseThrow();
+            SnackOrTea snackOrTea = snackOrTeaMenuRepository.findById(snackBookmark.getSnackOrTeaId()).orElseThrow();
             SnackOrTeaResponseDto snackOrTeaResponseDto = SnackOrTeaResponseDto.createMenu(
                     snackBookmark.getId(),
                     snackOrTea.getSnack_or_tea(),
