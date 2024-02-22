@@ -18,7 +18,7 @@ public class UserController {
     private final UserRepository userRepository;
 
     /*
-    인증 테스트 authentication test
+    test API
      */
     @GetMapping("/test")
     public ResponseEntity<String> test(Authentication authentication) {
