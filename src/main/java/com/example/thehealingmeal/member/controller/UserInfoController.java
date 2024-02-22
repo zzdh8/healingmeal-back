@@ -31,9 +31,13 @@ public class UserInfoController {
     }
 
     //비밀번호 변경 password modified
-    @PutMapping("/{userID}/change/pwd")
-    public ResponseEntity<String> changePwd(@RequestBody PwdChangeDto pwdChangeDto, @PathVariable String userID){
-        userInfoModify.changePwd(pwdChangeDto, userID);
-        return new ResponseEntity<>("changing password is success.", HttpStatus.OK);
-    }
+    @PutMapping("/{user_id}/change/pwd")
+    public ResponseEntity<String> changePwd(@RequestBody PwdChangeDto pwdChangeDto, @PathVariable String user_id){
+        try {
+            userInfoModify.changePwd(pwdChangeDto, user_id);
+            return new ResponseEntity<>("changing password is success.", HttpStatus.OK);
+        } catch (Exception e){
+            return new ResponseEntity<>("changing password is failed. please, check your input value.", HttpStatus.BAD_REQUEST);
+        }
+
 }

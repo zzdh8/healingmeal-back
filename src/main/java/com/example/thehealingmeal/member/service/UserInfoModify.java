@@ -27,7 +27,6 @@ public class UserInfoModify {
     //비밀번호 변경
     @Transactional
     public void changePwd(PwdChangeDto pwdChangeDto, String user_id){
-        if (validatePwd(pwdChangeDto.getChangePwd())){
             User user = userRepository.findById(Long.valueOf(user_id)).orElseThrow(()-> new InvalidUserException("user not found in the user list table."));
             if(passwordEncoder.matches(pwdChangeDto.getNowPwd(),user.getPassword())){
                 user.setPassword(passwordEncoder.encode(pwdChangeDto.getChangePwd()));
@@ -35,16 +34,6 @@ public class UserInfoModify {
             } else{
                 throw new MismatchException("the password is mismatch.");
             }
-        } else {
-            throw new InvalidPasswordException("the password is invalid. please, follow the rule.");
-        }
-    }
-    //-비밀번호 변경 전 유효성 검사
-    boolean validatePwd(String changePwd){
-        String REGEX = "^[0-9a-zA-Z]{6,20}$";
-        return Pattern.matches(REGEX, changePwd);
-    }
-
     //임시 비밀번호 발행
     protected String generateTemPwd(int length){
 
