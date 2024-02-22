@@ -39,5 +39,5 @@ public class UserInfoController {
         } catch (Exception e){
             return new ResponseEntity<>("changing password is failed. please, check your input value.", HttpStatus.BAD_REQUEST);
         }
-    }
+
 }
