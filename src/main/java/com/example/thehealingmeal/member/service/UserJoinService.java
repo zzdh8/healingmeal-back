@@ -5,7 +5,6 @@ import com.example.thehealingmeal.member.domain.User;
 import com.example.thehealingmeal.member.dto.CheckingPasswordDto;
 import com.example.thehealingmeal.member.dto.JoinChangeDto;
 import com.example.thehealingmeal.member.dto.JoinRequestDto;
-import com.example.thehealingmeal.member.dto.TotalDto;
 import com.example.thehealingmeal.member.execption.InvalidUserException;
 import com.example.thehealingmeal.member.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
