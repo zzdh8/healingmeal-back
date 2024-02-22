@@ -61,16 +61,9 @@ public class MenuController {
     }
 
     //00시 식단 초기화
-    @DeleteMapping("/{userId}/delete")
-    public ResponseEntity<String> deleteMenu(@PathVariable Long userId) {
-        try {
-            if (menuManager.checkMenu(userId)) {
-                return new ResponseEntity<>("The User Menu does not exist", HttpStatus.NOT_FOUND);
-            }
-            menuManager.resetMenu(userId);
-        } catch (Exception e) {
-            return new ResponseEntity<>("Fail to Reset Menu For User", HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+    @DeleteMapping("/delete")
+    public ResponseEntity<String> deleteMenu() {
+        menuManager.resetMenu();
         return new ResponseEntity<>("Success to Reset Menu For User", HttpStatus.OK);
     }
 
