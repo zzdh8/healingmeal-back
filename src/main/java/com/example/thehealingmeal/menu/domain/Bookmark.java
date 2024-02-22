@@ -22,9 +22,8 @@ public class Bookmark implements Serializable {
     @Column(name = "bookmark_id")
     private Long id;
 
-    @OneToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
-    @JoinColumn(name = "menu_id")
-    private MenuForUser menuForUser;
+
+    private Long menuForUserId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")

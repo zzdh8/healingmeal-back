@@ -22,9 +22,7 @@ public class SnackBookmark implements Serializable {
     @Column(name = "snack_bookmark_id")
     private Long id;
 
-    @OneToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
-    @JoinColumn(name = "snack_or_tea_id")
-    private SnackOrTea snackOrTea;
+    private Long snackOrTeaId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")

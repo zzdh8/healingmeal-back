@@ -38,7 +38,7 @@ public class BookmarkService {
         }
         Bookmark bookmark = Bookmark.builder()
                 .user(user)
-                .menuForUser(menuForUser)
+                .menuForUserId(menuForUser.getId())
                 .build();
         bookmarkRepository.save(bookmark);
     }
@@ -50,21 +50,22 @@ public class BookmarkService {
         List<MenuResponseDto> menuResponseDtos = new ArrayList<>(); // 반환할 값
 
         for (Bookmark bookmark : bookmarkList) {
-            List<SideDishForUserMenu> sideMenus = sideDishForUserMenuRepository.findAllByMenuForUser_Id(bookmark.getMenuForUser().getId());
+            List<SideDishForUserMenu> sideMenus = sideDishForUserMenuRepository.findAllByMenuForUser_Id(bookmark.getMenuForUserId());
             List<String> sideDishNames = sideMenus.stream()
                     .map(SideDishForUserMenu::getSide_dish)
                     .toList();
+            MenuForUser menuForUser = menuRepository.findById(userId).orElseThrow();
             MenuResponseDto menuResponseDto = MenuResponseDto.createMenu(
                     bookmark.getId(),
-                    bookmark.getMenuForUser().getMain_dish(),
-                    "https://storage.googleapis.com/" + bucket_name + "/" + bookmark.getMenuForUser().getMain_dish() + ".jpg",
-                    bookmark.getMenuForUser().getRice(),
-                    bookmark.getMenuForUser().getMeals(),
+                    menuForUser.getMain_dish(),
+                    "https://storage.googleapis.com/" + bucket_name + "/" + menuForUser.getMain_dish() + ".jpg",
+                    menuForUser.getRice(),
+                    menuForUser.getMeals(),
                     sideDishNames,
-                    bookmark.getMenuForUser().getKcal(),
-                    bookmark.getMenuForUser().getProtein(),
-                    bookmark.getMenuForUser().getCarbohydrate(),
-                    bookmark.getMenuForUser().getFat()
+                    menuForUser.getKcal(),
+                    menuForUser.getProtein(),
+                    menuForUser.getCarbohydrate(),
+                    menuForUser.getFat()
             );
             menuResponseDtos.add(menuResponseDto);
         }
@@ -89,7 +90,7 @@ public class BookmarkService {
         }
         SnackBookmark snackBookmark = SnackBookmark.builder()
                 .user(user)
-                .snackOrTea(snackOrTea)
+                .snackOrTeaId(snackOrTea.getId())
                 .build();
         snackBookmarkRepository.save(snackBookmark);
     }
@@ -102,15 +103,16 @@ public class BookmarkService {
 
 
         for (SnackBookmark snackBookmark : snackBookmarkList) {
+            SnackOrTea snackOrTea = snackOrTeaMenuRepository.findById(userId).orElseThrow();
             SnackOrTeaResponseDto snackOrTeaResponseDto = SnackOrTeaResponseDto.createMenu(
                     snackBookmark.getId(),
-                    snackBookmark.getSnackOrTea().getSnack_or_tea(),
-                    "https://storage.googleapis.com/" + bucket_name + "/" + snackBookmark.getSnackOrTea().getImageUrl(),
-                    snackBookmark.getSnackOrTea().getMeals(),
-                    snackBookmark.getSnackOrTea().getKcal(),
-                    snackBookmark.getSnackOrTea().getProtein(),
-                    snackBookmark.getSnackOrTea().getCarbohydrate(),
-                    snackBookmark.getSnackOrTea().getFat()
+                    snackOrTea.getSnack_or_tea(),
+                    "https://storage.googleapis.com/" + bucket_name + "/" + snackOrTea.getImageUrl(),
+                    snackOrTea.getMeals(),
+                    snackOrTea.getKcal(),
+                    snackOrTea.getProtein(),
+                    snackOrTea.getCarbohydrate(),
+                    snackOrTea.getFat()
             );
             snackOrTeaResponseDtos.add(snackOrTeaResponseDto);
         }
