@@ -40,13 +40,13 @@ public class SecurityConfig extends Exception {
                             CorsConfigurationSource source = request -> {
                                 var cors = new CorsConfiguration();
                                 //허용할 origin
-                                cors.setAllowedOriginPatterns(List.of("*"));
+                                cors.addAllowedOriginPattern(CorsConfiguration.ALL);
                                 //허용할 method(CRUD)
                                 cors.setAllowedMethods(List.of("*"));
                                 //허용할 헤더
                                 cors.setAllowedHeaders(List.of("*"));
                                 cors.setAllowCredentials(true);
-                                cors.setMaxAge(3000L);
+                                cors.setMaxAge(3600L);
                                 return cors;
                             };
                             c.configurationSource(source);
@@ -54,8 +54,8 @@ public class SecurityConfig extends Exception {
                 )
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests((authorize) -> authorize
-                        .requestMatchers("**").permitAll()
+                .authorizeHttpRequests((request) -> request
+                        .requestMatchers("/**").permitAll()
                 )
                 .sessionManagement((session) -> session
                         .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)//필요 시 세션 생성
