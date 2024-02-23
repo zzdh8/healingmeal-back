@@ -32,7 +32,6 @@ public class UserInfoModify {
         } else {
             throw new MismatchException("the password is mismatch.");
         }
-    }
 
 
         //임시 비밀번호 발행
