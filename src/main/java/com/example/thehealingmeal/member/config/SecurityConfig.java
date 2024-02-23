@@ -46,7 +46,7 @@ public class SecurityConfig extends Exception {
                                 //허용할 헤더
                                 cors.setAllowedHeaders(List.of("*"));
                                 cors.setAllowCredentials(true);
-                                cors.setMaxAge(3000L);
+                                cors.setMaxAge(3600L);
                                 return cors;
                             };
                             c.configurationSource(source);
