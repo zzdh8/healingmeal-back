@@ -32,15 +32,16 @@ public class UserInfoModify {
         } else {
             throw new MismatchException("the password is mismatch.");
         }
-    }
-    //임시 비밀번호 발행
-    protected String generateTemPwd(int length){
 
-        final String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-        SecureRandom random = new SecureRandom();
-        return IntStream.range(0, length)
-                .map(i -> random.nextInt(chars.length()))
-                .mapToObj(randomIndex -> String.valueOf(chars.charAt(randomIndex)))
-                .collect(Collectors.joining());
-    }
+
+        //임시 비밀번호 발행
+        protected String generateTemPwd ( int length){
+
+            final String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+            SecureRandom random = new SecureRandom();
+            return IntStream.range(0, length)
+                    .map(i -> random.nextInt(chars.length()))
+                    .mapToObj(randomIndex -> String.valueOf(chars.charAt(randomIndex)))
+                    .collect(Collectors.joining());
+        }
 }

@@ -23,12 +23,16 @@ public class UserInfoController {
         return new ResponseEntity<>(loginId.getLoginId(), HttpStatus.OK);
     }
 
+
+
     //비밀번호 찾기
     //이름과 이메일, 아이디를 파라미터로 받음.
     @PostMapping("/user/search/pwd")
     public ResponseEntity<String> searchPwd(@RequestBody UserSearchDto userSearchDto){
         return new ResponseEntity<>(searchService.searchPassword(userSearchDto),HttpStatus.OK);
     }
+
+
 
     //비밀번호 변경 password modified
     @PutMapping("/{user_id}/change/pwd")
@@ -40,5 +44,4 @@ public class UserInfoController {
             return new ResponseEntity<>("changing password is failed. please, check your input value.", HttpStatus.BAD_REQUEST);
         }
     }
-
 }
