@@ -19,16 +19,16 @@ import com.example.thehealingmeal.menu.domain.repository.SideDishForUserMenuRepo
 import com.example.thehealingmeal.menu.domain.repository.SnackOrTeaMenuRepository;
 import com.example.thehealingmeal.menu.domain.repository.SnackUrlRepository;
 import com.example.thehealingmeal.survey.domain.FilterFood;
-import com.example.thehealingmeal.survey.domain.Survey;
 import com.example.thehealingmeal.survey.repository.FilterFoodRepository;
-import com.example.thehealingmeal.survey.repository.SurveyRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.security.SecureRandom;
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.LongStream;
@@ -44,9 +44,6 @@ public class MenuGenerater {
     private final SideDishForUserMenuRepository sideDishForUserMenuRepository;
     private final SnackOrTeaMenuRepository snackOrTeaMenuRepository;
 
-
-    //유저의 설문조사 테이블을 경유해서 필터링 키워드를 가져올 repository
-    private final SurveyRepository surveyRepository;
 
     //필터링 키워드 repository
     private final FilterFoodRepository filterFoodRepository;
@@ -98,7 +95,8 @@ public class MenuGenerater {
         return optionalItem.get();
     }
     //식단 생성 메소드
-    public MenuResponseDto generateMenu(Meals meals, Long user_id) throws NoSuchElementException, IllegalArgumentException, NullPointerException {
+    @Async("threadPoolTaskExecutor")
+    public CompletableFuture<MenuResponseDto> generateMenu(Meals meals, Long user_id) throws NoSuchElementException, IllegalArgumentException, NullPointerException {
 
         /*
             대표메뉴 Main Dish
@@ -150,8 +148,7 @@ public class MenuGenerater {
 
         User user = userRepository.findById(user_id).orElseThrow(() -> new IllegalArgumentException("해당 유저가 존재하지 않습니다."));
 
-        //식단 반환 menu return
-        return MenuResponseDto.builder()
+       MenuResponseDto menuResponseDto = MenuResponseDto.builder()
                 .main_dish(mainDishCategory.getRepresentativeFoodName())
                 .imageURL("https://storage.googleapis.com/" + bucket_name + "/" + mainDishCategory.getRepresentativeFoodName() + ".jpg")
                 .sideDishForUserMenu(sideDishCategories.stream().map(SideDishCategory::getRepresentativeFoodName).collect(Collectors.toList()))
@@ -164,6 +161,8 @@ public class MenuGenerater {
                 .user_id(user.getId())
                 .user(user)
                 .build();
+        //식단 반환 menu return
+        return CompletableFuture.completedFuture(menuResponseDto);
     }
 
     //아점저 식단 저장
@@ -188,7 +187,8 @@ public class MenuGenerater {
     }
 
     //간식 생성 아점-점저 사이만 허용 가능
-    public SnackOrTeaResponseDto generateSnackOrTea(Meals meals, long user_id) {
+    @Async("threadPoolTaskExecutor")
+    public CompletableFuture<SnackOrTeaResponseDto> generateSnackOrTea(Meals meals, long user_id) {
         long recordCountForSnackOrTea = snackOrTeaCategoryRepository.count(); //row 수만큼의 랜덤값을 위한 long 변수.
 
         FilterFood userFilter = filterFoodRepository.findFilterFoodByUserId(user_id); //유저의 필터링 내용 가져오기
@@ -204,8 +204,7 @@ public class MenuGenerater {
 
         User user = userRepository.findById(user_id)
                 .orElseThrow(() -> new IllegalArgumentException("User not found."));
-
-        return SnackOrTeaResponseDto.builder()
+        SnackOrTeaResponseDto snackOrTeaResponseDto = SnackOrTeaResponseDto.builder()
                 .snack_or_tea(snackOrTeaCategory.getRepresentativeFoodName())
                 .imageURL(snackURL.getSnackUrlName())
                 .kcal(snackOrTeaCategory.getKcal())
@@ -216,6 +215,7 @@ public class MenuGenerater {
                 .userId(user_id)
                 .user(user)
                 .build();
+        return CompletableFuture.completedFuture(snackOrTeaResponseDto);
     }
 
     //간식 저장
