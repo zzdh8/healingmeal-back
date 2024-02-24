@@ -22,8 +22,11 @@ public class MenuController {
 
     //유저의 맞춤식단 생성
     @PostMapping("/{userId}/generate")
-    public ResponseEntity<String> generateMenu(@PathVariable Long userId) throws ExecutionException, InterruptedException {
+    public ResponseEntity<String> generateMenu(@PathVariable Long userId) {
         try {
+            if (menuManager.checkMenu(userId)) {
+                return new ResponseEntity<>("Already Generated Menu For User", HttpStatus.OK);
+            }
             menuProvider.generateForUser(userId);
             return new ResponseEntity<>("Menu Generated For User Successfully", HttpStatus.OK);
         } catch (ExecutionException | InterruptedException e) {
