@@ -1,4 +1,4 @@
-package com.example.thehealingmeal.member.config;
+package com.example.thehealingmeal.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
