@@ -1,4 +1,4 @@
-package com.example.thehealingmeal.member.config;
+package com.example.thehealingmeal.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,8 +14,8 @@ public class AsyncConfig {
     public Executor threadPoolTaskExecutor() {
         ThreadPoolTaskExecutor taskExecutor = new ThreadPoolTaskExecutor();
         taskExecutor.setCorePoolSize(3); // 기본 스레드 수
-        taskExecutor.setMaxPoolSize(10); // 최대 스레드 수
-        taskExecutor.setQueueCapacity(30); // Queue 사이즈
+        taskExecutor.setMaxPoolSize(6); // 최대 스레드 수
+        taskExecutor.setQueueCapacity(50); // Queue 사이즈
         taskExecutor.setThreadNamePrefix("Thread-");
 
         taskExecutor.initialize();
