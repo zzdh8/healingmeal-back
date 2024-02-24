@@ -14,10 +14,12 @@ import org.springframework.ai.chat.ChatClient;
 import org.springframework.ai.chat.ChatResponse;
 import org.springframework.ai.chat.prompt.Prompt;
 import org.springframework.ai.openai.OpenAiChatOptions;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 @Service
 @RequiredArgsConstructor
@@ -40,7 +42,8 @@ public class GPTService {
     }
 
     //request answer to openai.
-    public AiResDto getAnswer(long user_id, Meals meals) {
+    @Async("threadPoolTaskExecutor")
+    public CompletableFuture<AiResDto> getAnswer(long user_id, Meals meals) {
         MenuResponseDto menu = menuProvider.provide(user_id, meals);
         List<String> names = List.of(menu.getMain_dish(), menu.getRice(), menu.getSideDishForUserMenu().toString());
         StringBuilder sentence = new StringBuilder();
@@ -55,16 +58,17 @@ public class GPTService {
         if (response == null) {
             response = callChat(sentence.toString());
         }
-        return new AiResDto(response.getResult().getOutput().getContent());
+        return CompletableFuture.completedFuture(new AiResDto(response.getResult().getOutput().getContent()));
     }
 
-    public AiResDto getAnswerSnackOrTea(long user_id, Meals meals) {
+    @Async("threadPoolTaskExecutor")
+    public CompletableFuture<AiResDto> getAnswerSnackOrTea(long user_id, Meals meals) {
         SnackOrTeaResponseDto menu = menuProvider.provideSnackOrTea(user_id, meals);
         String multiChat = callChat(menu.getSnack_or_tea()).getResult().getOutput().getContent();
         if (multiChat == null || multiChat.isBlank() || multiChat.isEmpty()) {
             multiChat = callChat(menu.getSnack_or_tea()).getResult().getOutput().getContent();
         }
-        return new AiResDto(multiChat);
+        return CompletableFuture.completedFuture(new AiResDto(multiChat));
     }
 
     @Transactional
