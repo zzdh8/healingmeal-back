@@ -24,9 +24,6 @@ public class MenuController {
     @PostMapping("/{userId}/generate")
     public ResponseEntity<String> generateMenu(@PathVariable Long userId) {
         try {
-            if (menuManager.checkMenu(userId)) {
-                return new ResponseEntity<>("Already Generated Menu For User", HttpStatus.OK);
-            }
             menuProvider.generateForUser(userId);
             return new ResponseEntity<>("Menu Generated For User Successfully", HttpStatus.OK);
         } catch (ExecutionException | InterruptedException e) {

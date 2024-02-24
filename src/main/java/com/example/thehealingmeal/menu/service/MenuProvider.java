@@ -35,6 +35,9 @@ public class MenuProvider {
     //유저를 위한 전체 식단 생성 및 유효 검사 메소드
     @Transactional
     public void generateForUser(long user_id) throws InterruptedException, ExecutionException {
+        if (menuManager.checkMenu(user_id)) {
+            throw new RuntimeException("Already Generated Menu For User");
+        }
         Meals[] meals = Meals.values();
         CompletableFuture<MenuResponseDto> breakfast;
         CompletableFuture<MenuResponseDto> lunch;
