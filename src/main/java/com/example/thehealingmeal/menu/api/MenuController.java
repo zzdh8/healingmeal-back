@@ -11,8 +11,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.concurrent.ExecutionException;
-
 
 @RestController
 @RequiredArgsConstructor
@@ -29,7 +27,7 @@ public class MenuController {
             }
             menuProvider.generateForUser(userId);
             return new ResponseEntity<>("Menu Generated For User Successfully", HttpStatus.OK);
-        } catch (ExecutionException | InterruptedException e) {
+        } catch (Exception e) {
             return new ResponseEntity<>("Failed to Generate Menu For User", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
