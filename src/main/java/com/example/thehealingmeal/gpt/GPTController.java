@@ -10,8 +10,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.concurrent.ExecutionException;
-
 @RestController
 @RequiredArgsConstructor
 public class GPTController {
@@ -25,7 +23,7 @@ public class GPTController {
         try {
             responseProcessor.processResponse(id);
             return new ResponseEntity<>(new AiResDto("Response Processed Successfully"), HttpStatus.OK);
-        } catch (ExecutionException | InterruptedException e){
+        } catch (Exception e){
             return new ResponseEntity<>(new AiResDto("Failed to Process Response"), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
