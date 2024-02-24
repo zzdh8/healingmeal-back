@@ -22,10 +22,9 @@ public class MenuController {
     @PostMapping("/{userId}/generate")
     public ResponseEntity<String> generateMenu(@PathVariable Long userId) {
         try {
-            if (menuManager.checkMenu(userId)) {
+            if (menuProvider.generateForUser(userId)) {
                 return new ResponseEntity<>("Already Generated Menu For User", HttpStatus.OK);
             }
-            menuProvider.generateForUser(userId);
             return new ResponseEntity<>("Menu Generated For User Successfully", HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>("Failed to Generate Menu For User", HttpStatus.INTERNAL_SERVER_ERROR);

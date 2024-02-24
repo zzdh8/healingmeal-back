@@ -32,9 +32,9 @@ public class MenuProvider {
 
     //유저를 위한 전체 식단 생성 및 유효 검사 메소드
     @Transactional
-    public void generateForUser(long user_id) throws RuntimeException {
+    public boolean generateForUser(long user_id) throws RuntimeException {
         if (menuManager.checkMenu(user_id)) {
-            throw new RuntimeException("menu already generated for user");
+            return false;
         }
         Meals[] meals = Meals.values();
         MenuResponseDto[] menus = new MenuResponseDto[meals.length - 2];
@@ -56,6 +56,7 @@ public class MenuProvider {
         for (SnackOrTeaResponseDto dto : snackOrTeas) {
             menuGenerater.saveSnackOrTea(dto);
         }
+        return true;
     }
 
     //아침, 점심, 저녁 식단 제공 메소드
