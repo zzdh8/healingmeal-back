@@ -11,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.concurrent.ExecutionException;
+
 
 @RestController
 @RequiredArgsConstructor
@@ -20,9 +22,13 @@ public class MenuController {
 
     //유저의 맞춤식단 생성
     @PostMapping("/{userId}/generate")
-    public ResponseEntity<String> generateMenu(@PathVariable Long userId) {
-        menuProvider.generateForUser(userId);
-        return new ResponseEntity<>("Menu Generated For User Successfully", HttpStatus.OK);
+    public ResponseEntity<String> generateMenu(@PathVariable Long userId) throws ExecutionException, InterruptedException {
+        try {
+            menuProvider.generateForUser(userId);
+            return new ResponseEntity<>("Menu Generated For User Successfully", HttpStatus.OK);
+        } catch (ExecutionException | InterruptedException e) {
+            return new ResponseEntity<>("Failed to Generate Menu For User", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     //아침 식단 제공

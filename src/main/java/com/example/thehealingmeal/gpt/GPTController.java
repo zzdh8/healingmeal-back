@@ -10,28 +10,23 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.concurrent.ExecutionException;
+
 @RestController
 @RequiredArgsConstructor
 public class GPTController {
 
     private final GPTService gptService;
+    private final ResponseProcessor responseProcessor;
 
     //식단별 효능 정보 생성
     @PostMapping("/{id}/ai/generate")
     public ResponseEntity<String> getAnswerMainDish(@PathVariable long id){
         try {
-            for (Meals meal : Meals.values()) {
-                AiResDto answer;
-                if (meal == Meals.BREAKFAST_SNACKORTEA || meal == Meals.LUNCH_SNACKORTEA) {
-                    answer = gptService.getAnswerSnackOrTea(id, meal);
-                } else {
-                    answer = gptService.getAnswer(id, meal);
-                }
-                gptService.saveResponse(answer.getAnswer(), id, meal);
-            }
+            responseProcessor.processResponse(id);
             return new ResponseEntity<>("Request Success", HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>("Request Failed", HttpStatus.BAD_REQUEST);
+        } catch (ExecutionException | InterruptedException e){
+            return new ResponseEntity<>("Request Failed", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 

@@ -1,4 +1,4 @@
-package com.example.thehealingmeal.member.config;
+package com.example.thehealingmeal.config;
 
 import com.example.thehealingmeal.member.handler.CustomAuthenticationFailureHandler;
 import com.example.thehealingmeal.member.handler.CustomAuthenticationSuccessHandler;
