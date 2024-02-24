@@ -6,6 +6,7 @@ import lombok.*;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.List;
 
 @Getter
 @Setter
@@ -23,7 +24,29 @@ public class Bookmark implements Serializable {
     private Long id;
 
 
-    private Long menuForUserId;
+    private String main_dish;
+
+    //대표메뉴 이미지 name
+    private String imageURL;
+
+    //밥 = 밥류
+    private String rice;
+
+    //아침, 점심, 저녁(간식은 따로)
+    private Meals meals;
+
+    //반찬류
+
+    @ElementCollection
+    @CollectionTable(name = "side_dish", joinColumns = @JoinColumn(name = "bookmark_id"))
+    @Column(name = "side_dish")
+    private List<String> sideDishForUserMenu;
+
+    //이 식단의 종합 열탄단지
+    private int kcal;
+    private float protein;
+    private float carbohydrate;
+    private float fat;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")

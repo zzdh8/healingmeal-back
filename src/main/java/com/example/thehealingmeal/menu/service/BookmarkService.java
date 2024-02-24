@@ -33,20 +33,39 @@ public class BookmarkService {
     public void createMenuBookmark(Long userId, BookmarkRequestDto bookmarkRequestDto) {
         User user = userRepository.findById(userId).orElseThrow();
         MenuForUser menuForUser = menuRepository.findByUserAndMeals(user, bookmarkRequestDto.getMeals());
+        List<SideDishForUserMenu> sideMenus = sideDishForUserMenuRepository.findAllByMenuForUser_Id(menuForUser.getId());
+        List<String> sideDishNames = sideMenus.stream()
+                .map(SideDishForUserMenu::getSide_dish)
+                .toList();
+
         if (menuForUser == null) {
             throw new IllegalArgumentException("MenuForUser not found for the given user and meals");
         }
 
         // 이미 존재하는 menuForUserId인지 확인
-        Bookmark existingBookmark = bookmarkRepository.findByUserAndMenuForUserId(user, menuForUser.getId());
+        Bookmark existingBookmark = bookmarkRepository.
+            findDuplicateValues
+                    ( menuForUser.getMain_dish()
+                            ,menuForUser.getRice()
+                            ,menuForUser.getMeals()
+                            ,user);
         if (existingBookmark != null) {
             throw new IllegalArgumentException("Bookmark already exists for the given user and menuForUserId");
         }
 
         Bookmark bookmark = Bookmark.builder()
                 .user(user)
-                .menuForUserId(menuForUser.getId())
+                .main_dish(menuForUser.getMain_dish())
+                .imageURL("https://storage.googleapis.com/" + bucket_name + "/" + menuForUser.getMain_dish() + ".jpg")
+                .rice(menuForUser.getRice())
+                .meals(menuForUser.getMeals())
+                .sideDishForUserMenu(sideDishNames)
+                .kcal(menuForUser.getKcal())
+                .protein(menuForUser.getProtein())
+                .carbohydrate(menuForUser.getCarbohydrate())
+                .fat(menuForUser.getFat())
                 .build();
+
         bookmarkRepository.save(bookmark);
     }
 
@@ -57,22 +76,17 @@ public class BookmarkService {
         List<MenuResponseDto> menuResponseDtos = new ArrayList<>(); // 반환할 값
 
         for (Bookmark bookmark : bookmarkList) {
-            List<SideDishForUserMenu> sideMenus = sideDishForUserMenuRepository.findAllByMenuForUser_Id(bookmark.getMenuForUserId());
-            List<String> sideDishNames = sideMenus.stream()
-                    .map(SideDishForUserMenu::getSide_dish)
-                    .toList();
-            MenuForUser menuForUser = menuRepository.findById(bookmark.getMenuForUserId()).orElseThrow();
             MenuResponseDto menuResponseDto = MenuResponseDto.createMenu(
                     bookmark.getId(),
-                    menuForUser.getMain_dish(),
-                    "https://storage.googleapis.com/" + bucket_name + "/" + menuForUser.getMain_dish() + ".jpg",
-                    menuForUser.getRice(),
-                    menuForUser.getMeals(),
-                    sideDishNames,
-                    menuForUser.getKcal(),
-                    menuForUser.getProtein(),
-                    menuForUser.getCarbohydrate(),
-                    menuForUser.getFat()
+                    bookmark.getMain_dish(),
+                    bookmark.getImageURL(),
+                    bookmark.getRice(),
+                    bookmark.getMeals(),
+                    bookmark.getSideDishForUserMenu(),
+                    bookmark.getKcal(),
+                    bookmark.getProtein(),
+                    bookmark.getCarbohydrate(),
+                    bookmark.getFat()
             );
             menuResponseDtos.add(menuResponseDto);
         }
@@ -97,15 +111,23 @@ public class BookmarkService {
         }
 
         // 이미 존재하는 snackOrTeaId인지 확인
-        SnackBookmark existingSnackBookmark = snackBookmarkRepository.findByUserAndSnackOrTeaId(user, snackOrTea.getId());
+        SnackBookmark existingSnackBookmark = snackBookmarkRepository.findDuplicateValues
+                (snackOrTea.getSnack_or_tea(), snackOrTea.getMeals());
         if (existingSnackBookmark != null) {
             throw new IllegalArgumentException("SnackBookmark already exists for the given user and snackOrTeaId");
         }
 
         SnackBookmark snackBookmark = SnackBookmark.builder()
                 .user(user)
-                .snackOrTeaId(snackOrTea.getId())
+                .snack_or_tea(snackOrTea.getSnack_or_tea())
+                .imageUrl("https://storage.googleapis.com/" + bucket_name + "/" + snackOrTea.getImageUrl())
+                .meals(snackOrTea.getMeals())
+                .kcal(snackOrTea.getKcal())
+                .protein(snackOrTea.getProtein())
+                .carbohydrate(snackOrTea.getCarbohydrate())
+                .fat(snackOrTea.getFat())
                 .build();
+
         snackBookmarkRepository.save(snackBookmark);
     }
 //
@@ -117,16 +139,15 @@ public class BookmarkService {
 
 
         for (SnackBookmark snackBookmark : snackBookmarkList) {
-            SnackOrTea snackOrTea = snackOrTeaMenuRepository.findById(snackBookmark.getSnackOrTeaId()).orElseThrow();
             SnackOrTeaResponseDto snackOrTeaResponseDto = SnackOrTeaResponseDto.createMenu(
                     snackBookmark.getId(),
-                    snackOrTea.getSnack_or_tea(),
-                    "https://storage.googleapis.com/" + bucket_name + "/" + snackOrTea.getImageUrl(),
-                    snackOrTea.getMeals(),
-                    snackOrTea.getKcal(),
-                    snackOrTea.getProtein(),
-                    snackOrTea.getCarbohydrate(),
-                    snackOrTea.getFat()
+                    snackBookmark.getSnack_or_tea(),
+                    snackBookmark.getImageUrl(),
+                    snackBookmark.getMeals(),
+                    snackBookmark.getKcal(),
+                    snackBookmark.getProtein(),
+                    snackBookmark.getCarbohydrate(),
+                    snackBookmark.getFat()
             );
             snackOrTeaResponseDtos.add(snackOrTeaResponseDto);
         }
