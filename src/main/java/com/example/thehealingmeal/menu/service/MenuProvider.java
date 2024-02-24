@@ -57,6 +57,9 @@ public class MenuProvider {
 
     //아침, 점심, 저녁 식단 제공 메소드
     public MenuResponseDto provide(long usr_id, Meals meals) {
+        if (menuManager.checkMenu(usr_id)) {
+            throw new RuntimeException("menu already generated for user");
+        }
         MenuForUser menu = menuRepository.findByUserIdAndMeals(usr_id, meals);
         List<SideDishForUserMenu> sideMenus = sideDishForUserMenuRepository.findAllByMenuForUser_Id(menu.getId());
         List<String> sideDishNames = sideMenus.stream()
