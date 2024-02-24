@@ -29,6 +29,7 @@ import org.springframework.stereotype.Service;
 import java.security.SecureRandom;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.LongStream;
@@ -85,18 +86,27 @@ public class MenuGenerater {
         } while (optionalItem.isEmpty() || filter.test(optionalItem.get()));
         return optionalItem.get();
     }
-
-    private <T> T getRandomSide(JpaRepository<T, Long> repository, List<Long> randomIds, Predicate<T> filter, List<T> sideDishCategories) {
+    @Async("threadPoolTaskExecutor")
+    protected <T> CompletableFuture<T> getRandomSide(JpaRepository<T, Long> repository, List<Long> randomIds, Predicate<T> filter, List<SideDishCategory> sideDishCategories) {
         Optional<T> optionalItem;
         int count = 0;
         do {
             optionalItem = repository.findById(randomIds.get(count++));
+            if (!sideDishCategories.isEmpty()){
+                for (SideDishCategory sideDishCategory : sideDishCategories) {
+                    if (sideDishCategory.getRepresentativeFoodName().equals(((SideDishCategory) optionalItem.get()).getRepresentativeFoodName())){
+                        optionalItem = repository.findById(randomIds.get(count++));
+                    }
+                }
+            }
         } while (optionalItem.isEmpty() || filter.test(optionalItem.get()) || sideDishCategories.contains(optionalItem.get()));
-        return optionalItem.get();
+
+        return CompletableFuture.completedFuture(optionalItem.get());
     }
+
     //식단 생성 메소드
     @Async("threadPoolTaskExecutor")
-    public CompletableFuture<MenuResponseDto> generateMenu(Meals meals, Long user_id) throws NoSuchElementException, IllegalArgumentException, NullPointerException {
+    public CompletableFuture<MenuResponseDto> generateMenu(Meals meals, Long user_id) throws NoSuchElementException, IllegalArgumentException, NullPointerException, ExecutionException, InterruptedException {
 
         /*
             대표메뉴 Main Dish
@@ -134,10 +144,12 @@ public class MenuGenerater {
         List<String> sideDishFilterList = Arrays.asList((userFilter.getVegetableFood() + "," + userFilter.getStirFriedFood() + "," + userFilter.getStewedFood()).split(",")); //필터링 키워드
         List<SideDishCategory> sideDishCategories = new ArrayList<>(); //반찬 리스트
         List<Long> randomSideDishIds = generateRandomNumbers(sideDishCategoryRepository.count(), 30); //랜덤값 생성
+        CompletableFuture<SideDishCategory> sideDishCategory;
         for (int start = 0; start < secureRandom.nextInt(2,4); start++) {
-            sideDishCategories.add(getRandomSide(sideDishCategoryRepository, randomSideDishIds, item -> sideDishFilterList.contains(item.getRepresentativeFoodName()), sideDishCategories));
+            sideDishCategory = getRandomSide(sideDishCategoryRepository, randomSideDishIds, item -> sideDishFilterList.contains(item.getRepresentativeFoodName()), sideDishCategories);
+            CompletableFuture.allOf(sideDishCategory).join();
+            sideDishCategories.add(sideDishCategory.get());
         }
-
         /*
             열탄단지 합산 Kcal, Protein, Carbohydrate, Fat adding
          */
