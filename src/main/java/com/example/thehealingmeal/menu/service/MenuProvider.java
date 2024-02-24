@@ -51,7 +51,6 @@ public class MenuProvider {
             dinner = menuGenerater.generateMenu(meals[2], user_id);
             breakfastSOT = menuGenerater.generateSnackOrTea(meals[3], user_id);
             lunchSOT = menuGenerater.generateSnackOrTea(meals[4], user_id);
-
             CompletableFuture.allOf(breakfast, lunch, dinner, breakfastSOT, lunchSOT).join();
         } while (menuManager.isExceed(user_id, breakfast.get(), breakfastSOT.get(), lunch.get(), lunchSOT.get(), dinner.get()));
 
