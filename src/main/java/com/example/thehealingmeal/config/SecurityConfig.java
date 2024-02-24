@@ -40,7 +40,7 @@ public class SecurityConfig extends Exception {
                             CorsConfigurationSource source = request -> {
                                 var cors = new CorsConfiguration();
                                 //허용할 origin
-                                cors.addAllowedOriginPattern(CorsConfiguration.ALL);
+                                cors.addAllowedOriginPattern("*");
                                 //허용할 method(CRUD)
                                 cors.setAllowedMethods(List.of("*"));
                                 //허용할 헤더
