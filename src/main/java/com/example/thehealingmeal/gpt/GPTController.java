@@ -21,12 +21,12 @@ public class GPTController {
 
     //식단별 효능 정보 생성
     @PostMapping("/{id}/ai/generate")
-    public ResponseEntity<String> getAnswerMainDish(@PathVariable long id){
+    public ResponseEntity<AiResDto> getAnswerMainDish(@PathVariable long id){
         try {
             responseProcessor.processResponse(id);
-            return new ResponseEntity<>("Request Success", HttpStatus.OK);
+            return new ResponseEntity<>(new AiResDto("Response Processed Successfully"), HttpStatus.OK);
         } catch (ExecutionException | InterruptedException e){
-            return new ResponseEntity<>("Request Failed", HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(new AiResDto("Failed to Process Response"), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
