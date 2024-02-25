@@ -17,11 +17,19 @@ public class ResponseProcessor {
         for (Meals meal : Meals.values()) {
             AiResDto answer;
             if (meal == Meals.BREAKFAST_SNACKORTEA || meal == Meals.LUNCH_SNACKORTEA) {
-                answer = gptService.getAnswerSnackOrTea(user_id, meal);
+                try {
+                    answer = gptService.getAnswerSnackOrTea(user_id, meal);
+                } catch (Exception e) {
+                    answer = gptService.getAnswerSnackOrTea(user_id, meal);
+                }
             } else {
-                answer = gptService.getAnswer(user_id, meal);
+                try {
+                    answer = gptService.getAnswer(user_id, meal);
+                } catch (Exception e) {
+                    answer = gptService.getAnswer(user_id, meal);
+                }
             }
-            gptService.saveResponse(answer.getAnswer(), user_id, meal);
+                gptService.saveResponse(answer.getAnswer(), user_id, meal);
+            }
         }
     }
-}
