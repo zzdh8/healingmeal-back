@@ -23,10 +23,13 @@ import com.example.thehealingmeal.survey.repository.FilterFoodRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.security.SecureRandom;
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.LongStream;
@@ -83,18 +86,26 @@ public class MenuGenerater {
         } while (optionalItem.isEmpty() || filter.test(optionalItem.get()));
         return optionalItem.get();
     }
-
-    private <T> T getRandomSide(JpaRepository<T, Long> repository, List<Long> randomIds, Predicate<T> filter, List<T> sideDishCategories) {
+    @Async("threadPoolTaskExecutor")
+    protected <T> CompletableFuture<T> getRandomSide(JpaRepository<T, Long> repository, List<Long> randomIds, Predicate<T> filter, List<SideDishCategory> sideDishCategories) {
         Optional<T> optionalItem;
         int count = 0;
         do {
             optionalItem = repository.findById(randomIds.get(count++));
-        } while (optionalItem.isEmpty() || filter.test(optionalItem.get()) || sideDishCategories.contains(optionalItem.get()));
-        return optionalItem.get();
+            if (!sideDishCategories.isEmpty()){
+                for (SideDishCategory sideDishCategory : sideDishCategories) {
+                    if (sideDishCategory.getRepresentativeFoodName().equals(((SideDishCategory) optionalItem.get()).getRepresentativeFoodName())){
+                        optionalItem = repository.findById(randomIds.get(count++));
+                    }
+                }
+            }
+        } while (optionalItem.isEmpty() || filter.test(optionalItem.get()));
+        return CompletableFuture.completedFuture(optionalItem.get());
     }
 
     //식단 생성 메소드
-    public MenuResponseDto generateMenu(Meals meals, Long user_id) throws NoSuchElementException, IllegalArgumentException, NullPointerException {
+    @Async("threadPoolTaskExecutor")
+    public CompletableFuture<MenuResponseDto> generateMenu(Meals meals, Long user_id) throws NoSuchElementException, IllegalArgumentException, NullPointerException, ExecutionException, InterruptedException {
 
         /*
             대표메뉴 Main Dish
@@ -133,7 +144,7 @@ public class MenuGenerater {
         List<SideDishCategory> sideDishCategories = new ArrayList<>(); //반찬 리스트
         List<Long> randomSideDishIds = generateRandomNumbers(sideDishCategoryRepository.count(), 30); //랜덤값 생성
         for (int start = 0; start < secureRandom.nextInt(2,4); start++) {
-            sideDishCategories.add(getRandomSide(sideDishCategoryRepository, randomSideDishIds, item -> sideDishFilterList.contains(item.getRepresentativeFoodName()), sideDishCategories));
+            sideDishCategories.add(getRandomSide(sideDishCategoryRepository, randomSideDishIds, item -> sideDishFilterList.contains(item.getRepresentativeFoodName()), sideDishCategories).get());
         }
         /*
             열탄단지 합산 Kcal, Protein, Carbohydrate, Fat adding
@@ -145,8 +156,7 @@ public class MenuGenerater {
 
         User user = userRepository.findById(user_id).orElseThrow(() -> new IllegalArgumentException("해당 유저가 존재하지 않습니다."));
 
-        //식단 반환 menu return
-        return MenuResponseDto.builder()
+       MenuResponseDto menuResponseDto = MenuResponseDto.builder()
                 .main_dish(mainDishCategory.getRepresentativeFoodName())
                 .imageURL("https://storage.googleapis.com/" + bucket_name + "/" + mainDishCategory.getRepresentativeFoodName() + ".jpg")
                 .sideDishForUserMenu(sideDishCategories.stream().map(SideDishCategory::getRepresentativeFoodName).collect(Collectors.toList()))
@@ -159,9 +169,12 @@ public class MenuGenerater {
                 .user_id(user.getId())
                 .user(user)
                 .build();
+        //식단 반환 menu return
+        return CompletableFuture.completedFuture(menuResponseDto);
     }
 
     //아점저 식단 저장
+    @Async("threadPoolTaskExecutor")
     public void saveMenu(MenuResponseDto menu) {
         MenuForUser menuForUser = MenuForUser.builder()
                 .main_dish(menu.getMain_dish())
@@ -183,7 +196,8 @@ public class MenuGenerater {
     }
 
     //간식 생성 아점-점저 사이만 허용 가능
-    public SnackOrTeaResponseDto generateSnackOrTea(Meals meals, long user_id) {
+    @Async("threadPoolTaskExecutor")
+    public CompletableFuture<SnackOrTeaResponseDto> generateSnackOrTea(Meals meals, long user_id) {
         long recordCountForSnackOrTea = snackOrTeaCategoryRepository.count(); //row 수만큼의 랜덤값을 위한 long 변수.
 
         FilterFood userFilter = filterFoodRepository.findFilterFoodByUserId(user_id); //유저의 필터링 내용 가져오기
@@ -199,8 +213,7 @@ public class MenuGenerater {
 
         User user = userRepository.findById(user_id)
                 .orElseThrow(() -> new IllegalArgumentException("User not found."));
-
-        return SnackOrTeaResponseDto.builder()
+        SnackOrTeaResponseDto snackOrTeaResponseDto = SnackOrTeaResponseDto.builder()
                 .snack_or_tea(snackOrTeaCategory.getRepresentativeFoodName())
                 .imageURL(snackURL.getSnackUrlName())
                 .kcal(snackOrTeaCategory.getKcal())
@@ -211,9 +224,11 @@ public class MenuGenerater {
                 .userId(user_id)
                 .user(user)
                 .build();
+        return CompletableFuture.completedFuture(snackOrTeaResponseDto);
     }
 
     //간식 저장
+    @Async("threadPoolTaskExecutor")
     public void saveSnackOrTea(SnackOrTeaResponseDto snackOrTeaResponseDto) {
         SnackOrTea snackOrTea = SnackOrTea.builder()
                 .snack_or_tea(snackOrTeaResponseDto.getSnack_or_tea())

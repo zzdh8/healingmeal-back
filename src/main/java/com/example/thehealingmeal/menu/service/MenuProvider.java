@@ -16,6 +16,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
 @Service
@@ -32,31 +34,29 @@ public class MenuProvider {
 
     //유저를 위한 전체 식단 생성 및 유효 검사 메소드
     @Transactional
-    public boolean generateForUser(long user_id) throws RuntimeException {
-        if (menuManager.checkMenu(user_id)) {
-            return false;
-        }
+    public void generateForUser(long user_id) throws InterruptedException, ExecutionException {
         Meals[] meals = Meals.values();
-        MenuResponseDto[] menus = new MenuResponseDto[meals.length - 2];
-        SnackOrTeaResponseDto[] snackOrTeas = new SnackOrTeaResponseDto[meals.length - 3];
+        CompletableFuture<MenuResponseDto> breakfast;
+        CompletableFuture<MenuResponseDto> lunch;
+        CompletableFuture<MenuResponseDto> dinner;
+        CompletableFuture<SnackOrTeaResponseDto> breakfastSOT;
+        CompletableFuture<SnackOrTeaResponseDto> lunchSOT;
 
         do {
-            for (int i = 0; i < meals.length; i++) {
-                if (i < 3) {
-                    menus[i] = menuGenerater.generateMenu(meals[i], user_id);
-                } else {
-                    snackOrTeas[i - 3] = menuGenerater.generateSnackOrTea(meals[i], user_id);
-                }
-            }
-        } while (menuManager.isExceed(user_id, menus[0], snackOrTeas[0], menus[1], snackOrTeas[1], menus[2]));
+            breakfast = menuGenerater.generateMenu(meals[0], user_id);
+            lunch = menuGenerater.generateMenu(meals[1], user_id);
+            dinner = menuGenerater.generateMenu(meals[2], user_id);
+            breakfastSOT = menuGenerater.generateSnackOrTea(meals[3], user_id);
+            lunchSOT = menuGenerater.generateSnackOrTea(meals[4], user_id);
 
-        for (MenuResponseDto dto : menus) {
-            menuGenerater.saveMenu(dto);
-        }
-        for (SnackOrTeaResponseDto dto : snackOrTeas) {
-            menuGenerater.saveSnackOrTea(dto);
-        }
-        return true;
+            CompletableFuture.allOf(breakfast, lunch, dinner, breakfastSOT, lunchSOT).join();
+        } while (menuManager.isExceed(user_id, breakfast.get(), breakfastSOT.get(), lunch.get(), lunchSOT.get(), dinner.get()));
+
+        menuGenerater.saveMenu(breakfast.get());
+        menuGenerater.saveMenu(lunch.get());
+        menuGenerater.saveMenu(dinner.get());
+        menuGenerater.saveSnackOrTea(breakfastSOT.get());
+        menuGenerater.saveSnackOrTea(lunchSOT.get());
     }
 
     //아침, 점심, 저녁 식단 제공 메소드
