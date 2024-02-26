@@ -19,10 +19,9 @@ public class MenuController {
     private final MenuManager menuManager;
 
     //유저의 맞춤식단 생성
-    @RequestMapping(value = "/{userId}/generate", method = RequestMethod.POST)
+    @PostMapping("/{userId}/generate")
     public ResponseEntity<String> generateMenu(@PathVariable Long userId) {
         try {
-
             menuProvider.generateForUser(userId);
             return new ResponseEntity<>("Menu Generated For User Successfully", HttpStatus.OK);
         } catch (Exception e) {

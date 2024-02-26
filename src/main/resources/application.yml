@@ -49,3 +49,5 @@ server:
         name: SESSION
         path: /
       timeout: 30m
+  tomcat:
+    connection-timeout: 300000
