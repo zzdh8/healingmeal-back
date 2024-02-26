@@ -36,21 +36,19 @@ public class MenuProvider {
     @Transactional
     public void generateForUser(long user_id) throws InterruptedException, ExecutionException {
         Meals[] meals = Meals.values();
-        CompletableFuture<MenuResponseDto> breakfast;
-        CompletableFuture<MenuResponseDto> lunch;
-        CompletableFuture<MenuResponseDto> dinner;
-        CompletableFuture<SnackOrTeaResponseDto> breakfastSOT;
-        CompletableFuture<SnackOrTeaResponseDto> lunchSOT;
+        CompletableFuture<MenuResponseDto> breakfast = menuGenerater.generateMenu(meals[0], user_id);
+        CompletableFuture<MenuResponseDto> lunch= menuGenerater.generateMenu(meals[1], user_id);
+        CompletableFuture<MenuResponseDto> dinner = menuGenerater.generateMenu(meals[2], user_id);
+        CompletableFuture<SnackOrTeaResponseDto> breakfastSOT  = menuGenerater.generateSnackOrTea(meals[3], user_id);
+        CompletableFuture<SnackOrTeaResponseDto> lunchSOT  = menuGenerater.generateSnackOrTea(meals[4], user_id);
 
-        do {
+        CompletableFuture.allOf(breakfast, lunch, dinner, breakfastSOT, lunchSOT).join();
+        if (menuManager.isExceed(user_id, breakfast.get(), breakfastSOT.get(), lunch.get(), lunchSOT.get(), dinner.get())){
             breakfast = menuGenerater.generateMenu(meals[0], user_id);
-            lunch = menuGenerater.generateMenu(meals[1], user_id);
+            lunch= menuGenerater.generateMenu(meals[1], user_id);
             dinner = menuGenerater.generateMenu(meals[2], user_id);
-            breakfastSOT = menuGenerater.generateSnackOrTea(meals[3], user_id);
-            lunchSOT = menuGenerater.generateSnackOrTea(meals[4], user_id);
-
-            CompletableFuture.allOf(breakfast, lunch, dinner, breakfastSOT, lunchSOT).join();
-        } while (menuManager.isExceed(user_id, breakfast.get(), breakfastSOT.get(), lunch.get(), lunchSOT.get(), dinner.get()));
+            CompletableFuture.allOf(breakfast, lunch, dinner).join();
+        }
 
         menuGenerater.saveMenu(breakfast.get());
         menuGenerater.saveMenu(lunch.get());
