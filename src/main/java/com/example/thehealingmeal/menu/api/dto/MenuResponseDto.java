@@ -64,7 +64,7 @@ public class MenuResponseDto {
     //total nutrients
     @JsonIgnore
     public Nutrient getTotalNutrients() {
-        return new Nutrient(this.kcal, this.protein, this.carbohydrate, this.fat);
+        return new Nutrient(this.kcal, this.protein, this.carbohydrate, this.fat, this.meals);
     }
 
 }

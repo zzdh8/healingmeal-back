@@ -16,18 +16,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class MenuProvider {
-    private final MenuGenerater menuGenerater;
     private final MenuRepository menuRepository;
     private final SideDishForUserMenuRepository sideDishForUserMenuRepository;
     private final SnackOrTeaMenuRepository snackOrTeaMenuRepository;
-    private final MenuManager menuManager;
 
     @Value("${bucket-name}")
     private String bucket_name;
