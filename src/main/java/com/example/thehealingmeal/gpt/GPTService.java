@@ -78,6 +78,7 @@ public class GPTService {
         responseRepository.save(gptResponse);
     }
 
+    @Transactional(readOnly = true)
     public AiResDto provideResponse(long user_id, Meals meals) {
         try {
             GPTResponse gptResponse = responseRepository.findByMealsAndUserId(meals, user_id);

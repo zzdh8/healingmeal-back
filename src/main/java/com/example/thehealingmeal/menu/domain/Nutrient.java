@@ -10,6 +10,7 @@ public class Nutrient {
     private float protein;
     private float carbohydrate;
     private float fat;
+    private Meals meals;
 
     public Nutrient add(Nutrient other) {
         this.kcal += other.kcal;

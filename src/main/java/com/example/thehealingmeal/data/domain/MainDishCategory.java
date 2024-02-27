@@ -16,7 +16,7 @@ public class MainDishCategory {
     private String foodName;
     private String foodCategory;
     private String representativeFoodName;
-    private int Kcal;
+    private int kcal;
     private float protein;
     private float fat;
     private float carbohydrate;
@@ -28,11 +28,11 @@ public class MainDishCategory {
     private Food food;
 
     @Builder
-    public MainDishCategory(String foodName, String foodCategory, String representativeFoodName, int Kcal, float protein, float fat, float carbohydrate, float sugar, int sodium) {
+    public MainDishCategory(String foodName, String foodCategory, String representativeFoodName, int kcal, float protein, float fat, float carbohydrate, float sugar, int sodium) {
         this.foodName = foodName;
         this.foodCategory = foodCategory;
         this.representativeFoodName = representativeFoodName;
-        this.Kcal = Kcal;
+        this.kcal = kcal;
         this.protein = protein;
         this.fat = fat;
         this.carbohydrate = carbohydrate;

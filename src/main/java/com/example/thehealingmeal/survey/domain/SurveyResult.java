@@ -9,7 +9,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.io.Serial;
 import java.io.Serializable;
 
 @Entity
@@ -54,9 +53,15 @@ public class SurveyResult implements Serializable{
     }
 
     public boolean exceeds(Nutrient totalNutrients) {
-        return totalNutrients.getKcal() > getKcal() ||
+        if (totalNutrients.getKcal() > getKcal() ||
                 totalNutrients.getProtein() > getProtein() ||
                 totalNutrients.getCarbohydrate() > getCarbohydrate() ||
-                totalNutrients.getFat() > getFat();
+                totalNutrients.getFat() > getFat()){
+            return totalNutrients.getKcal() - getKcal() > 150 &&
+                    !(totalNutrients.getProtein() - getProtein() <= 50) &&
+                    !(totalNutrients.getCarbohydrate() - getCarbohydrate() <= 30) &&
+                    !(totalNutrients.getFat() - getFat() <= 30);
+        }
+        return false;
     }
 }
