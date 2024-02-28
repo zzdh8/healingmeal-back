@@ -110,9 +110,9 @@ public class MenuManager {
         return ExceedInfo.builder()
                 .meals(maxNutrient.getMeals())
                 .kcalExceed(totalNutrients.getKcal() - surveyResult.getKcal() <= 100 ? 0 : totalNutrients.getKcal() - surveyResult.getKcal())
-                .carbohydrateExceed(totalNutrients.getCarbohydrate() - surveyResult.getCarbohydrate() <= 20 ? 0 : totalNutrients.getCarbohydrate() - surveyResult.getCarbohydrate())
-                .proteinExceed(totalNutrients.getProtein() - surveyResult.getProtein() <= 50 ? 0 : totalNutrients.getProtein() - surveyResult.getProtein())
-                .fatExceed(totalNutrients.getFat() - surveyResult.getFat() <= 20 ? 0 : totalNutrients.getFat() - surveyResult.getFat())
+                .carbohydrateExceed(totalNutrients.getCarbohydrate() - surveyResult.getCarbohydrate() <= 5 ? 0 : totalNutrients.getCarbohydrate() - surveyResult.getCarbohydrate())
+                .proteinExceed(totalNutrients.getProtein() - surveyResult.getProtein() <= 45 ? 0 : totalNutrients.getProtein() - surveyResult.getProtein())
+                .fatExceed(totalNutrients.getFat() - surveyResult.getFat() <= 5 ? 0 : totalNutrients.getFat() - surveyResult.getFat())
                 .build();
     }
 
