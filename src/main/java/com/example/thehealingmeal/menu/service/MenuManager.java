@@ -106,10 +106,6 @@ public class MenuManager {
         );
         Nutrient totalNutrients = nutrients.stream().reduce(Nutrient::add).orElseThrow(() ->
                 new NoSuchElementException("No Such Element Error : nutrients"));
-        System.out.println(totalNutrients.getKcal() + " "+ totalNutrients.getFat()+" "+ totalNutrients.getCarbohydrate()+" "+ totalNutrients.getProtein());
-        System.out.println((totalNutrients.getKcal() - surveyResult.getKcal() <= 100 ? 0 : totalNutrients.getKcal() - surveyResult.getKcal())+" "+ (totalNutrients.getCarbohydrate() - surveyResult.getCarbohydrate() < 0 ? 0 : totalNutrients.getCarbohydrate() - surveyResult.getCarbohydrate()) + " "+
-                (totalNutrients.getCarbohydrate() - surveyResult.getCarbohydrate() <= 20 ? 0 : totalNutrients.getCarbohydrate() - surveyResult.getCarbohydrate()) + " " +(totalNutrients.getProtein() - surveyResult.getProtein() <= 50 ? 0 : totalNutrients.getProtein() - surveyResult.getProtein()) + " "
-                + (totalNutrients.getFat() - surveyResult.getFat() <= 20 ? 0 : totalNutrients.getFat() - surveyResult.getFat()));
         Nutrient maxNutrient = Collections.max(nutrients, Comparator.comparing(Nutrient::getKcal));
         return ExceedInfo.builder()
                 .meals(maxNutrient.getMeals())
