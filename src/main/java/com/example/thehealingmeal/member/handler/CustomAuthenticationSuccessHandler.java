@@ -17,7 +17,6 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-        HttpSession session = request.getSession();
         log.info("Authentication successful for user: {}", authentication.getName());
         // set our response to OK status
         response.setStatus(HttpServletResponse.SC_OK);
