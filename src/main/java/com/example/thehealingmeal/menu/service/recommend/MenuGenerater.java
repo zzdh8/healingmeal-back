@@ -1,4 +1,4 @@
-package com.example.thehealingmeal.menu.service;
+package com.example.thehealingmeal.menu.service.recommend;
 
 
 import com.example.thehealingmeal.data.domain.MainDishCategory;
